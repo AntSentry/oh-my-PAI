@@ -1,5 +1,6 @@
 export type ResourceKind =
   | "agent"
+  | "algorithm"
   | "check"
   | "command"
   | "hook"
@@ -231,6 +232,8 @@ type GeneratedManifest = {
     commands?: GeneratedNamedPath[];
     hooks?: GeneratedNamedPath[];
     tools?: GeneratedNamedPath[];
+    algorithm?: GeneratedNamedPath[];
+    feedbackLoops?: GeneratedFeedbackLoop[];
   };
 };
 
@@ -245,6 +248,12 @@ type GeneratedPack = {
 type GeneratedNamedPath = {
   name?: unknown;
   path?: unknown;
+  uri?: unknown;
+};
+
+type GeneratedFeedbackLoop = {
+  id?: unknown;
+  trigger?: unknown;
   uri?: unknown;
 };
 
@@ -270,6 +279,8 @@ export function loadManifest(input: unknown): PackManifest {
   const commands = generated.resources?.commands ?? [];
   const hooks = generated.resources?.hooks ?? [];
   const tools = generated.resources?.tools ?? [];
+  const algorithm = generated.resources?.algorithm ?? [];
+  const feedbackLoops = generated.resources?.feedbackLoops ?? [];
 
   return {
     id: generated.id,
@@ -290,11 +301,12 @@ export function loadManifest(input: unknown): PackManifest {
       ...agents.map((agent) => normalizeNamedPath(agent, "agent")),
       ...commands.map((command) => normalizeNamedPath(command, "command")),
       ...hooks.map((hook) => normalizeNamedPath(hook, "hook")),
-      ...tools.map((tool) => normalizeNamedPath(tool, "tool"))
+      ...tools.map((tool) => normalizeNamedPath(tool, "tool")),
+      ...algorithm.map((entry) => normalizeNamedPath(entry, "algorithm"))
     ]),
     triggers: [],
     checks: [],
-    feedbackLoops: []
+    feedbackLoops: feedbackLoops.map(normalizeFeedbackLoop)
   };
 }
 
@@ -600,7 +612,7 @@ function normalizePackChild(
   };
 }
 
-function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "command" | "hook" | "tool"): PaiResourceMeta {
+function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "algorithm" | "command" | "hook" | "tool"): PaiResourceMeta {
   const name = asString(item.name, "Unknown");
   return {
     uri: asString(item.uri, `pai://${kind}/${name}`),
@@ -610,6 +622,14 @@ function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "command" 
     summary: `${name} ${kind} metadata`,
     sourcePath: asString(item.path, ""),
     integrity: ""
+  };
+}
+
+function normalizeFeedbackLoop(loop: GeneratedFeedbackLoop): FeedbackLoopMeta {
+  return {
+    id: asString(loop.id, "unknown-loop"),
+    event: asString(loop.trigger, "unknown"),
+    resourceUri: asString(loop.uri, "pai://loop/unknown")
   };
 }
 

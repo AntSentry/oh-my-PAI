@@ -313,6 +313,16 @@ describe("manifest index", () => {
       kind: "tool",
       name: "ActivityParser.ts"
     });
+    expect(index.get("pai://algorithm/v6.3.0")).toMatchObject({
+      kind: "algorithm",
+      name: "v6.3.0.md"
+    });
+    expect(loaded.feedbackLoops).toHaveLength(32);
+    expect(loaded.feedbackLoops[0]).toEqual({
+      id: "prompt-mode-tier",
+      event: "UserPromptSubmit",
+      resourceUri: "pai://loop/prompt-mode-tier"
+    });
   });
 });
 
