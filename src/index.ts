@@ -1,0 +1,385 @@
+export type ResourceKind =
+  | "agent"
+  | "check"
+  | "command"
+  | "hook"
+  | "skill"
+  | "skill-tool"
+  | "tool"
+  | "workflow";
+
+export interface PaiResourceMeta {
+  uri: string;
+  kind: ResourceKind;
+  name: string;
+  pack: string;
+  summary: string;
+  sourcePath: string;
+  integrity: string;
+}
+
+export interface ManifestTotals {
+  packs: number;
+  skills: number;
+  workflows: number;
+  agents: number;
+  commands: number;
+  hooks: number;
+  skillTools: number;
+  tools: number;
+}
+
+export interface TriggerMeta {
+  id: string;
+  event: string;
+  pattern: string;
+  emits: string[];
+}
+
+export interface CheckMeta {
+  id: string;
+  resourceUri: string;
+  description: string;
+}
+
+export interface FeedbackLoopMeta {
+  id: string;
+  event: string;
+  resourceUri: string;
+}
+
+export interface PackManifest {
+  id: string;
+  version: string;
+  sourceRevision: string;
+  totals: ManifestTotals;
+  resources: PaiResourceMeta[];
+  triggers: TriggerMeta[];
+  checks: CheckMeta[];
+  feedbackLoops: FeedbackLoopMeta[];
+}
+
+export interface ManifestIndex {
+  get(uri: string): PaiResourceMeta | undefined;
+  list(kind?: ResourceKind): PaiResourceMeta[];
+  validateTotals(): string[];
+}
+
+export interface ResourceReader {
+  read(path: string): Promise<string>;
+  hash(body: string): string;
+}
+
+export interface ResolvedResource extends PaiResourceMeta {
+  body: string;
+}
+
+export interface ResourceResolver {
+  resolve(uri: string): Promise<ResolvedResource>;
+}
+
+export interface TriggerEvent {
+  event: string;
+  value: string;
+}
+
+export interface TriggerEmission {
+  depth: number;
+  triggerId: string;
+  uri: string;
+}
+
+export interface TriggerDispatcher {
+  dispatch(event: TriggerEvent): TriggerEmission[];
+}
+
+export type PaiMode = "ALGORITHM" | "MINIMAL" | "NATIVE";
+export type Effort = "E1" | "E2" | "E3" | "E4" | "E5";
+
+export interface EffortClassification {
+  mode: PaiMode;
+  effort?: Effort;
+  reason: string;
+}
+
+type GeneratedManifest = {
+  id?: unknown;
+  version?: unknown;
+  source?: { head?: unknown };
+  totals?: Record<string, unknown>;
+  resources?: {
+    packs?: GeneratedPack[];
+    skills?: GeneratedPack[];
+    agents?: GeneratedNamedPath[];
+    commands?: GeneratedNamedPath[];
+    hooks?: GeneratedNamedPath[];
+    tools?: GeneratedNamedPath[];
+  };
+};
+
+type GeneratedPack = {
+  name?: unknown;
+  desc?: unknown;
+  uri?: unknown;
+  workflows?: unknown[];
+  tools?: unknown[];
+};
+
+type GeneratedNamedPath = {
+  name?: unknown;
+  path?: unknown;
+  uri?: unknown;
+};
+
+const countByKind: Record<keyof ManifestTotals, ResourceKind> = {
+  agents: "agent",
+  commands: "command",
+  hooks: "hook",
+  packs: "skill",
+  skillTools: "skill-tool",
+  skills: "skill",
+  tools: "tool",
+  workflows: "workflow"
+};
+
+export function loadManifest(input: unknown): PackManifest {
+  const generated = input as GeneratedManifest;
+  if (typeof generated.id !== "string") {
+    throw new Error("Invalid manifest id");
+  }
+
+  const packs = generated.resources?.skills ?? generated.resources?.packs ?? [];
+  const agents = generated.resources?.agents ?? [];
+  const commands = generated.resources?.commands ?? [];
+  const hooks = generated.resources?.hooks ?? [];
+  const tools = generated.resources?.tools ?? [];
+
+  return {
+    id: generated.id,
+    version: asString(generated.version, "0.0.0"),
+    sourceRevision: asString(generated.source?.head, "unknown"),
+    totals: {
+      packs: asNumber(generated.totals?.packs),
+      skills: asNumber(generated.totals?.v5Skills),
+      workflows: asNumber(generated.totals?.v5Workflows),
+      agents: asNumber(generated.totals?.v5Agents),
+      commands: asNumber(generated.totals?.v5Commands),
+      hooks: asNumber(generated.totals?.v5Hooks),
+      skillTools: asNumber(generated.totals?.v5SkillTools),
+      tools: asNumber(generated.totals?.v5PaiTools)
+    },
+    resources: uniquifyResourceUris([
+      ...packs.flatMap(normalizePack),
+      ...agents.map((agent) => normalizeNamedPath(agent, "agent")),
+      ...commands.map((command) => normalizeNamedPath(command, "command")),
+      ...hooks.map((hook) => normalizeNamedPath(hook, "hook")),
+      ...tools.map((tool) => normalizeNamedPath(tool, "tool"))
+    ]),
+    triggers: [],
+    checks: [],
+    feedbackLoops: []
+  };
+}
+
+export function createManifestIndex(manifest: PackManifest): ManifestIndex {
+  const resources = [...manifest.resources];
+  const byUri = new Map<string, PaiResourceMeta>();
+  for (const resource of resources) {
+    if (byUri.has(resource.uri)) {
+      throw new Error(`Duplicate resource URI: ${resource.uri}`);
+    }
+    byUri.set(resource.uri, resource);
+  }
+
+  return {
+    get(uri) {
+      return byUri.get(uri);
+    },
+    list(kind) {
+      return resources.filter((resource) => kind === undefined || resource.kind === kind);
+    },
+    validateTotals() {
+      return (Object.keys(countByKind) as (keyof ManifestTotals)[]).flatMap((totalKey) => {
+        if (totalKey === "packs") {
+          return [];
+        }
+        const kind = countByKind[totalKey];
+        const actual = resources.filter((resource) => resource.kind === kind).length;
+        const expected = manifest.totals[totalKey];
+        return actual === expected
+          ? []
+          : [`Expected ${expected} ${kind} resources, found ${actual}`];
+      });
+    }
+  };
+}
+
+export function createResourceResolver(
+  index: ManifestIndex,
+  reader: ResourceReader
+): ResourceResolver {
+  return {
+    async resolve(uri) {
+      const resource = index.get(uri);
+      if (resource === undefined) {
+        throw new Error(`Unknown resource: ${uri}`);
+      }
+      const body = await reader.read(resource.sourcePath);
+      const actualIntegrity = reader.hash(body);
+      if (actualIntegrity !== resource.integrity) {
+        throw new Error(`Integrity mismatch for ${uri}`);
+      }
+      return { ...resource, body };
+    }
+  };
+}
+
+export function createTriggerDispatcher(
+  triggers: TriggerMeta[],
+  options: { maxDepth: number; maxEmits: number }
+): TriggerDispatcher {
+  return {
+    dispatch(event) {
+      const emissions: TriggerEmission[] = [];
+      const seen = new Set<string>();
+      const visit = (current: TriggerEvent, depth: number): void => {
+        if (depth > options.maxDepth) {
+          return;
+        }
+        for (const trigger of triggers) {
+          if (trigger.event === current.event && trigger.pattern === current.value) {
+            for (const uri of trigger.emits) {
+              if (emissions.length >= options.maxEmits) {
+                throw new Error("Trigger emission budget exceeded");
+              }
+              const ancestryKey = `${trigger.id}:${uri}`;
+              if (!seen.has(ancestryKey)) {
+                seen.add(ancestryKey);
+                emissions.push({ depth, triggerId: trigger.id, uri });
+                visit({ event: "resource", value: uri }, depth + 1);
+              }
+            }
+          }
+        }
+      };
+      visit(event, 0);
+      return emissions;
+    }
+  };
+}
+
+export function classifyEffort(prompt: string): EffortClassification {
+  const trimmed = prompt.trim();
+  const override = /^\/e([1-5])\b/i.exec(trimmed);
+  if (override?.[1] !== undefined) {
+    const effort = `E${override[1]}` as Effort;
+    return {
+      mode: effort === "E1" ? "NATIVE" : "ALGORITHM",
+      effort,
+      reason: "explicit override"
+    };
+  }
+
+  if (/^(thanks|thank you|ok|okay|yes|no)\.?$/i.test(trimmed)) {
+    return { mode: "MINIMAL", reason: "acknowledgment" };
+  }
+
+  if (/^(what time is it\??|date\??|pwd|ls)$/i.test(trimmed)) {
+    return { mode: "NATIVE", effort: "E1", reason: "single-step quick task" };
+  }
+
+  return {
+    mode: "ALGORITHM",
+    effort: "E3",
+    reason: "multi-step implementation or investigation"
+  };
+}
+
+function normalizePack(pack: GeneratedPack): PaiResourceMeta[] {
+  const packName = asString(pack.name, "Unknown");
+  const skillUri = asString(pack.uri, `pai://skill/${packName}`);
+  const skill: PaiResourceMeta = {
+    uri: skillUri,
+    kind: "skill",
+    name: packName,
+    pack: packName,
+    summary: asString(pack.desc, `${packName} skill metadata`),
+    sourcePath: `${packName}/SKILL.md`,
+    integrity: ""
+  };
+  const workflows = Array.isArray(pack.workflows)
+    ? pack.workflows.map((workflow) =>
+        normalizePackChild(packName, workflow, "workflow")
+      )
+    : [];
+  const tools = Array.isArray(pack.tools)
+    ? pack.tools.map((tool) =>
+        normalizePackChild(packName, tool, "skill-tool")
+      )
+    : [];
+  return [skill, ...workflows, ...tools];
+}
+
+function normalizePackChild(
+  packName: string,
+  child: unknown,
+  kind: "skill-tool" | "workflow"
+): PaiResourceMeta {
+  const childRecord = asRecord(child);
+  const sourcePath = asString(childRecord?.path, asString(child, ""));
+  const name = basename(sourcePath);
+  const uriKind = kind === "skill-tool" ? "tool" : "workflow";
+  return {
+    uri: asString(childRecord?.uri, `pai://skill/${packName}/${uriKind}/${name}`),
+    kind,
+    name: asString(childRecord?.name, name),
+    pack: packName,
+    summary: `${packName} ${uriKind} metadata`,
+    sourcePath,
+    integrity: ""
+  };
+}
+
+function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "command" | "hook" | "tool"): PaiResourceMeta {
+  const name = asString(item.name, "Unknown");
+  return {
+    uri: asString(item.uri, `pai://${kind}/${name}`),
+    kind,
+    name: kind === "command" ? `/${name}` : name,
+    pack: kind,
+    summary: `${name} ${kind} metadata`,
+    sourcePath: asString(item.path, ""),
+    integrity: ""
+  };
+}
+
+function asString(value: unknown, fallback: string): string {
+  return typeof value === "string" ? value : fallback;
+}
+
+function asNumber(value: unknown): number {
+  return typeof value === "number" ? value : 0;
+}
+
+function uniquifyResourceUris(resources: PaiResourceMeta[]): PaiResourceMeta[] {
+  const seen = new Set<string>();
+  return resources.map((resource) => {
+    if (!seen.has(resource.uri)) {
+      seen.add(resource.uri);
+      return resource;
+    }
+    const uri = `${resource.uri}#${encodeURIComponent(resource.sourcePath)}`;
+    seen.add(uri);
+    return { ...resource, uri };
+  });
+}
+
+function asRecord(value: unknown): Record<string, unknown> | undefined {
+  return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : undefined;
+}
+
+function basename(path: string): string {
+  const parts = path.split("/");
+  const file = parts[parts.length - 1];
+  return file.replace(/\.[^.]+$/, "");
+}
