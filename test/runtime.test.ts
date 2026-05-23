@@ -8,6 +8,7 @@ import {
   createControlCenterSnapshot,
   createFeedbackLoopRuntime,
   createIsaRecord,
+  createRuntimeOrchestrator,
   classifyEffort,
   createManifestIndex,
   createResourceResolver,
@@ -740,5 +741,110 @@ describe("control center snapshots", () => {
     expect(snapshot.skills).toHaveLength(45);
     expect(snapshot.workflows).toHaveLength(171);
     expect(snapshot.tools).toHaveLength(110);
+  });
+});
+
+describe("runtime orchestrator", () => {
+  test("classifies prompt, dispatches command triggers, resolves emitted resources, and records leases", async () => {
+    const resolved: string[] = [];
+    const resolver = {
+      async resolve(uri: string) {
+        resolved.push(uri);
+        const resource = createManifestIndex(manifest).get(uri);
+        if (resource === undefined) {
+          throw new Error(`missing ${uri}`);
+        }
+        return { ...resource, body: `body:${uri}` };
+      }
+    };
+    const orchestrator = createRuntimeOrchestrator({
+      classify: classifyEffort,
+      dispatcher: createTriggerDispatcher(manifest.triggers, {
+        maxDepth: 3,
+        maxEmits: 5
+      }),
+      resolver
+    });
+
+    await expect(orchestrator.handlePrompt("/Council")).resolves.toEqual({
+      classification: {
+        mode: "ALGORITHM",
+        effort: "E3",
+        reason: "multi-step implementation or investigation"
+      },
+      emissions: [
+        {
+          depth: 0,
+          triggerId: "council-command",
+          uri: "pai://skill/Council/workflow/Debate"
+        },
+        {
+          depth: 1,
+          triggerId: "debate-agent",
+          uri: "pai://agent/Forge"
+        }
+      ],
+      resources: [
+        expect.objectContaining({
+          uri: "pai://skill/Council/workflow/Debate",
+          body: "body:pai://skill/Council/workflow/Debate"
+        }),
+        expect.objectContaining({
+          uri: "pai://agent/Forge",
+          body: "body:pai://agent/Forge"
+        })
+      ],
+      leases: [
+        {
+          uri: "pai://skill/Council/workflow/Debate",
+          active: true,
+          reason: "trigger:council-command"
+        },
+        {
+          uri: "pai://agent/Forge",
+          active: true,
+          reason: "trigger:debate-agent"
+        }
+      ]
+    });
+    expect(resolved).toEqual([
+      "pai://skill/Council/workflow/Debate",
+      "pai://agent/Forge"
+    ]);
+    orchestrator.releaseAll();
+    expect(orchestrator.leases()).toEqual([
+      {
+        uri: "pai://skill/Council/workflow/Debate",
+        active: false,
+        reason: "trigger:council-command"
+      },
+      {
+        uri: "pai://agent/Forge",
+        active: false,
+        reason: "trigger:debate-agent"
+      }
+    ]);
+  });
+
+  test("does not resolve resources when no trigger matches", async () => {
+    const orchestrator = createRuntimeOrchestrator({
+      classify: classifyEffort,
+      dispatcher: createTriggerDispatcher(manifest.triggers, {
+        maxDepth: 3,
+        maxEmits: 5
+      }),
+      resolver: {
+        async resolve(uri: string) {
+          throw new Error(`unexpected ${uri}`);
+        }
+      }
+    });
+
+    await expect(orchestrator.handlePrompt("thanks")).resolves.toEqual({
+      classification: { mode: "MINIMAL", reason: "acknowledgment" },
+      emissions: [],
+      resources: [],
+      leases: []
+    });
   });
 });

@@ -220,6 +220,25 @@ export interface ControlCenterSnapshot {
   workflows: ControlCenterItem[];
 }
 
+export interface RuntimeLease {
+  uri: string;
+  active: boolean;
+  reason: string;
+}
+
+export interface RuntimeOrchestrationResult {
+  classification: EffortClassification;
+  emissions: TriggerEmission[];
+  resources: ResolvedResource[];
+  leases: RuntimeLease[];
+}
+
+export interface RuntimeOrchestrator {
+  handlePrompt(prompt: string): Promise<RuntimeOrchestrationResult>;
+  leases(): RuntimeLease[];
+  releaseAll(): void;
+}
+
 type GeneratedManifest = {
   id?: unknown;
   version?: unknown;
@@ -567,6 +586,44 @@ export function createControlCenterSnapshot(manifest: PackManifest): ControlCent
   };
 }
 
+export function createRuntimeOrchestrator(options: {
+  classify(prompt: string): EffortClassification;
+  dispatcher: TriggerDispatcher;
+  resolver: ResourceResolver;
+}): RuntimeOrchestrator {
+  const leases: RuntimeLease[] = [];
+
+  return {
+    async handlePrompt(prompt) {
+      const classification = options.classify(prompt);
+      const emissions = options.dispatcher.dispatch({ event: "command", value: prompt });
+      const resources = [];
+      for (const emission of emissions) {
+        resources.push(await options.resolver.resolve(emission.uri));
+        leases.push({
+          uri: emission.uri,
+          active: true,
+          reason: `trigger:${emission.triggerId}`
+        });
+      }
+      return {
+        classification,
+        emissions,
+        resources,
+        leases: copyRuntimeLeases(leases)
+      };
+    },
+    leases() {
+      return copyRuntimeLeases(leases);
+    },
+    releaseAll() {
+      for (const lease of leases) {
+        lease.active = false;
+      }
+    }
+  };
+}
+
 function normalizePack(pack: GeneratedPack): PaiResourceMeta[] {
   const packName = asString(pack.name, "Unknown");
   const skillUri = asString(pack.uri, `pai://skill/${packName}`);
@@ -675,4 +732,8 @@ function copyCriterion(criterion: IsaCriterion): IsaCriterion {
     ...criterion,
     evidence: criterion.evidence === undefined ? undefined : { ...criterion.evidence }
   };
+}
+
+function copyRuntimeLeases(leases: RuntimeLease[]): RuntimeLease[] {
+  return leases.map((lease) => ({ ...lease }));
 }
