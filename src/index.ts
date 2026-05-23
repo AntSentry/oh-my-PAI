@@ -94,6 +94,15 @@ export interface TriggerDispatcher {
   dispatch(event: TriggerEvent): TriggerEmission[];
 }
 
+export interface IterativeLoopState {
+  iteration: number;
+  stopped: boolean;
+}
+
+export interface IterativeLoopController {
+  next(): IterativeLoopState;
+}
+
 export type PaiMode = "ALGORITHM" | "MINIMAL" | "NATIVE";
 export type Effort = "E1" | "E2" | "E3" | "E4" | "E5";
 
@@ -125,6 +134,16 @@ export type AlgorithmPhase =
   | "EXECUTE"
   | "VERIFY"
   | "LEARN";
+
+const algorithmPhases: AlgorithmPhase[] = [
+  "OBSERVE",
+  "THINK",
+  "PLAN",
+  "BUILD",
+  "EXECUTE",
+  "VERIFY",
+  "LEARN"
+];
 
 export interface ContextLease {
   uri: string;
@@ -193,6 +212,12 @@ export interface AdapterRegistry {
   run(uri: string, payload: RuntimePayload): Promise<AdapterResult>;
 }
 
+export interface HookSubscription {
+  event: string;
+  hookUri: string;
+  sourcePath: string;
+}
+
 export interface ControlCenterItem {
   name: string;
   uri: string;
@@ -209,12 +234,20 @@ export interface ControlCenterLoopItem {
   uri: string;
 }
 
+export interface ControlCenterRouteItem {
+  event: string;
+  id: string;
+  pattern: string;
+  emits: string[];
+}
+
 export interface ControlCenterSnapshot {
   agents: ControlCenterItem[];
   checks: ControlCenterCheckItem[];
   commands: ControlCenterItem[];
   feedbackLoops: ControlCenterLoopItem[];
   hooks: ControlCenterItem[];
+  routes: ControlCenterRouteItem[];
   skills: ControlCenterItem[];
   tools: ControlCenterItem[];
   workflows: ControlCenterItem[];
@@ -235,8 +268,56 @@ export interface RuntimeOrchestrationResult {
 
 export interface RuntimeOrchestrator {
   handlePrompt(prompt: string): Promise<RuntimeOrchestrationResult>;
+  invokeResource(uri: string, reason?: string): Promise<ResolvedResource>;
   leases(): RuntimeLease[];
   releaseAll(): void;
+}
+
+export type ParitySurface =
+  | "agents"
+  | "algorithm"
+  | "checks"
+  | "commands"
+  | "effortLevels"
+  | "feedbackLoops"
+  | "functions"
+  | "hooks"
+  | "promptPrepend"
+  | "skillTools"
+  | "skills"
+  | "tools"
+  | "workflows";
+
+export type ParityStatus = "covered" | "missing" | "partial";
+
+export interface ParityMatrixRow {
+  surface: ParitySurface;
+  expected: number;
+  represented: number;
+  status: ParityStatus;
+  missingSamples: string[];
+}
+
+export interface ParityGap {
+  surface: ParitySurface;
+  severity: "critical" | "high";
+  expected: number;
+  represented: number;
+  missingSamples: string[];
+}
+
+export interface PromptPrependMapping {
+  target: string;
+  prepended: string;
+  sourcePath: string;
+}
+
+export interface ParityReport {
+  sourceRevision: string;
+  generatedAt: string;
+  matrix: ParityMatrixRow[];
+  gaps: ParityGap[];
+  promptPrependMap: PromptPrependMapping[];
 }
 
 type GeneratedManifest = {
@@ -253,6 +334,7 @@ type GeneratedManifest = {
     tools?: GeneratedNamedPath[];
     algorithm?: GeneratedNamedPath[];
     feedbackLoops?: GeneratedFeedbackLoop[];
+    functions?: GeneratedFunctionEntry[];
   };
 };
 
@@ -274,6 +356,17 @@ type GeneratedFeedbackLoop = {
   id?: unknown;
   trigger?: unknown;
   uri?: unknown;
+};
+
+type GeneratedCheck = {
+  id?: unknown;
+  uri?: unknown;
+  description?: unknown;
+};
+
+type GeneratedFunctionEntry = {
+  file?: unknown;
+  symbols?: unknown;
 };
 
 const countByKind: Record<keyof ManifestTotals, ResourceKind> = {
@@ -300,6 +393,9 @@ export function loadManifest(input: unknown): PackManifest {
   const tools = generated.resources?.tools ?? [];
   const algorithm = generated.resources?.algorithm ?? [];
   const feedbackLoops = generated.resources?.feedbackLoops ?? [];
+  const checks = Array.isArray((generated as { checks?: unknown }).checks)
+    ? ((generated as { checks: GeneratedCheck[] }).checks)
+    : [];
 
   return {
     id: generated.id,
@@ -321,10 +417,10 @@ export function loadManifest(input: unknown): PackManifest {
       ...commands.map((command) => normalizeNamedPath(command, "command")),
       ...hooks.map((hook) => normalizeNamedPath(hook, "hook")),
       ...tools.map((tool) => normalizeNamedPath(tool, "tool")),
-      ...algorithm.map((entry) => normalizeNamedPath(entry, "algorithm"))
+      ...algorithm.flatMap(normalizeAlgorithmEntry)
     ]),
     triggers: [],
-    checks: [],
+    checks: checks.map(normalizeCheck),
     feedbackLoops: feedbackLoops.map(normalizeFeedbackLoop)
   };
 }
@@ -372,7 +468,7 @@ export function createResourceResolver(
       if (resource === undefined) {
         throw new Error(`Unknown resource: ${uri}`);
       }
-      const body = await reader.read(resource.sourcePath);
+      const body = await readResourceBody(resource.sourcePath, reader);
       const actualIntegrity = reader.hash(body);
       if (actualIntegrity !== resource.integrity) {
         throw new Error(`Integrity mismatch for ${uri}`);
@@ -380,6 +476,15 @@ export function createResourceResolver(
       return { ...resource, body };
     }
   };
+}
+
+async function readResourceBody(sourcePath: string, reader: ResourceReader): Promise<string> {
+  const [path, fragment] = sourcePath.split("#", 2);
+  const body = await reader.read(path);
+  if (fragment?.startsWith("phase=") !== true) {
+    return body;
+  }
+  return extractAlgorithmPhase(body, fragment.slice("phase=".length));
 }
 
 export function createTriggerDispatcher(
@@ -416,6 +521,25 @@ export function createTriggerDispatcher(
   };
 }
 
+export function createIterativeLoopController(options: {
+  maxIterations: number;
+  shouldStop(iteration: number): boolean;
+}): IterativeLoopController {
+  let iteration = 0;
+  let stopped = false;
+
+  return {
+    next() {
+      if (stopped || iteration >= options.maxIterations || options.shouldStop(iteration)) {
+        stopped = true;
+        return { iteration, stopped };
+      }
+      iteration += 1;
+      return { iteration, stopped: false };
+    }
+  };
+}
+
 export function classifyEffort(prompt: string): EffortClassification {
   const trimmed = prompt.trim();
   const override = /^\/e([1-5])\b/i.exec(trimmed);
@@ -443,6 +567,22 @@ export function classifyEffort(prompt: string): EffortClassification {
   };
 }
 
+export function createSafeEffortClassifier(
+  classify: (prompt: string) => EffortClassification
+): (prompt: string) => EffortClassification {
+  return (prompt) => {
+    try {
+      return classify(prompt);
+    } catch (error) {
+      return {
+        mode: "ALGORITHM",
+        effort: "E3",
+        reason: `classifier failed: ${errorMessage(error)}`
+      };
+    }
+  };
+}
+
 export function createCheckRunner(handlers: Record<string, CheckHandler>): CheckRunner {
   return {
     async run(uri, context) {
@@ -460,6 +600,7 @@ export function createAlgorithmStateMachine(options: {
   initialPhase: AlgorithmPhase;
   checkRunner: CheckRunner;
   phaseChecks: Partial<Record<AlgorithmPhase, string[]>>;
+  onTransition?: (transition: PhaseTransition) => void;
 }): AlgorithmStateMachine {
   let phase = options.initialPhase;
   const activeLeases: ContextLease[] = [];
@@ -487,14 +628,16 @@ export function createAlgorithmStateMachine(options: {
         lease.active = false;
       }
       const lease = {
-        uri: `pai://algorithm/phase/${to}`,
+        uri: algorithmPhaseUri(to),
         phase: to,
         active: true
       };
       activeLeases.push(lease);
       const from = phase;
       phase = to;
-      return { from, to, lease: { ...lease }, checks };
+      const transition = { from, to, lease: { ...lease }, checks };
+      options.onTransition?.(transition);
+      return transition;
     }
   };
 }
@@ -566,6 +709,35 @@ export function createAdapterRegistry(handlers: Record<string, AdapterHandler>):
   };
 }
 
+export function createManifestAdapterRegistry(
+  index: ManifestIndex,
+  handlersByPath: Record<string, AdapterHandler>
+): AdapterRegistry {
+  return {
+    async run(uri, payload) {
+      const resource = index.get(uri);
+      if (resource === undefined) {
+        throw new Error(`Unknown adapter resource: ${uri}`);
+      }
+      const handler = handlersByPath[resource.sourcePath];
+      if (handler === undefined) {
+        throw new Error(`No executable adapter registered for ${resource.sourcePath}`);
+      }
+      return handler(payload);
+    }
+  };
+}
+
+export function createHookSubscriptionIndex(manifest: PackManifest): HookSubscription[] {
+  return manifest.resources
+    .filter((resource) => resource.kind === "hook")
+    .map((hook) => ({
+      event: hookEventName(hook.name),
+      hookUri: hook.uri,
+      sourcePath: hook.sourcePath
+    }));
+}
+
 export function createControlCenterSnapshot(manifest: PackManifest): ControlCenterSnapshot {
   return {
     agents: itemsFor(manifest.resources, "agent"),
@@ -577,6 +749,12 @@ export function createControlCenterSnapshot(manifest: PackManifest): ControlCent
       uri: loop.resourceUri
     })),
     hooks: itemsFor(manifest.resources, "hook"),
+    routes: manifest.triggers.map((trigger) => ({
+      event: trigger.event,
+      id: trigger.id,
+      pattern: trigger.pattern,
+      emits: [...trigger.emits]
+    })),
     skills: itemsFor(manifest.resources, "skill"),
     tools: [
       ...itemsFor(manifest.resources, "tool"),
@@ -613,6 +791,15 @@ export function createRuntimeOrchestrator(options: {
         leases: copyRuntimeLeases(leases)
       };
     },
+    async invokeResource(uri, reason = "direct-invocation") {
+      const resource = await options.resolver.resolve(uri);
+      leases.push({
+        uri,
+        active: true,
+        reason
+      });
+      return resource;
+    },
     leases() {
       return copyRuntimeLeases(leases);
     },
@@ -621,6 +808,48 @@ export function createRuntimeOrchestrator(options: {
         lease.active = false;
       }
     }
+  };
+}
+
+export function buildParityReport(options: {
+  generatedManifest: unknown;
+  manifest: PackManifest;
+  generatedAt?: string;
+}): ParityReport {
+  const generated = options.generatedManifest as GeneratedManifest;
+  const resources = generated.resources ?? {};
+  const promptPrependMap = buildPromptPrependMap();
+  const rows: ParityMatrixRow[] = [
+    parityRow("skills", options.manifest.totals.skills, options.manifest.resources.filter((resource) => resource.kind === "skill").length, sampleNames(resources.skills)),
+    parityRow("workflows", options.manifest.totals.workflows, options.manifest.resources.filter((resource) => resource.kind === "workflow").length, samplePackChildren(resources.skills, "workflows")),
+    parityRow("skillTools", options.manifest.totals.skillTools, options.manifest.resources.filter((resource) => resource.kind === "skill-tool").length, samplePackChildren(resources.skills, "tools")),
+    parityRow("agents", options.manifest.totals.agents, options.manifest.resources.filter((resource) => resource.kind === "agent").length, sampleNames(resources.agents)),
+    parityRow("commands", options.manifest.totals.commands, options.manifest.resources.filter((resource) => resource.kind === "command").length, sampleNames(resources.commands)),
+    parityRow("hooks", options.manifest.totals.hooks, options.manifest.resources.filter((resource) => resource.kind === "hook").length, sampleNames(resources.hooks)),
+    parityRow("tools", options.manifest.totals.tools, options.manifest.resources.filter((resource) => resource.kind === "tool").length, sampleNames(resources.tools)),
+    parityRow("algorithm", asNumber(generated.totals?.v5AlgorithmFiles) || arrayLength(resources.algorithm), arrayLength(resources.algorithm), sampleNames(resources.algorithm)),
+    parityRow("functions", asNumber(generated.totals?.v5TsSymbolFiles), representedFunctionCount(resources.functions), sampleFunctionNames(resources.functions)),
+    parityRow("feedbackLoops", arrayLength(resources.feedbackLoops), options.manifest.feedbackLoops.length, sampleLoopNames(resources.feedbackLoops)),
+    parityRow("checks", arrayLength((generated as { checks?: unknown[] }).checks), options.manifest.checks.length, sampleCheckNames((generated as { checks?: GeneratedCheck[] }).checks)),
+    parityRow("effortLevels", 5, representedEffortLevelCount(), ["E1", "E2", "E3", "E4", "E5"]),
+    parityRow("promptPrepend", 5, promptPrependMap.length, promptPrependMap.map((entry) => entry.prepended))
+  ];
+  const gaps = rows
+    .filter((row) => row.status !== "covered")
+    .map((row): ParityGap => ({
+      surface: row.surface,
+      severity: row.status === "missing" ? "critical" : "high",
+      expected: row.expected,
+      represented: row.represented,
+      missingSamples: row.missingSamples
+    }));
+
+  return {
+    sourceRevision: asString(generated.source?.head, options.manifest.sourceRevision),
+    generatedAt: options.generatedAt ?? new Date().toISOString(),
+    matrix: rows,
+    gaps,
+    promptPrependMap
   };
 }
 
@@ -669,7 +898,7 @@ function normalizePackChild(
   };
 }
 
-function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "algorithm" | "command" | "hook" | "tool"): PaiResourceMeta {
+function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "command" | "hook" | "tool"): PaiResourceMeta {
   const name = asString(item.name, "Unknown");
   return {
     uri: asString(item.uri, `pai://${kind}/${name}`),
@@ -682,12 +911,165 @@ function normalizeNamedPath(item: GeneratedNamedPath, kind: "agent" | "algorithm
   };
 }
 
+function normalizeAlgorithmEntry(item: GeneratedNamedPath): PaiResourceMeta[] {
+  const resource = normalizeAlgorithmPath(item);
+  if (resource.uri !== "pai://algorithm/v6.3.0") {
+    return [resource];
+  }
+  return [
+    resource,
+    ...algorithmPhases.map((phase) => ({
+      uri: algorithmPhaseUri(phase),
+      kind: "algorithm" as const,
+      name: phase,
+      pack: "algorithm",
+      summary: `${phase} algorithm doctrine slice`,
+      sourcePath: `${resource.sourcePath}#phase=${phase}`,
+      integrity: resource.integrity
+    }))
+  ];
+}
+
+function normalizeAlgorithmPath(item: GeneratedNamedPath): PaiResourceMeta {
+  const name = asString(item.name, "Unknown");
+  return {
+    uri: asString(item.uri, `pai://algorithm/${name}`),
+    kind: "algorithm",
+    name,
+    pack: "algorithm",
+    summary: `${name} algorithm metadata`,
+    sourcePath: asString(item.path, ""),
+    integrity: ""
+  };
+}
+
 function normalizeFeedbackLoop(loop: GeneratedFeedbackLoop): FeedbackLoopMeta {
   return {
     id: asString(loop.id, "unknown-loop"),
-    event: asString(loop.trigger, "unknown"),
+    event: normalizeFeedbackEvent(asString(loop.trigger, "unknown")),
     resourceUri: asString(loop.uri, "pai://loop/unknown")
   };
+}
+
+function normalizeCheck(check: GeneratedCheck): CheckMeta {
+  const id = asString(check.id, "unknown-check");
+  return {
+    id,
+    resourceUri: asString(check.uri, `pai://check/${id}`),
+    description: asString(check.description, id)
+  };
+}
+
+function parityRow(
+  surface: ParitySurface,
+  expected: number,
+  represented: number,
+  canonicalSamples: string[]
+): ParityMatrixRow {
+  const status: ParityStatus =
+    represented === expected ? "covered" : represented === 0 ? "missing" : "partial";
+  return {
+    surface,
+    expected,
+    represented,
+    status,
+    missingSamples:
+      status === "covered"
+        ? []
+        : canonicalSamples.length > 0
+          ? canonicalSamples.slice(0, 10)
+          : [`${surface}:canonical-items-not-represented`]
+  };
+}
+
+function buildPromptPrependMap(): PromptPrependMapping[] {
+  return [
+    {
+      target: "top-level-session",
+      prepended: "pai://system-prompt/PAI_SYSTEM_PROMPT.md",
+      sourcePath: "PAI/PAI_SYSTEM_PROMPT.md"
+    },
+    {
+      target: "top-level-session",
+      prepended: "pai://claude/CLAUDE.md",
+      sourcePath: "CLAUDE.md"
+    },
+    {
+      target: "top-level-session",
+      prepended: "pai://claude/imports/startup-context",
+      sourcePath: "CLAUDE.md @imports"
+    },
+    {
+      target: "skill-editing-workflow",
+      prepended: "pai://skills/CLAUDE.md",
+      sourcePath: "skills/CLAUDE.md"
+    },
+    {
+      target: "agent-spawn",
+      prepended: "pai://agent/{name}",
+      sourcePath: "agents/{name}.md"
+    }
+  ];
+}
+
+function representedEffortLevelCount(): number {
+  return ["E1", "E2", "E3", "E4", "E5"].filter((effort) =>
+    /^E[1-5]$/.test(effort)
+  ).length;
+}
+
+function representedFunctionCount(functions: GeneratedFunctionEntry[] | undefined): number {
+  return Array.isArray(functions) ? functions.length : 0;
+}
+
+function arrayLength(value: unknown): number {
+  return Array.isArray(value) ? value.length : 0;
+}
+
+function sampleNames(items: unknown): string[] {
+  return Array.isArray(items)
+    ? items.map((item) => asString(asRecord(item)?.name, "Unknown"))
+    : [];
+}
+
+function sampleCheckNames(items: GeneratedCheck[] | undefined): string[] {
+  return Array.isArray(items)
+    ? items.map((item) => asString(item.id, "unknown-check"))
+    : [];
+}
+
+function sampleLoopNames(items: unknown): string[] {
+  return Array.isArray(items)
+    ? items.map((item) => asString(asRecord(item)?.id, "unknown-loop"))
+    : [];
+}
+
+function sampleFunctionNames(items: GeneratedFunctionEntry[] | undefined): string[] {
+  return Array.isArray(items)
+    ? items.map((item) => {
+        const file = asString(item.file, "unknown-file");
+        const symbols = Array.isArray(item.symbols) ? item.symbols : [];
+        const symbol = asString(symbols[0], "unknown-symbol");
+        return `${file}:${symbol}`;
+      })
+    : [];
+}
+
+function samplePackChildren(
+  packs: GeneratedPack[] | undefined,
+  key: "tools" | "workflows"
+): string[] {
+  if (!Array.isArray(packs)) {
+    return [];
+  }
+  return packs.flatMap((pack) => {
+    const packName = asString(pack.name, "Unknown");
+    const children = Array.isArray(pack[key]) ? pack[key] : [];
+    return children.map((child) => {
+      const childRecord = asRecord(child);
+      return `${packName}/${asString(childRecord?.name, asString(child, ""))}`;
+    });
+  });
 }
 
 function asString(value: unknown, fallback: string): string {
@@ -696,6 +1078,26 @@ function asString(value: unknown, fallback: string): string {
 
 function asNumber(value: unknown): number {
   return typeof value === "number" ? value : 0;
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function extractAlgorithmPhase(body: string, phase: string): string {
+  const heading = new RegExp(`^#{1,6}\\s+${escapeRegExp(phase)}\\s*$`, "im");
+  const match = heading.exec(body);
+  if (match?.index === undefined) {
+    throw new Error(`Algorithm phase not found: ${phase}`);
+  }
+  const afterHeading = match.index + match[0].length;
+  const rest = body.slice(afterHeading).replace(/^\r?\n/, "");
+  const nextHeading = /^#{1,6}\s+[A-Z][A-Z0-9 _-]*\s*$/m.exec(rest);
+  return (nextHeading === null ? rest : rest.slice(0, nextHeading.index)).trim();
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function uniquifyResourceUris(resources: PaiResourceMeta[]): PaiResourceMeta[] {
@@ -719,6 +1121,24 @@ function basename(path: string): string {
   const parts = path.split("/");
   const file = parts[parts.length - 1];
   return file.replace(/\.[^.]+$/, "");
+}
+
+function algorithmPhaseUri(phase: AlgorithmPhase): string {
+  return `pai://algorithm/6.3.0/phase/${phase.toLowerCase()}`;
+}
+
+function hookEventName(name: string): string {
+  return name.replace(/\.hook\.(ts|js|sh)$/i, "").replace(/\.(ts|js|sh)$/i, "");
+}
+
+function normalizeFeedbackEvent(event: string): string {
+  if (event === "Tool failure / non-zero command") {
+    return "tool_failed";
+  }
+  if (event === "Algorithm LEARN E2+") {
+    return "Algorithm LEARN";
+  }
+  return event;
 }
 
 function itemsFor(resources: PaiResourceMeta[], kind: ResourceKind): ControlCenterItem[] {

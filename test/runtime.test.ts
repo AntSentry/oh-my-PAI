@@ -2,14 +2,19 @@ import { describe, expect, test } from "vitest";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import {
+  buildParityReport,
   createAlgorithmStateMachine,
   createCheckRunner,
   createAdapterRegistry,
+  createManifestAdapterRegistry,
   createControlCenterSnapshot,
+  createHookSubscriptionIndex,
+  createIterativeLoopController,
   createFeedbackLoopRuntime,
   createIsaRecord,
   createRuntimeOrchestrator,
   classifyEffort,
+  createSafeEffortClassifier,
   createManifestIndex,
   createResourceResolver,
   createTriggerDispatcher,
@@ -318,12 +323,47 @@ describe("manifest index", () => {
       kind: "algorithm",
       name: "v6.3.0.md"
     });
+    expect(index.get("pai://algorithm/6.3.0/phase/verify")).toMatchObject({
+      kind: "algorithm",
+      name: "VERIFY",
+      sourcePath: "v6.3.0.md#phase=VERIFY"
+    });
+    expect(loaded.checks).toHaveLength(41);
+    expect(loaded.checks[0]).toEqual({
+      id: "mode-classifier-present",
+      resourceUri: "pai://check/mode-classifier-present",
+      description: "mode-classifier-present"
+    });
     expect(loaded.feedbackLoops).toHaveLength(32);
     expect(loaded.feedbackLoops[0]).toEqual({
       id: "prompt-mode-tier",
       event: "UserPromptSubmit",
       resourceUri: "pai://loop/prompt-mode-tier"
     });
+    expect(loaded.feedbackLoops).toEqual(
+      expect.arrayContaining([
+        {
+          id: "tool-failure-learning",
+          event: "tool_failed",
+          resourceUri: "pai://loop/tool-failure-learning"
+        },
+        {
+          id: "session-learning",
+          event: "SessionEnd",
+          resourceUri: "pai://loop/session-learning"
+        },
+        {
+          id: "learning-router",
+          event: "Algorithm LEARN",
+          resourceUri: "pai://loop/learning-router"
+        },
+        {
+          id: "algorithm-reflection",
+          event: "Algorithm LEARN",
+          resourceUri: "pai://loop/algorithm-reflection"
+        }
+      ])
+    );
   });
 });
 
@@ -359,6 +399,98 @@ describe("lazy resource resolver", () => {
     await expect(resolver.resolve("pai://agent/Forge")).rejects.toThrow(
       "Integrity mismatch"
     );
+  });
+
+  test("resolves algorithm phase resources by loading only the requested doctrine slice", async () => {
+    const phaseManifest: PackManifest = {
+      ...manifest,
+      totals: { ...manifest.totals, agents: 0, commands: 0, hooks: 0, skillTools: 0, skills: 0, tools: 0, workflows: 0 },
+      resources: [
+        {
+          uri: "pai://algorithm/6.3.0/phase/verify",
+          kind: "algorithm",
+          name: "VERIFY",
+          pack: "algorithm",
+          summary: "VERIFY doctrine",
+          sourcePath: "Algorithm/v6.3.0.md#phase=VERIFY",
+          integrity: "sha256-verify"
+        }
+      ]
+    };
+    const reads: string[] = [];
+    const resolver = createResourceResolver(createManifestIndex(phaseManifest), {
+      read: async (path) => {
+        reads.push(path);
+        return [
+          "## OBSERVE",
+          "observe body",
+          "## VERIFY",
+          "verify body",
+          "## LEARN",
+          "learn body"
+        ].join("\n");
+      },
+      hash: (body) => `sha256-${body.split(" ")[0]}`
+    });
+
+    await expect(
+      resolver.resolve("pai://algorithm/6.3.0/phase/verify")
+    ).resolves.toMatchObject({
+      body: "verify body"
+    });
+    expect(reads).toEqual(["Algorithm/v6.3.0.md"]);
+  });
+
+  test("rejects algorithm phase resources when the phase heading is missing", async () => {
+    const phaseManifest: PackManifest = {
+      ...manifest,
+      resources: [
+        {
+          uri: "pai://algorithm/6.3.0/phase/verify",
+          kind: "algorithm",
+          name: "VERIFY",
+          pack: "algorithm",
+          summary: "VERIFY doctrine",
+          sourcePath: "Algorithm/v6.3.0.md#phase=VERIFY",
+          integrity: "sha256-verify"
+        }
+      ]
+    };
+    const resolver = createResourceResolver(createManifestIndex(phaseManifest), {
+      read: async () => "## OBSERVE\nobserve body",
+      hash: (body) => body
+    });
+
+    await expect(
+      resolver.resolve("pai://algorithm/6.3.0/phase/verify")
+    ).rejects.toThrow("Algorithm phase not found: VERIFY");
+  });
+
+  test("resolves an algorithm phase slice at the end of a doctrine file", async () => {
+    const phaseManifest: PackManifest = {
+      ...manifest,
+      resources: [
+        {
+          uri: "pai://algorithm/6.3.0/phase/learn",
+          kind: "algorithm",
+          name: "LEARN",
+          pack: "algorithm",
+          summary: "LEARN doctrine",
+          sourcePath: "Algorithm/v6.3.0.md#phase=LEARN",
+          integrity: "sha256-learn"
+        }
+      ]
+    };
+    const resolver = createResourceResolver(createManifestIndex(phaseManifest), {
+      read: async () => "## VERIFY\nverify body\n## LEARN\nlearn body",
+      hash: (body) => `sha256-${body.split(" ")[0]}`
+    });
+
+    await expect(
+      resolver.resolve("pai://algorithm/6.3.0/phase/learn")
+    ).resolves.toMatchObject({
+      body: "learn body"
+    });
   });
 });
 
@@ -422,6 +554,23 @@ describe("trigger dispatcher", () => {
       }
     ]);
   });
+
+  test("allows declared iterative loops only until stop criteria or budget", () => {
+    const byCriterion = createIterativeLoopController({
+      maxIterations: 5,
+      shouldStop: (iteration) => iteration === 2
+    });
+    expect(byCriterion.next()).toEqual({ iteration: 1, stopped: false });
+    expect(byCriterion.next()).toEqual({ iteration: 2, stopped: false });
+    expect(byCriterion.next()).toEqual({ iteration: 2, stopped: true });
+
+    const byBudget = createIterativeLoopController({
+      maxIterations: 1,
+      shouldStop: () => false
+    });
+    expect(byBudget.next()).toEqual({ iteration: 1, stopped: false });
+    expect(byBudget.next()).toEqual({ iteration: 1, stopped: true });
+  });
 });
 
 describe("effort classifier", () => {
@@ -458,6 +607,27 @@ describe("effort classifier", () => {
       mode: "ALGORITHM",
       effort: "E3",
       reason: "multi-step implementation or investigation"
+    });
+  });
+
+  test("fails safe to algorithm E3 when an effort classifier throws", () => {
+    const classify = createSafeEffortClassifier(() => {
+      throw new Error("model unavailable");
+    });
+
+    expect(classify("ship the runtime")).toEqual({
+      mode: "ALGORITHM",
+      effort: "E3",
+      reason: "classifier failed: model unavailable"
+    });
+
+    const classifyStringFailure = createSafeEffortClassifier(() => {
+      throw "timeout";
+    });
+    expect(classifyStringFailure("ship the runtime")).toMatchObject({
+      mode: "ALGORITHM",
+      effort: "E3",
+      reason: "classifier failed: timeout"
     });
   });
 });
@@ -513,7 +683,7 @@ describe("executable checks and algorithm phases", () => {
       from: "OBSERVE",
       to: "THINK",
       lease: {
-        uri: "pai://algorithm/phase/THINK",
+        uri: "pai://algorithm/6.3.0/phase/think",
         phase: "THINK",
         active: true
       }
@@ -533,15 +703,33 @@ describe("executable checks and algorithm phases", () => {
 
     expect(machine.leases()).toEqual([
       {
-        uri: "pai://algorithm/phase/THINK",
+        uri: "pai://algorithm/6.3.0/phase/think",
         phase: "THINK",
         active: false
       },
       {
-        uri: "pai://algorithm/phase/PLAN",
+        uri: "pai://algorithm/6.3.0/phase/plan",
         phase: "PLAN",
         active: true
       }
+    ]);
+  });
+
+  test("emits phase transition events after checks pass", async () => {
+    const events: string[] = [];
+    const machine = createAlgorithmStateMachine({
+      initialPhase: "OBSERVE",
+      checkRunner: createCheckRunner({}),
+      phaseChecks: {},
+      onTransition: (transition) => {
+        events.push(`${transition.from}->${transition.to}:${transition.lease.uri}`);
+      }
+    });
+
+    await machine.transition("THINK", {});
+
+    expect(events).toEqual([
+      "OBSERVE->THINK:pai://algorithm/6.3.0/phase/think"
     ]);
   });
 });
@@ -672,6 +860,45 @@ describe("feedback loops and adapters", () => {
     await expect(runtime.emit("unmatched", {})).resolves.toEqual([]);
   });
 
+  test("executes required generated feedback loops for tool failure, SessionEnd, and Algorithm LEARN", async () => {
+    const loaded = loadManifest(manifestJson);
+    const calls: string[] = [];
+    const runtime = createFeedbackLoopRuntime(loaded.feedbackLoops, {
+      "pai://loop/tool-failure-learning": async () => {
+        calls.push("tool-failure-learning");
+        return { loopId: "tool-failure-learning", handled: true };
+      },
+      "pai://loop/session-learning": async () => {
+        calls.push("session-learning");
+        return { loopId: "session-learning", handled: true };
+      },
+      "pai://loop/relationship-memory": async () => {
+        calls.push("relationship-memory");
+        return { loopId: "relationship-memory", handled: true };
+      },
+      "pai://loop/learning-router": async () => {
+        calls.push("learning-router");
+        return { loopId: "learning-router", handled: true };
+      },
+      "pai://loop/algorithm-reflection": async () => {
+        calls.push("algorithm-reflection");
+        return { loopId: "algorithm-reflection", handled: true };
+      }
+    });
+
+    await runtime.emit("tool_failed", {});
+    await runtime.emit("SessionEnd", {});
+    await runtime.emit("Algorithm LEARN", {});
+
+    expect(calls).toEqual([
+      "tool-failure-learning",
+      "session-learning",
+      "relationship-memory",
+      "learning-router",
+      "algorithm-reflection"
+    ]);
+  });
+
   test("runs tool and hook adapters by URI with payloads", async () => {
     const registry = createAdapterRegistry({
       "pai://tool/Inference": async (payload) => ({
@@ -698,6 +925,62 @@ describe("feedback loops and adapters", () => {
       "No executable adapter registered"
     );
   });
+
+  test("runs manifest-backed adapters by source path without loading source bodies", async () => {
+    const registry = createManifestAdapterRegistry(createManifestIndex(manifest), {
+      "Tools/Inference.ts": async (payload) => ({
+        adapterUri: "Tools/Inference.ts",
+        output: `path-model:${String(payload["model"])}`
+      }),
+      "hooks/SessionEnd.ts": async () => ({
+        adapterUri: "hooks/SessionEnd.ts",
+        output: "path-learned"
+      })
+    });
+
+    await expect(
+      registry.run("pai://tool/Inference", { model: "fast" })
+    ).resolves.toEqual({
+      adapterUri: "Tools/Inference.ts",
+      output: "path-model:fast"
+    });
+    await expect(registry.run("pai://hook/SessionEnd", {})).resolves.toEqual({
+      adapterUri: "hooks/SessionEnd.ts",
+      output: "path-learned"
+    });
+    await expect(registry.run("pai://agent/Forge", {})).rejects.toThrow(
+      "No executable adapter registered for agents/Forge.md"
+    );
+    await expect(registry.run("pai://tool/Missing", {})).rejects.toThrow(
+      "Unknown adapter resource: pai://tool/Missing"
+    );
+  });
+});
+
+describe("hook subscriptions", () => {
+  test("derives hook event subscriptions from metadata without loading hook source", () => {
+    const subscriptions = createHookSubscriptionIndex(manifest);
+
+    expect(subscriptions).toEqual([
+      {
+        event: "SessionEnd",
+        hookUri: "pai://hook/SessionEnd",
+        sourcePath: "hooks/SessionEnd.ts"
+      }
+    ]);
+  });
+
+  test("derives checked-in hook subscriptions from generated manifest metadata", () => {
+    const loaded = loadManifest(manifestJson);
+    const subscriptions = createHookSubscriptionIndex(loaded);
+
+    expect(subscriptions).toHaveLength(68);
+    expect(subscriptions[0]).toEqual({
+      event: "AgentInvocation",
+      hookUri: "pai://hook/AgentInvocation.hook.ts",
+      sourcePath: "AgentInvocation.hook.ts"
+    });
+  });
 });
 
 describe("control center snapshots", () => {
@@ -716,6 +999,26 @@ describe("control center snapshots", () => {
         }
       ],
       hooks: [{ name: "SessionEnd", uri: "pai://hook/SessionEnd" }],
+      routes: [
+        {
+          event: "command",
+          id: "council-command",
+          pattern: "/Council",
+          emits: ["pai://skill/Council/workflow/Debate"]
+        },
+        {
+          event: "resource",
+          id: "debate-agent",
+          pattern: "pai://skill/Council/workflow/Debate",
+          emits: ["pai://agent/Forge"]
+        },
+        {
+          event: "resource",
+          id: "cycle-a",
+          pattern: "pai://tool/Inference",
+          emits: ["pai://tool/Inference"]
+        }
+      ],
       skills: [
         { name: "Council", uri: "pai://skill/Council" },
         { name: "Research", uri: "pai://skill/Research" }
@@ -738,6 +1041,7 @@ describe("control center snapshots", () => {
     const snapshot = createControlCenterSnapshot(loaded);
 
     expect(snapshot.agents).toHaveLength(18);
+    expect(snapshot.checks).toHaveLength(41);
     expect(snapshot.skills).toHaveLength(45);
     expect(snapshot.workflows).toHaveLength(171);
     expect(snapshot.tools).toHaveLength(110);
@@ -845,6 +1149,268 @@ describe("runtime orchestrator", () => {
       emissions: [],
       resources: [],
       leases: []
+    });
+  });
+
+  test("directly invoking a resource resolves one body and creates a lease", async () => {
+    const resolved: string[] = [];
+    const orchestrator = createRuntimeOrchestrator({
+      classify: classifyEffort,
+      dispatcher: createTriggerDispatcher([], {
+        maxDepth: 3,
+        maxEmits: 5
+      }),
+      resolver: {
+        async resolve(uri: string) {
+          resolved.push(uri);
+          const resource = createManifestIndex(manifest).get(uri);
+          if (resource === undefined) {
+            throw new Error(`missing ${uri}`);
+          }
+          return { ...resource, body: `body:${uri}` };
+        }
+      }
+    });
+
+    await expect(
+      orchestrator.invokeResource("pai://agent/Forge", "control-center")
+    ).resolves.toMatchObject({
+      uri: "pai://agent/Forge",
+      body: "body:pai://agent/Forge"
+    });
+    expect(resolved).toEqual(["pai://agent/Forge"]);
+    expect(orchestrator.leases()).toEqual([
+      {
+        uri: "pai://agent/Forge",
+        active: true,
+        reason: "control-center"
+      }
+    ]);
+  });
+});
+
+describe("PAI parity report", () => {
+  test("classifies canonical parity coverage across every required surface", () => {
+    const loaded = loadManifest(manifestJson);
+    const report = buildParityReport({
+      generatedManifest: manifestJson,
+      manifest: loaded
+    });
+
+    expect(report.sourceRevision).toBe("2fde1bbe9e8f280cd4998e244b53e3c66f3dc8b9");
+    expect(report.matrix.map((row) => row.surface)).toEqual([
+      "skills",
+      "workflows",
+      "skillTools",
+      "agents",
+      "commands",
+      "hooks",
+      "tools",
+      "algorithm",
+      "functions",
+      "feedbackLoops",
+      "checks",
+      "effortLevels",
+      "promptPrepend"
+    ]);
+    expect(report.matrix.find((row) => row.surface === "functions")).toMatchObject({
+      expected: 256,
+      represented: 256,
+      status: "covered"
+    });
+    expect(report.matrix.find((row) => row.surface === "effortLevels")).toMatchObject({
+      expected: 5,
+      represented: 5,
+      status: "covered"
+    });
+    expect(report.matrix.find((row) => row.surface === "promptPrepend")).toMatchObject({
+      expected: 5,
+      represented: 5,
+      status: "covered"
+    });
+    expect(report.gaps).toEqual([]);
+    expect(report.promptPrependMap).toEqual([
+      {
+        target: "top-level-session",
+        prepended: "pai://system-prompt/PAI_SYSTEM_PROMPT.md",
+        sourcePath: "PAI/PAI_SYSTEM_PROMPT.md"
+      },
+      {
+        target: "top-level-session",
+        prepended: "pai://claude/CLAUDE.md",
+        sourcePath: "CLAUDE.md"
+      },
+      {
+        target: "top-level-session",
+        prepended: "pai://claude/imports/startup-context",
+        sourcePath: "CLAUDE.md @imports"
+      },
+      {
+        target: "skill-editing-workflow",
+        prepended: "pai://skills/CLAUDE.md",
+        sourcePath: "skills/CLAUDE.md"
+      },
+      {
+        target: "agent-spawn",
+        prepended: "pai://agent/{name}",
+        sourcePath: "agents/{name}.md"
+      }
+    ]);
+  });
+
+  test("surfaces open parity gaps with severity and samples", () => {
+    const loaded = loadManifest(manifestJson);
+    const generated = manifestJson as { resources: Record<string, unknown> };
+    const report = buildParityReport({
+      generatedManifest: {
+        ...(manifestJson as Record<string, unknown>),
+        resources: {
+          ...generated.resources,
+          functions: []
+        }
+      },
+      manifest: loaded
+    });
+
+    expect(report.matrix.find((row) => row.surface === "functions")).toMatchObject({
+      expected: 256,
+      represented: 0,
+      status: "missing"
+    });
+    expect(report.gaps[0]).toMatchObject({
+      surface: "functions",
+      severity: "critical",
+      expected: 256,
+      represented: 0
+    });
+    expect(report.gaps[0]?.missingSamples.length).toBeGreaterThan(0);
+  });
+
+  test("classifies sparse parity input as open gaps without throwing", () => {
+    const sparseManifest: PackManifest = {
+      id: "sparse",
+      version: "0.0.0",
+      sourceRevision: "unknown",
+      totals: {
+        packs: 0,
+        skills: 1,
+        workflows: 1,
+        agents: 1,
+        commands: 1,
+        hooks: 1,
+        skillTools: 1,
+        tools: 1
+      },
+      resources: [],
+      triggers: [],
+      checks: [],
+      feedbackLoops: []
+    };
+
+    const report = buildParityReport({
+      generatedManifest: { id: "sparse", totals: { v5TsSymbolFiles: 1 } },
+      manifest: sparseManifest
+    });
+
+    expect(report.matrix.find((row) => row.surface === "workflows")).toEqual({
+      surface: "workflows",
+      expected: 1,
+      represented: 0,
+      status: "missing",
+      missingSamples: ["workflows:canonical-items-not-represented"]
+    });
+    expect(report.matrix.find((row) => row.surface === "functions")).toEqual({
+      surface: "functions",
+      expected: 1,
+      represented: 0,
+      status: "missing",
+      missingSamples: ["functions:canonical-items-not-represented"]
+    });
+  });
+
+  test("classifies partial parity with canonical samples", () => {
+    const partialManifest: PackManifest = {
+      id: "partial",
+      version: "0.0.0",
+      sourceRevision: "unknown",
+      totals: {
+        packs: 0,
+        skills: 1,
+        workflows: 2,
+        agents: 0,
+        commands: 0,
+        hooks: 0,
+        skillTools: 1,
+        tools: 0
+      },
+      resources: [
+        {
+          uri: "pai://skill/Agents/workflow/CreateCustomAgent",
+          kind: "workflow",
+          name: "CreateCustomAgent",
+          pack: "Agents",
+          summary: "Create custom agent",
+          sourcePath: "skills/Agents/Workflows/CreateCustomAgent.md",
+          integrity: ""
+        },
+        {
+          uri: "pai://skill/Agents/tool/ComposeAgent.ts",
+          kind: "skill-tool",
+          name: "ComposeAgent.ts",
+          pack: "Agents",
+          summary: "Compose agent",
+          sourcePath: "skills/Agents/Tools/ComposeAgent.ts",
+          integrity: ""
+        }
+      ],
+      triggers: [],
+      checks: [],
+      feedbackLoops: []
+    };
+
+    const report = buildParityReport({
+      generatedManifest: {
+        id: "partial",
+        totals: { v5TsSymbolFiles: 1 },
+        resources: {
+          skills: [
+            {
+              name: "Agents",
+              workflows: [{ name: "CreateCustomAgent" }, { name: "SpawnTeam" }],
+              tools: [{ name: "ComposeAgent.ts" }, {}]
+            },
+            {
+              name: "Research"
+            }
+          ],
+          functions: [{ file: "hooks/Test.ts", symbols: "not-array" }]
+        }
+      },
+      manifest: partialManifest
+    });
+
+    expect(report.matrix.find((row) => row.surface === "workflows")).toEqual({
+      surface: "workflows",
+      expected: 2,
+      represented: 1,
+      status: "partial",
+      missingSamples: ["Agents/CreateCustomAgent", "Agents/SpawnTeam"]
+    });
+    expect(report.matrix.find((row) => row.surface === "skillTools")).toEqual({
+      surface: "skillTools",
+      expected: 1,
+      represented: 1,
+      status: "covered",
+      missingSamples: []
+    });
+    expect(report.matrix.find((row) => row.surface === "functions")).toMatchObject({
+      surface: "functions",
+      expected: 1,
+      represented: 1,
+      status: "covered"
+    });
+    expect(report.gaps.find((gap) => gap.surface === "workflows")).toMatchObject({
+      severity: "high"
     });
   });
 });

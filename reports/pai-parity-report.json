@@ -1,0 +1,125 @@
+{
+  "sourceRevision": "2fde1bbe9e8f280cd4998e244b53e3c66f3dc8b9",
+  "generatedAt": "2026-05-23T16:23:29.648Z",
+  "matrix": [
+    {
+      "surface": "skills",
+      "expected": 45,
+      "represented": 45,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "workflows",
+      "expected": 171,
+      "represented": 171,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "skillTools",
+      "expected": 38,
+      "represented": 38,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "agents",
+      "expected": 18,
+      "represented": 18,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "commands",
+      "expected": 3,
+      "represented": 3,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "hooks",
+      "expected": 68,
+      "represented": 68,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "tools",
+      "expected": 72,
+      "represented": 72,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "algorithm",
+      "expected": 14,
+      "represented": 14,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "functions",
+      "expected": 256,
+      "represented": 256,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "feedbackLoops",
+      "expected": 32,
+      "represented": 32,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "checks",
+      "expected": 41,
+      "represented": 41,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "effortLevels",
+      "expected": 5,
+      "represented": 5,
+      "status": "covered",
+      "missingSamples": []
+    },
+    {
+      "surface": "promptPrepend",
+      "expected": 5,
+      "represented": 5,
+      "status": "covered",
+      "missingSamples": []
+    }
+  ],
+  "gaps": [],
+  "promptPrependMap": [
+    {
+      "target": "top-level-session",
+      "prepended": "pai://system-prompt/PAI_SYSTEM_PROMPT.md",
+      "sourcePath": "PAI/PAI_SYSTEM_PROMPT.md"
+    },
+    {
+      "target": "top-level-session",
+      "prepended": "pai://claude/CLAUDE.md",
+      "sourcePath": "CLAUDE.md"
+    },
+    {
+      "target": "top-level-session",
+      "prepended": "pai://claude/imports/startup-context",
+      "sourcePath": "CLAUDE.md @imports"
+    },
+    {
+      "target": "skill-editing-workflow",
+      "prepended": "pai://skills/CLAUDE.md",
+      "sourcePath": "skills/CLAUDE.md"
+    },
+    {
+      "target": "agent-spawn",
+      "prepended": "pai://agent/{name}",
+      "sourcePath": "agents/{name}.md"
+    }
+  ]
+}
