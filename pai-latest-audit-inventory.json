@@ -1,0 +1,5299 @@
+{
+  "revision": {
+    "head": "2fde1bbe9e8f280cd4998e244b53e3c66f3dc8b9",
+    "source": "https://github.com/danielmiessler/Personal_AI_Infrastructure.git",
+    "clone": "/tmp/pai-latest-audit"
+  },
+  "topSummary": [
+    {
+      "name": "Releases",
+      "type": "dir",
+      "files": 10488
+    },
+    {
+      "name": "Tools",
+      "type": "dir",
+      "files": 4
+    },
+    {
+      "name": "PLATFORM.md",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": "LICENSE",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": "images",
+      "type": "dir",
+      "files": 23
+    },
+    {
+      "name": "README.md",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": "Packs",
+      "type": "dir",
+      "files": 1850
+    },
+    {
+      "name": ".gitignore",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": ".github",
+      "type": "dir",
+      "files": 3
+    },
+    {
+      "name": ".gitattributes",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": ".env.example",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": ".pai-protected.json",
+      "type": "file",
+      "files": 1
+    },
+    {
+      "name": "SECURITY.md",
+      "type": "file",
+      "files": 1
+    }
+  ],
+  "releaseDirs": [
+    "Pi",
+    "v2.3",
+    "v2.4",
+    "v2.5",
+    "v3.0",
+    "v4.0.0",
+    "v4.0.1",
+    "v4.0.2",
+    "v4.0.3",
+    "v5.0.0"
+  ],
+  "totals": {
+    "allFiles": 12376,
+    "v5Files": 1549,
+    "packs": 52,
+    "v5Skills": 45,
+    "v5Workflows": 171,
+    "v5SkillTools": 38,
+    "v5Commands": 3,
+    "v5Agents": 18,
+    "v5Hooks": 68,
+    "v5PaiTools": 72,
+    "v5Docs": 34,
+    "v5TsFiles": 293,
+    "v5TsSymbolFiles": 256
+  },
+  "byExt": {
+    ".txt": 24,
+    ".md": 825,
+    ".json": 44,
+    "(none)": 20,
+    ".sh": 7,
+    ".ts": 293,
+    ".tsx": 130,
+    ".css": 10,
+    ".woff2": 38,
+    ".js": 63,
+    ".mjs": 3,
+    ".yaml": 17,
+    ".jsonl": 7,
+    ".hbs": 11,
+    ".mdc": 3,
+    ".html": 25,
+    ".py": 1,
+    ".lock": 2,
+    ".example": 1,
+    ".png": 7,
+    ".plist": 2,
+    ".swift": 1,
+    ".woff": 8,
+    ".toml": 1,
+    ".mp3": 3,
+    ".wav": 1,
+    ".ttf": 2
+  },
+  "packs": [
+    {
+      "name": "Agents",
+      "files": 29,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CreateCustomAgent.md",
+        "src/Workflows/ListTraits.md",
+        "src/Workflows/SpawnParallelAgents.md"
+      ],
+      "workflowCount": 3,
+      "tools": [
+        "src/Tools/ComposeAgent.ts",
+        "src/Tools/LoadAgentContext.ts",
+        "src/Tools/SpawnAgentWithProfile.ts"
+      ],
+      "toolCount": 3,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "ApertureOscillation",
+      "files": 5,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Oscillate.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Aphorisms",
+      "files": 9,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AddAphorism.md",
+        "src/Workflows/FindAphorism.md",
+        "src/Workflows/ResearchThinker.md",
+        "src/Workflows/SearchAphorisms.md"
+      ],
+      "workflowCount": 4,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Apify",
+      "files": 31,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Update.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "ArXiv",
+      "files": 7,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Latest.md",
+        "src/Workflows/Paper.md",
+        "src/Workflows/Search.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Art",
+      "files": 73,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AdHocYouTubeThumbnail.md",
+        "src/Workflows/AnnotatedScreenshots.md",
+        "src/Workflows/Aphorisms.md",
+        "src/Workflows/Comics.md",
+        "src/Workflows/Comparisons.md",
+        "src/Workflows/CreatePAIPackIcon.md",
+        "src/Workflows/D3Dashboards.md",
+        "src/Workflows/EmbossedLogoWallpaper.md",
+        "src/Workflows/Essay.md",
+        "src/Workflows/Frameworks.md",
+        "src/Workflows/LogoWallpaper.md",
+        "src/Workflows/Maps.md",
+        "src/Workflows/Mermaid.md",
+        "src/Workflows/RecipeCards.md",
+        "src/Workflows/RemoveBackground.md",
+        "src/Workflows/Stats.md",
+        "src/Workflows/Taxonomies.md",
+        "src/Workflows/TechnicalDiagrams.md",
+        "src/Workflows/Timelines.md",
+        "src/Workflows/Visualize.md",
+        "src/Workflows/YouTubeThumbnailChecklist.md"
+      ],
+      "workflowCount": 21,
+      "tools": [
+        "src/Tools/ComposeThumbnail.ts",
+        "src/Tools/FillFrame.ts",
+        "src/Tools/Generate.ts",
+        "src/Tools/GenerateMidjourneyImage.ts",
+        "src/Tools/GeneratePrompt.ts"
+      ],
+      "toolCount": 5,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "AudioEditor",
+      "files": 15,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Clean.md"
+      ],
+      "workflowCount": 1,
+      "tools": [
+        "src/Tools/Analyze.ts",
+        "src/Tools/Edit.ts",
+        "src/Tools/Pipeline.ts",
+        "src/Tools/Polish.ts",
+        "src/Tools/Transcribe.ts"
+      ],
+      "toolCount": 5,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "BeCreative",
+      "files": 17,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/DomainSpecific.md",
+        "src/Workflows/IdeaGeneration.md",
+        "src/Workflows/MaximumCreativity.md",
+        "src/Workflows/StandardCreativity.md",
+        "src/Workflows/SyntheticDataExpansion.md",
+        "src/Workflows/TechnicalCreativityGemini3.md",
+        "src/Workflows/TreeOfThoughts.md"
+      ],
+      "workflowCount": 7,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "BitterPillEngineering",
+      "files": 6,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Audit.md",
+        "src/Workflows/QuickCheck.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "BrightData",
+      "files": 6,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Crawl.md",
+        "src/Workflows/FourTierScrape.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Browser",
+      "files": 15,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Automate.md",
+        "src/Workflows/ReviewStories.md",
+        "src/Workflows/Update.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "ContentAnalysis",
+      "files": 6,
+      "skill": true,
+      "workflows": [
+        "src/ExtractWisdom/Workflows/Extract.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "ContextSearch",
+      "files": 5,
+      "skill": false,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Council",
+      "files": 9,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Debate.md",
+        "src/Workflows/Quick.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "CreateCLI",
+      "files": 10,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AddCommand.md",
+        "src/Workflows/CreateCli.md",
+        "src/Workflows/UpgradeTier.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "CreateSkill",
+      "files": 11,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CanonicalizeSkill.md",
+        "src/Workflows/CreateSkill.md",
+        "src/Workflows/ImproveSkill.md",
+        "src/Workflows/OptimizeDescription.md",
+        "src/Workflows/TestSkill.md",
+        "src/Workflows/UpdateSkill.md",
+        "src/Workflows/ValidateSkill.md"
+      ],
+      "workflowCount": 7,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Daemon",
+      "files": 11,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/DeployDaemon.md",
+        "src/Workflows/PreviewDaemon.md",
+        "src/Workflows/ReadDaemon.md",
+        "src/Workflows/UpdateDaemon.md"
+      ],
+      "workflowCount": 4,
+      "tools": [
+        "src/Tools/DaemonAggregator.ts",
+        "src/Tools/SecurityFilter.ts"
+      ],
+      "toolCount": 2,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Delegation",
+      "files": 4,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Evals",
+      "files": 70,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CompareModels.md",
+        "src/Workflows/ComparePrompts.md",
+        "src/Workflows/CreateJudge.md",
+        "src/Workflows/CreateScenario.md",
+        "src/Workflows/CreateUseCase.md",
+        "src/Workflows/RunEval.md",
+        "src/Workflows/RunScenario.md",
+        "src/Workflows/ViewResults.md"
+      ],
+      "workflowCount": 8,
+      "tools": [
+        "src/Tools/AlgorithmBridge.ts",
+        "src/Tools/FailureToTask.ts",
+        "src/Tools/PAIAgentAdapter.ts",
+        "src/Tools/ScenarioRunner.ts",
+        "src/Tools/ScenarioToTranscript.ts",
+        "src/Tools/SuiteManager.ts",
+        "src/Tools/TranscriptCapture.ts",
+        "src/Tools/TrialRunner.ts"
+      ],
+      "toolCount": 8,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "ExtractWisdom",
+      "files": 5,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Extract.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Fabric",
+      "files": 321,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/ExecutePattern.md",
+        "src/Workflows/UpdatePatterns.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "FirstPrinciples",
+      "files": 7,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Challenge.md",
+        "src/Workflows/Deconstruct.md",
+        "src/Workflows/Reconstruct.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "ISA",
+      "files": 22,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Append.md",
+        "src/Workflows/CheckCompleteness.md",
+        "src/Workflows/Interview.md",
+        "src/Workflows/Reconcile.md",
+        "src/Workflows/Scaffold.md",
+        "src/Workflows/Seed.md"
+      ],
+      "workflowCount": 6,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Ideate",
+      "files": 10,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Dream.md",
+        "src/Workflows/FullCycle.md",
+        "src/Workflows/Mate.md",
+        "src/Workflows/QuickCycle.md",
+        "src/Workflows/Steal.md",
+        "src/Workflows/Test.md"
+      ],
+      "workflowCount": 6,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Interceptor",
+      "files": 11,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/RecordFlow.md",
+        "src/Workflows/ReplayFlow.md",
+        "src/Workflows/Reproduce.md",
+        "src/Workflows/TestForm.md",
+        "src/Workflows/Update.md",
+        "src/Workflows/VerifyDeploy.md"
+      ],
+      "workflowCount": 6,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Interview",
+      "files": 4,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Investigation",
+      "files": 25,
+      "skill": true,
+      "workflows": [
+        "src/OSINT/Workflows/CompanyDueDiligence.md",
+        "src/OSINT/Workflows/CompanyLookup.md",
+        "src/OSINT/Workflows/DiscoverOSINTSources.md",
+        "src/OSINT/Workflows/DomainLookup.md",
+        "src/OSINT/Workflows/EntityLookup.md",
+        "src/OSINT/Workflows/OrganizationLookup.md",
+        "src/OSINT/Workflows/PeopleLookup.md",
+        "src/PrivateInvestigator/Workflows/FindPerson.md",
+        "src/PrivateInvestigator/Workflows/PublicRecordsSearch.md",
+        "src/PrivateInvestigator/Workflows/ReverseLookup.md",
+        "src/PrivateInvestigator/Workflows/SocialMediaSearch.md",
+        "src/PrivateInvestigator/Workflows/VerifyIdentity.md"
+      ],
+      "workflowCount": 12,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "IterativeDepth",
+      "files": 7,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/Explore.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Knowledge",
+      "files": 4,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Loop",
+      "files": 4,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Media",
+      "files": 76,
+      "skill": true,
+      "workflows": [
+        "src/Art/Workflows/AnnotatedScreenshots.md",
+        "src/Art/Workflows/Aphorisms.md",
+        "src/Art/Workflows/Comics.md",
+        "src/Art/Workflows/Comparisons.md",
+        "src/Art/Workflows/CreatePAIPackIcon.md",
+        "src/Art/Workflows/D3Dashboards.md",
+        "src/Art/Workflows/Essay.md",
+        "src/Art/Workflows/Frameworks.md",
+        "src/Art/Workflows/Maps.md",
+        "src/Art/Workflows/Mermaid.md",
+        "src/Art/Workflows/RecipeCards.md",
+        "src/Art/Workflows/RemoveBackground.md",
+        "src/Art/Workflows/Stats.md",
+        "src/Art/Workflows/Taxonomies.md",
+        "src/Art/Workflows/TechnicalDiagrams.md",
+        "src/Art/Workflows/Timelines.md",
+        "src/Art/Workflows/Visualize.md",
+        "src/Art/Workflows/YouTubeThumbnailChecklist.md",
+        "src/Remotion/Workflows/ContentToAnimation.md"
+      ],
+      "workflowCount": 19,
+      "tools": [
+        "src/Art/Tools/ComposeThumbnail.ts",
+        "src/Art/Tools/Generate.ts",
+        "src/Art/Tools/GenerateMidjourneyImage.ts",
+        "src/Art/Tools/GeneratePrompt.ts",
+        "src/Remotion/Tools/Render.ts",
+        "src/Remotion/Tools/Theme.ts"
+      ],
+      "toolCount": 6,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Migrate",
+      "files": 4,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Optimize",
+      "files": 4,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "PAIUpgrade",
+      "files": 14,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AlgorithmUpgrade.md",
+        "src/Workflows/FindSources.md",
+        "src/Workflows/MineReflections.md",
+        "src/Workflows/ResearchUpgrade.md",
+        "src/Workflows/Upgrade.md"
+      ],
+      "workflowCount": 5,
+      "tools": [
+        "src/Tools/Anthropic.ts"
+      ],
+      "toolCount": 1,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "PrivateInvestigator",
+      "files": 9,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/FindPerson.md",
+        "src/Workflows/PublicRecordsSearch.md",
+        "src/Workflows/ReverseLookup.md",
+        "src/Workflows/SocialMediaSearch.md",
+        "src/Workflows/VerifyIdentity.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Prompting",
+      "files": 32,
+      "skill": true,
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [
+        "src/Templates/Tools/RenderTemplate.ts",
+        "src/Templates/Tools/ValidateTemplate.ts",
+        "src/Templates/Tools/index.ts",
+        "src/Tools/RenderTemplate.ts",
+        "src/Tools/ValidateTemplate.ts",
+        "src/Tools/index.ts"
+      ],
+      "toolCount": 6,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "RedTeam",
+      "files": 8,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AdversarialValidation.md",
+        "src/Workflows/ParallelAnalysis.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Remotion",
+      "files": 44,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/ContentToAnimation.md",
+        "src/Workflows/GeneratedContentVideo.md"
+      ],
+      "workflowCount": 2,
+      "tools": [
+        "src/Tools/Render.ts",
+        "src/Tools/Theme.ts"
+      ],
+      "toolCount": 2,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Research",
+      "files": 23,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AnalyzeAiTrends.md",
+        "src/Workflows/ClaudeResearch.md",
+        "src/Workflows/DeepInvestigation.md",
+        "src/Workflows/Enhance.md",
+        "src/Workflows/ExtensiveResearch.md",
+        "src/Workflows/ExtractAlpha.md",
+        "src/Workflows/ExtractKnowledge.md",
+        "src/Workflows/Fabric.md",
+        "src/Workflows/InterviewResearch.md",
+        "src/Workflows/QuickResearch.md",
+        "src/Workflows/Retrieve.md",
+        "src/Workflows/StandardResearch.md",
+        "src/Workflows/WebScraping.md",
+        "src/Workflows/YoutubeExtraction.md"
+      ],
+      "workflowCount": 14,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "RootCauseAnalysis",
+      "files": 11,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/FaultTree.md",
+        "src/Workflows/Fishbone.md",
+        "src/Workflows/FiveWhys.md",
+        "src/Workflows/KepnerTregoe.md",
+        "src/Workflows/Postmortem.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Sales",
+      "files": 7,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CreateNarrative.md",
+        "src/Workflows/CreateSalesPackage.md",
+        "src/Workflows/CreateVisual.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Science",
+      "files": 17,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/AnalyzeResults.md",
+        "src/Workflows/DefineGoal.md",
+        "src/Workflows/DesignExperiment.md",
+        "src/Workflows/FullCycle.md",
+        "src/Workflows/GenerateHypotheses.md",
+        "src/Workflows/Iterate.md",
+        "src/Workflows/MeasureResults.md",
+        "src/Workflows/QuickDiagnosis.md",
+        "src/Workflows/StructuredInvestigation.md"
+      ],
+      "workflowCount": 9,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Scraping",
+      "files": 35,
+      "skill": true,
+      "workflows": [
+        "src/Apify/Workflows/Update.md",
+        "src/BrightData/Workflows/Crawl.md",
+        "src/BrightData/Workflows/FourTierScrape.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Security",
+      "files": 93,
+      "skill": true,
+      "workflows": [
+        "src/PromptInjection/Workflows/CompleteAssessment.md",
+        "src/PromptInjection/Workflows/DirectInjectionTesting.md",
+        "src/PromptInjection/Workflows/IndirectInjectionTesting.md",
+        "src/PromptInjection/Workflows/MultiStageAttacks.md",
+        "src/PromptInjection/Workflows/Reconnaissance.md",
+        "src/Recon/Workflows/AnalyzeScanResultsGemini3.md",
+        "src/Recon/Workflows/BountyPrograms.md",
+        "src/Recon/Workflows/DomainRecon.md",
+        "src/Recon/Workflows/IpRecon.md",
+        "src/Recon/Workflows/NetblockRecon.md",
+        "src/Recon/Workflows/PassiveRecon.md",
+        "src/Recon/Workflows/UpdateTools.md",
+        "src/SECUpdates/Workflows/Update.md",
+        "src/WebAssessment/Workflows/CreateThreatModel.md",
+        "src/WebAssessment/Workflows/UnderstandApplication.md",
+        "src/WebAssessment/Workflows/VulnerabilityAnalysisGemini3.md",
+        "src/WebAssessment/Workflows/bug-bounty/AutomationTool.md",
+        "src/WebAssessment/Workflows/bug-bounty/Programs.md",
+        "src/WebAssessment/Workflows/ffuf/FfufGuide.md",
+        "src/WebAssessment/Workflows/ffuf/FfufHelper.md",
+        "src/WebAssessment/Workflows/osint/Automation.md",
+        "src/WebAssessment/Workflows/osint/MasterGuide.md",
+        "src/WebAssessment/Workflows/osint/MetadataAnalysis.md",
+        "src/WebAssessment/Workflows/osint/Reconnaissance.md",
+        "src/WebAssessment/Workflows/osint/SocialMediaIntel.md",
+        "src/WebAssessment/Workflows/pentest/Exploitation.md",
+        "src/WebAssessment/Workflows/pentest/MasterMethodology.md",
+        "src/WebAssessment/Workflows/pentest/Reconnaissance.md",
+        "src/WebAssessment/Workflows/pentest/ToolInventory.md",
+        "src/WebAssessment/Workflows/webapp/Examples.md",
+        "src/WebAssessment/Workflows/webapp/TestingGuide.md"
+      ],
+      "workflowCount": 31,
+      "tools": [
+        "src/AnnualReports/Tools/FetchReport.ts",
+        "src/AnnualReports/Tools/ListSources.ts",
+        "src/AnnualReports/Tools/UpdateSources.ts",
+        "src/Recon/Tools/BountyPrograms.ts",
+        "src/Recon/Tools/CidrUtils.ts",
+        "src/Recon/Tools/CorporateStructure.ts",
+        "src/Recon/Tools/DnsUtils.ts",
+        "src/Recon/Tools/EndpointDiscovery.ts",
+        "src/Recon/Tools/IpinfoClient.ts",
+        "src/Recon/Tools/MassScan.ts",
+        "src/Recon/Tools/PathDiscovery.ts",
+        "src/Recon/Tools/PortScan.ts",
+        "src/Recon/Tools/SubdomainEnum.ts",
+        "src/Recon/Tools/WhoisParser.ts"
+      ],
+      "toolCount": 14,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "SystemsThinking",
+      "files": 12,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CausalLoop.md",
+        "src/Workflows/ConceptMap.md",
+        "src/Workflows/FindArchetype.md",
+        "src/Workflows/FindLeverage.md",
+        "src/Workflows/Iceberg.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Telos",
+      "files": 72,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CreateNarrativePoints.md",
+        "src/Workflows/InterviewExtraction.md",
+        "src/Workflows/Update.md",
+        "src/Workflows/WriteReport.md"
+      ],
+      "workflowCount": 4,
+      "tools": [
+        "src/Tools/UpdateTelos.ts"
+      ],
+      "toolCount": 1,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Thinking",
+      "files": 56,
+      "skill": true,
+      "workflows": [
+        "src/BeCreative/Workflows/DomainSpecific.md",
+        "src/BeCreative/Workflows/IdeaGeneration.md",
+        "src/BeCreative/Workflows/MaximumCreativity.md",
+        "src/BeCreative/Workflows/StandardCreativity.md",
+        "src/BeCreative/Workflows/TechnicalCreativityGemini3.md",
+        "src/BeCreative/Workflows/TreeOfThoughts.md",
+        "src/Council/Workflows/Debate.md",
+        "src/Council/Workflows/Quick.md",
+        "src/FirstPrinciples/Workflows/Challenge.md",
+        "src/FirstPrinciples/Workflows/Deconstruct.md",
+        "src/FirstPrinciples/Workflows/Reconstruct.md",
+        "src/IterativeDepth/Workflows/Explore.md",
+        "src/RedTeam/Workflows/AdversarialValidation.md",
+        "src/RedTeam/Workflows/ParallelAnalysis.md",
+        "src/Science/Workflows/AnalyzeResults.md",
+        "src/Science/Workflows/DefineGoal.md",
+        "src/Science/Workflows/DesignExperiment.md",
+        "src/Science/Workflows/FullCycle.md",
+        "src/Science/Workflows/GenerateHypotheses.md",
+        "src/Science/Workflows/Iterate.md",
+        "src/Science/Workflows/MeasureResults.md",
+        "src/Science/Workflows/QuickDiagnosis.md",
+        "src/Science/Workflows/StructuredInvestigation.md",
+        "src/WorldThreatModelHarness/Workflows/TestIdea.md",
+        "src/WorldThreatModelHarness/Workflows/UpdateModels.md",
+        "src/WorldThreatModelHarness/Workflows/ViewModels.md"
+      ],
+      "workflowCount": 26,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "USMetrics",
+      "files": 9,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/GetCurrentState.md",
+        "src/Workflows/UpdateData.md"
+      ],
+      "workflowCount": 2,
+      "tools": [
+        "src/Tools/FetchFredSeries.ts",
+        "src/Tools/GenerateAnalysis.ts",
+        "src/Tools/UpdateSubstrateMetrics.ts"
+      ],
+      "toolCount": 3,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Utilities",
+      "files": 516,
+      "skill": true,
+      "workflows": [
+        "src/Aphorisms/Workflows/AddAphorism.md",
+        "src/Aphorisms/Workflows/FindAphorism.md",
+        "src/Aphorisms/Workflows/ResearchThinker.md",
+        "src/Aphorisms/Workflows/SearchAphorisms.md",
+        "src/AudioEditor/Workflows/Clean.md",
+        "src/Browser/Workflows/Automate.md",
+        "src/Browser/Workflows/ReviewStories.md",
+        "src/Browser/Workflows/Update.md",
+        "src/Cloudflare/Workflows/Create.md",
+        "src/Cloudflare/Workflows/Query.md",
+        "src/Cloudflare/Workflows/Troubleshoot.md",
+        "src/CreateCLI/Workflows/AddCommand.md",
+        "src/CreateCLI/Workflows/CreateCli.md",
+        "src/CreateCLI/Workflows/UpgradeTier.md",
+        "src/CreateSkill/Workflows/CanonicalizeSkill.md",
+        "src/CreateSkill/Workflows/CreateSkill.md",
+        "src/CreateSkill/Workflows/UpdateSkill.md",
+        "src/CreateSkill/Workflows/ValidateSkill.md",
+        "src/Documents/Workflows/ConsultingReport.md",
+        "src/Documents/Workflows/ProcessLargePdfGemini3.md",
+        "src/Evals/Workflows/CompareModels.md",
+        "src/Evals/Workflows/ComparePrompts.md",
+        "src/Evals/Workflows/CreateJudge.md",
+        "src/Evals/Workflows/CreateUseCase.md",
+        "src/Evals/Workflows/RunEval.md",
+        "src/Evals/Workflows/ViewResults.md",
+        "src/Fabric/Workflows/ExecutePattern.md",
+        "src/Fabric/Workflows/UpdatePatterns.md",
+        "src/PAIUpgrade/Workflows/AlgorithmUpgrade.md",
+        "src/PAIUpgrade/Workflows/FindSources.md",
+        "src/PAIUpgrade/Workflows/MineReflections.md",
+        "src/PAIUpgrade/Workflows/ResearchUpgrade.md",
+        "src/PAIUpgrade/Workflows/Upgrade.md",
+        "src/Parser/Workflows/BatchEntityExtractionGemini3.md",
+        "src/Parser/Workflows/CollisionDetection.md",
+        "src/Parser/Workflows/DetectContentType.md",
+        "src/Parser/Workflows/ExtractArticle.md",
+        "src/Parser/Workflows/ExtractBrowserExtension.md",
+        "src/Parser/Workflows/ExtractNewsletter.md",
+        "src/Parser/Workflows/ExtractPdf.md",
+        "src/Parser/Workflows/ExtractTwitter.md",
+        "src/Parser/Workflows/ExtractYoutube.md",
+        "src/Parser/Workflows/ParseContent.md"
+      ],
+      "workflowCount": 43,
+      "tools": [
+        "src/AudioEditor/Tools/Analyze.ts",
+        "src/AudioEditor/Tools/Edit.ts",
+        "src/AudioEditor/Tools/Pipeline.ts",
+        "src/AudioEditor/Tools/Polish.ts",
+        "src/AudioEditor/Tools/Transcribe.ts",
+        "src/Evals/Tools/AlgorithmBridge.ts",
+        "src/Evals/Tools/FailureToTask.ts",
+        "src/Evals/Tools/SuiteManager.ts",
+        "src/Evals/Tools/TranscriptCapture.ts",
+        "src/Evals/Tools/TrialRunner.ts",
+        "src/PAIUpgrade/Tools/Anthropic.ts",
+        "src/Prompting/Templates/Tools/RenderTemplate.ts",
+        "src/Prompting/Templates/Tools/ValidateTemplate.ts",
+        "src/Prompting/Templates/Tools/index.ts",
+        "src/Prompting/Tools/RenderTemplate.ts",
+        "src/Prompting/Tools/ValidateTemplate.ts",
+        "src/Prompting/Tools/index.ts"
+      ],
+      "toolCount": 17,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "Webdesign",
+      "files": 20,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/CreatePrototype.md",
+        "src/Workflows/DeployDesign.md",
+        "src/Workflows/ExportToCode.md",
+        "src/Workflows/ExtractDesignSystem.md",
+        "src/Workflows/IntegrateIntoApp.md",
+        "src/Workflows/RefinePrototype.md",
+        "src/Workflows/WebsiteToRedesign.md"
+      ],
+      "workflowCount": 7,
+      "tools": [
+        "src/Tools/DriveClaudeDesign.ts",
+        "src/Tools/ProcessHandoffBundle.ts",
+        "src/Tools/VerifyDesign.ts"
+      ],
+      "toolCount": 3,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "WorldThreatModel",
+      "files": 9,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/TestIdea.md",
+        "src/Workflows/UpdateModels.md",
+        "src/Workflows/ViewModels.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    },
+    {
+      "name": "WriteStory",
+      "files": 18,
+      "skill": true,
+      "workflows": [
+        "src/Workflows/BuildBible.md",
+        "src/Workflows/Explore.md",
+        "src/Workflows/Interview.md",
+        "src/Workflows/Revise.md",
+        "src/Workflows/WriteChapter.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "hasInstall": true,
+      "hasVerify": true
+    }
+  ],
+  "skills": [
+    {
+      "name": "Agents",
+      "files": 28,
+      "desc": "\"Compose CUSTOM agents from Base Traits + Voice + Specialization, and manage predefined functional TEAMS. Traits combine expertise (security, technical, research), personality (skeptical, analytical, ",
+      "workflows": [
+        "Workflows/CreateCustomAgent.md",
+        "Workflows/ListTraits.md",
+        "Workflows/SpawnObservers.md",
+        "Workflows/SpawnParallelAgents.md",
+        "Workflows/SpawnTeam.md"
+      ],
+      "workflowCount": 5,
+      "tools": [
+        "Tools/ComposeAgent.ts",
+        "Tools/LoadAgentContext.ts"
+      ],
+      "toolCount": 2,
+      "refs": 0
+    },
+    {
+      "name": "ApertureOscillation",
+      "files": 2,
+      "desc": "\"3-pass scope oscillation that holds a question constant while shifting the scope envelope — narrow/tactical, wide/strategic, then synthesis — to surface design tensions invisible at any single zoom l",
+      "workflows": [
+        "Workflows/Oscillate.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Aphorisms",
+      "files": 6,
+      "desc": "\"Manages a curated aphorism collection with full CRUD — content-based matching, themed search, thinker research, and database maintenance. Organizes quotes by author, theme, context, and newsletter us",
+      "workflows": [
+        "Workflows/AddAphorism.md",
+        "Workflows/FindAphorism.md",
+        "Workflows/ResearchThinker.md",
+        "Workflows/SearchAphorisms.md"
+      ],
+      "workflowCount": 4,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Apify",
+      "files": 28,
+      "desc": "\"Scrape social media platforms, business data, and e-commerce via Apify actors — Instagram profiles/posts/hashtags/comments, LinkedIn profiles/jobs/posts, TikTok profiles/hashtags/videos/comments, You",
+      "workflows": [
+        "Workflows/Update.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "ArXiv",
+      "files": 4,
+      "desc": "\"Search and retrieve arXiv academic papers by topic, category, or paper ID — with AlphaXiv-enriched AI-generated overviews. Uses arXiv Atom API (no auth) for discovery and search across cs.AI, cs.LG, ",
+      "workflows": [
+        "Workflows/Latest.md",
+        "Workflows/Paper.md",
+        "Workflows/Search.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Art",
+      "files": 36,
+      "desc": "\"Generates static visual content across 20+ formats via Flux, Nano Banana Pro (Gemini 3 Pro), and GPT-Image-1. Covers blog header illustrations, editorial art, Mermaid flowcharts, technical architectu",
+      "workflows": [
+        "Workflows/AdHocYouTubeThumbnail.md",
+        "Workflows/AnnotatedScreenshots.md",
+        "Workflows/Aphorisms.md",
+        "Workflows/Comics.md",
+        "Workflows/Comparisons.md",
+        "Workflows/CreatePAIPackIcon.md",
+        "Workflows/D3Dashboards.md",
+        "Workflows/EmbossedLogoWallpaper.md",
+        "Workflows/Essay.md",
+        "Workflows/Frameworks.md",
+        "Workflows/LogoWallpaper.md",
+        "Workflows/Maps.md",
+        "Workflows/Mermaid.md",
+        "Workflows/RecipeCards.md",
+        "Workflows/RemoveBackground.md",
+        "Workflows/Stats.md",
+        "Workflows/Taxonomies.md",
+        "Workflows/TechnicalDiagrams.md",
+        "Workflows/Timelines.md",
+        "Workflows/Visualize.md",
+        "Workflows/YouTubeThumbnailChecklist.md"
+      ],
+      "workflowCount": 21,
+      "tools": [
+        "Tools/ComposeThumbnail.ts",
+        "Tools/FillFrame.ts",
+        "Tools/Generate.ts",
+        "Tools/GenerateMidjourneyImage.ts",
+        "Tools/GeneratePrompt.ts"
+      ],
+      "toolCount": 5,
+      "refs": 0
+    },
+    {
+      "name": "AudioEditor",
+      "files": 12,
+      "desc": "\"AI-powered audio and video editing pipeline: Whisper word-level transcription (insanely-fast-whisper on MPS) → Claude segment classification (KEEP / CUT_FILLER / CUT_FALSE_START / CUT_STUTTER / CUT_D",
+      "workflows": [
+        "Workflows/Clean.md"
+      ],
+      "workflowCount": 1,
+      "tools": [
+        "Tools/Analyze.ts",
+        "Tools/Edit.ts",
+        "Tools/Pipeline.ts",
+        "Tools/Polish.ts",
+        "Tools/Transcribe.ts"
+      ],
+      "toolCount": 5,
+      "refs": 0
+    },
+    {
+      "name": "BeCreative",
+      "files": 14,
+      "desc": "\"Divergent ideation and corpus expansion using Verbalized Sampling + extended thinking. Single-shot mode generates 5 internally diverse candidates (p<0.10 each) and surfaces the strongest. Multi-turn ",
+      "workflows": [
+        "Workflows/DomainSpecific.md",
+        "Workflows/IdeaGeneration.md",
+        "Workflows/MaximumCreativity.md",
+        "Workflows/StandardCreativity.md",
+        "Workflows/SyntheticDataExpansion.md",
+        "Workflows/TechnicalCreativityGemini3.md",
+        "Workflows/TreeOfThoughts.md"
+      ],
+      "workflowCount": 7,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "BitterPillEngineering",
+      "files": 3,
+      "desc": "\"Audits any AI instruction set for over-prompting using the core test: would a smarter model make this rule unnecessary? Applies Five Questions to every rule — Does Claude already do this? Contradicti",
+      "workflows": [
+        "Workflows/Audit.md",
+        "Workflows/QuickCheck.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "BrightData",
+      "files": 3,
+      "desc": "\"4-tier progressive scraping with automatic escalation: Tier 1 WebFetch (fast, built-in), Tier 2 curl with Chrome headers (basic bot bypass), Tier 3 agent-browser (headless JavaScript rendering via Ru",
+      "workflows": [
+        "Workflows/Crawl.md",
+        "Workflows/FourTierScrape.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Browser",
+      "files": 12,
+      "desc": "\"Headless browser automation via agent-browser — Rust CLI daemon with persistent auth profiles for fast, scriptable, parallel browser work. Supports batch commands, network interception, device emulat",
+      "workflows": [
+        "Workflows/Automate.md",
+        "Workflows/ReviewStories.md",
+        "Workflows/Update.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "ContextSearch",
+      "files": 1,
+      "desc": "\"2-phase context search across the PAI session registry, work directories, and ISAs for instant cold-start recovery. Phase 1 (always): parallel scan of work.json session registry, session-names.json, ",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Council",
+      "files": 6,
+      "desc": "\"Multi-agent collaborative debate that produces visible round-by-round transcripts with genuine intellectual friction. All council members are custom-composed via ComposeAgent (Agents skill) with doma",
+      "workflows": [
+        "Workflows/Debate.md",
+        "Workflows/Quick.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "CreateCLI",
+      "files": 7,
+      "desc": "\"Generate production-ready TypeScript CLIs using a 3-tier template system: Tier 1 llcli-style manual arg parsing (zero deps, Bun + TypeScript, ~300-400 lines — 80% of cases), Tier 2 Commander.js (subc",
+      "workflows": [
+        "Workflows/AddCommand.md",
+        "Workflows/CreateCli.md",
+        "Workflows/UpgradeTier.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "CreateSkill",
+      "files": 8,
+      "desc": "\"Complete PAI skill development lifecycle across two tracks. Structure track: scaffold new skills (TitleCase dirs, flat 2-level max, Workflows/ + Tools/ + References/ only), validate against canonical",
+      "workflows": [
+        "Workflows/CanonicalizeSkill.md",
+        "Workflows/CreateSkill.md",
+        "Workflows/ImproveSkill.md",
+        "Workflows/OptimizeDescription.md",
+        "Workflows/TestSkill.md",
+        "Workflows/UpdateSkill.md",
+        "Workflows/ValidateSkill.md"
+      ],
+      "workflowCount": 7,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Daemon",
+      "files": 8,
+      "desc": "\"Manage the public daemon profile — a living digital representation of what you're working on, thinking about, reading, and building. DaemonAggregator.ts reads PAI sources (TELOS missions/goals/books/",
+      "workflows": [
+        "Workflows/DeployDaemon.md",
+        "Workflows/PreviewDaemon.md",
+        "Workflows/ReadDaemon.md",
+        "Workflows/UpdateDaemon.md"
+      ],
+      "workflowCount": 4,
+      "tools": [
+        "Tools/DaemonAggregator.ts",
+        "Tools/SecurityFilter.ts"
+      ],
+      "toolCount": 2,
+      "refs": 0
+    },
+    {
+      "name": "Delegation",
+      "files": 1,
+      "desc": "\"Parallelize work via six patterns: built-in agents (Engineer/Architect/Algorithm/Explore/Plan via Task), worktree-isolated agents (conflict-free parallel file edits), background agents (run_in_backgr",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Evals",
+      "files": 66,
+      "desc": "\"Comprehensive AI agent evaluation framework with three grader types (code-based: deterministic/fast; model-based: nuanced/LLM rubric; human: gold standard) and pass@k / pass^k scoring. Evaluates agen",
+      "workflows": [
+        "Workflows/CompareModels.md",
+        "Workflows/ComparePrompts.md",
+        "Workflows/CreateJudge.md",
+        "Workflows/CreateScenario.md",
+        "Workflows/CreateUseCase.md",
+        "Workflows/RunEval.md",
+        "Workflows/RunScenario.md",
+        "Workflows/ViewResults.md"
+      ],
+      "workflowCount": 8,
+      "tools": [
+        "Tools/AlgorithmBridge.ts",
+        "Tools/FailureToTask.ts",
+        "Tools/PAIAgentAdapter.ts",
+        "Tools/ScenarioRunner.ts",
+        "Tools/ScenarioToTranscript.ts",
+        "Tools/SuiteManager.ts",
+        "Tools/TranscriptCapture.ts",
+        "Tools/TrialRunner.ts"
+      ],
+      "toolCount": 8,
+      "refs": 0
+    },
+    {
+      "name": "ExtractWisdom",
+      "files": 2,
+      "desc": "\"Content-adaptive wisdom extraction that reads the content first, detects what wisdom domains are actually present, then builds custom sections around what it finds — instead of forcing static headers",
+      "workflows": [
+        "Workflows/Extract.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Fabric",
+      "files": 318,
+      "desc": "\"Execute any of 240+ specialized prompt patterns natively (no CLI required for most) across categories: Extraction (30+), Summarization (20+), Analysis (35+), Creation (50+), Improvement (10+), Securi",
+      "workflows": [
+        "Workflows/ExecutePattern.md",
+        "Workflows/UpdatePatterns.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "FirstPrinciples",
+      "files": 4,
+      "desc": "\"Physics-based reasoning framework (Musk/Elon methodology) that deconstructs problems to irreducible fundamental truths rather than reasoning by analogy. Three-step structure: DECONSTRUCT (break to co",
+      "workflows": [
+        "Workflows/Challenge.md",
+        "Workflows/Deconstruct.md",
+        "Workflows/Reconstruct.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "ISA",
+      "files": 19,
+      "desc": "\"Owns the Ideal State Artifact — the universal primitive that holds the articulated ideal state of any thing (project, task, application, library, infrastructure, work session) as a hard-to-vary expla",
+      "workflows": [
+        "Workflows/Append.md",
+        "Workflows/CheckCompleteness.md",
+        "Workflows/Interview.md",
+        "Workflows/Reconcile.md",
+        "Workflows/Scaffold.md",
+        "Workflows/Seed.md"
+      ],
+      "workflowCount": 6,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Ideate",
+      "files": 7,
+      "desc": "\"Evolutionary ideation engine — loop-controlled multi-cycle idea generation through 9 phases (CONSUME, DREAM at noise=0.9, DAYDREAM at noise=0.5, CONTEMPLATE at noise=0.1, STEAL cross-domain borrowing",
+      "workflows": [
+        "Workflows/Dream.md",
+        "Workflows/FullCycle.md",
+        "Workflows/Mate.md",
+        "Workflows/QuickCycle.md",
+        "Workflows/Steal.md",
+        "Workflows/Test.md"
+      ],
+      "workflowCount": 6,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Interceptor",
+      "files": 8,
+      "desc": "\"Real Chrome browser automation via Interceptor extension — controls the actual browser from inside (zero CDP fingerprint, passes all major bot detection checks including BrowserScan, Pixelscan, Creep",
+      "workflows": [
+        "Workflows/RecordFlow.md",
+        "Workflows/ReplayFlow.md",
+        "Workflows/Reproduce.md",
+        "Workflows/TestForm.md",
+        "Workflows/Update.md",
+        "Workflows/VerifyDeploy.md"
+      ],
+      "workflowCount": 6,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Interview",
+      "files": 1,
+      "desc": "\"Runs a phased conversational interview across all PAI context files using InterviewScan.ts, which orders targets by PHASE and assigns conversation mode per file. Phase 1 (foundational TELOS) always r",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "IterativeDepth",
+      "files": 4,
+      "desc": "\"Structured multi-angle exploration that runs 2-8 sequential passes through the same problem, each from a systematically different scientific lens, to surface requirements and edge cases invisible fro",
+      "workflows": [
+        "Workflows/Explore.md"
+      ],
+      "workflowCount": 1,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Knowledge",
+      "files": 1,
+      "desc": "\"Manage the PAI Knowledge Archive — a curated, typed graph of notes across four entity domains: People, Companies, Ideas, and Research. Operations: search (3-pass: lexical + frontmatter + wikilink), a",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Loop",
+      "files": 1,
+      "desc": "\"Iterative improvement loop — revisit and refine a target across multiple Algorithm cycles toward an ideal state. USE WHEN loop, iterate, refine, improve iteratively, multiple passes, keep improving, ",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Migrate",
+      "files": 1,
+      "desc": "\"Intakes existing content from external sources, classifies each chunk against the PAI destination taxonomy, and commits approved chunks with provenance. Sources: .md/.markdown/.txt, stdin, PAI TELOS/",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Optimize",
+      "files": 1,
+      "desc": "\"Autonomous optimization loop — hill-climb any target. Code with metrics, or skills/prompts/agents with LLM-as-judge eval. USE WHEN optimize, autoresearch, hill climb, improve metric, reduce latency, ",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "PAIUpgrade",
+      "files": 11,
+      "desc": "\"Generate prioritized PAI upgrade recommendations via 4 parallel threads: Thread 0 (prior-work audit — reads current Algorithm, PATTERNS.yaml, hooks, settings, recent ISAs, and KNOWLEDGE to assign Pri",
+      "workflows": [
+        "Workflows/AlgorithmUpgrade.md",
+        "Workflows/FindSources.md",
+        "Workflows/MineReflections.md",
+        "Workflows/ResearchUpgrade.md",
+        "Workflows/Upgrade.md"
+      ],
+      "workflowCount": 5,
+      "tools": [
+        "Tools/Anthropic.ts"
+      ],
+      "toolCount": 1,
+      "refs": 2
+    },
+    {
+      "name": "PrivateInvestigator",
+      "files": 6,
+      "desc": "\"Ethical people-finding and identity verification using 15 parallel research agents (5 types x 3 each = 45 concurrent search threads) across people search aggregators, social media, public records, an",
+      "workflows": [
+        "Workflows/FindPerson.md",
+        "Workflows/PublicRecordsSearch.md",
+        "Workflows/ReverseLookup.md",
+        "Workflows/SocialMediaSearch.md",
+        "Workflows/VerifyIdentity.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Prompting",
+      "files": 28,
+      "desc": "\"Meta-prompting standard library — the PAI system for generating, optimizing, and composing prompts programmatically. Owns three pillars: Standards (Anthropic Claude 4.x best practices, context engine",
+      "workflows": [],
+      "workflowCount": 0,
+      "tools": [
+        "Templates/Tools/RenderTemplate.ts",
+        "Templates/Tools/ValidateTemplate.ts",
+        "Templates/Tools/index.ts",
+        "Tools/RenderTemplate.ts",
+        "Tools/ValidateTemplate.ts",
+        "Tools/index.ts"
+      ],
+      "toolCount": 6,
+      "refs": 0
+    },
+    {
+      "name": "RedTeam",
+      "files": 5,
+      "desc": "\"Military-grade adversarial analysis that deploys 32 parallel expert agents (engineers, architects, pentesters, interns) to stress-test ideas, strategies, and plans — not systems or infrastructure. Tw",
+      "workflows": [
+        "Workflows/AdversarialValidation.md",
+        "Workflows/ParallelAnalysis.md"
+      ],
+      "workflowCount": 2,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Remotion",
+      "files": 41,
+      "desc": "\"Creates programmatic video with React via Remotion — builds compositions, sequences, and motion graphics rendered to MP4. Uses useCurrentFrame() for all animation (no CSS animations). Integrates PAI_",
+      "workflows": [
+        "Workflows/ContentToAnimation.md",
+        "Workflows/GeneratedContentVideo.md"
+      ],
+      "workflowCount": 2,
+      "tools": [
+        "Tools/Render.ts",
+        "Tools/Theme.ts"
+      ],
+      "toolCount": 2,
+      "refs": 0
+    },
+    {
+      "name": "Research",
+      "files": 21,
+      "desc": "\"Comprehensive research and content extraction with 4 depth modes: Quick (1 Perplexity agent, ~10-15s), Standard (4 agents — Claude + Gemini + Grok + Perplexity, cross-checked, ~30-60s), Extensive (7 ",
+      "workflows": [
+        "Workflows/AnalyzeAiTrends.md",
+        "Workflows/ClaudeResearch.md",
+        "Workflows/DeepInvestigation.md",
+        "Workflows/Enhance.md",
+        "Workflows/ExtensiveResearch.md",
+        "Workflows/ExtractAlpha.md",
+        "Workflows/ExtractKnowledge.md",
+        "Workflows/Fabric.md",
+        "Workflows/InterviewResearch.md",
+        "Workflows/QuickResearch.md",
+        "Workflows/Retrieve.md",
+        "Workflows/StandardResearch.md",
+        "Workflows/Verify.md",
+        "Workflows/WebScraping.md",
+        "Workflows/YoutubeExtraction.md"
+      ],
+      "workflowCount": 15,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "RootCauseAnalysis",
+      "files": 8,
+      "desc": "\"Structured incident investigation grounded in Toyota Production System, Kaoru Ishikawa, James Reason's Swiss Cheese model, Dean Gano's Apollo method, and Google SRE blameless-postmortem culture. Five",
+      "workflows": [
+        "Workflows/FaultTree.md",
+        "Workflows/Fishbone.md",
+        "Workflows/FiveWhys.md",
+        "Workflows/KepnerTregoe.md",
+        "Workflows/Postmortem.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Sales",
+      "files": 4,
+      "desc": "\"Transforms product documentation into sales-ready narrative packages combining story explanation, charcoal gestural sketch art, and talking points. Pipeline: extract narrative arc → determine emotion",
+      "workflows": [
+        "Workflows/CreateNarrative.md",
+        "Workflows/CreateSalesPackage.md",
+        "Workflows/CreateVisual.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Science",
+      "files": 14,
+      "desc": "\"The scientific method as a universal problem-solving algorithm — goal-first, hypothesis-plural, falsifiable experiments, honest measurement. Seven core workflows: DefineGoal, GenerateHypotheses (mini",
+      "workflows": [
+        "Workflows/AnalyzeResults.md",
+        "Workflows/DefineGoal.md",
+        "Workflows/DesignExperiment.md",
+        "Workflows/FullCycle.md",
+        "Workflows/GenerateHypotheses.md",
+        "Workflows/Iterate.md",
+        "Workflows/MeasureResults.md",
+        "Workflows/QuickDiagnosis.md",
+        "Workflows/StructuredInvestigation.md"
+      ],
+      "workflowCount": 9,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "SystemsThinking",
+      "files": 9,
+      "desc": "\"Structural analysis of complex systems grounded in Donella Meadows, Peter Senge, Jay Forrester, Russell Ackoff, and the Santa Fe Institute tradition. Five workflows: Iceberg (walk Events → Patterns →",
+      "workflows": [
+        "Workflows/CausalLoop.md",
+        "Workflows/ConceptMap.md",
+        "Workflows/FindArchetype.md",
+        "Workflows/FindLeverage.md",
+        "Workflows/Iceberg.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "Telos",
+      "files": 66,
+      "desc": "\"Dual-context Life OS and organizational analysis skill. Personal TELOS: read and update goals, beliefs, wisdom, books, movies, challenges, narratives, strategies, mission, mental models, predictions,",
+      "workflows": [
+        "Workflows/CreateNarrativePoints.md",
+        "Workflows/InterviewExtraction.md",
+        "Workflows/Update.md",
+        "Workflows/WriteReport.md"
+      ],
+      "workflowCount": 4,
+      "tools": [
+        "Tools/UpdateTelos.ts"
+      ],
+      "toolCount": 1,
+      "refs": 0
+    },
+    {
+      "name": "USMetrics",
+      "files": 6,
+      "desc": "\"Analyze and update 68 US economic and social indicators from five government APIs: FRED, EIA, Treasury FiscalData, BLS, Census. Ten categories: Economic Output & Growth (GDP, industrial production, r",
+      "workflows": [
+        "Workflows/GetCurrentState.md",
+        "Workflows/UpdateData.md"
+      ],
+      "workflowCount": 2,
+      "tools": [
+        "Tools/FetchFredSeries.ts",
+        "Tools/GenerateAnalysis.ts",
+        "Tools/UpdateSubstrateMetrics.ts"
+      ],
+      "toolCount": 3,
+      "refs": 0
+    },
+    {
+      "name": "Webdesign",
+      "files": 17,
+      "desc": "\"Design and integrate web interfaces using Anthropic's Claude Design (claude.ai/design) as the primary engine, with optional downstream handoff to the frontend-design plugin for production code. Drive",
+      "workflows": [
+        "Workflows/CreatePrototype.md",
+        "Workflows/DeployDesign.md",
+        "Workflows/ExportToCode.md",
+        "Workflows/ExtractDesignSystem.md",
+        "Workflows/IntegrateIntoApp.md",
+        "Workflows/RefinePrototype.md",
+        "Workflows/WebsiteToRedesign.md"
+      ],
+      "workflowCount": 7,
+      "tools": [
+        "Tools/DriveClaudeDesign.ts",
+        "Tools/ProcessHandoffBundle.ts",
+        "Tools/VerifyDesign.ts"
+      ],
+      "toolCount": 3,
+      "refs": 4
+    },
+    {
+      "name": "WorldThreatModel",
+      "files": 6,
+      "desc": "\"Persistent world-model harness that stress-tests ideas, strategies, and investments against 11 time horizons from 6 months to 50 years. Each horizon model is a deep (~10 page) analysis of geopolitics",
+      "workflows": [
+        "Workflows/TestIdea.md",
+        "Workflows/UpdateModels.md",
+        "Workflows/ViewModels.md"
+      ],
+      "workflowCount": 3,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    },
+    {
+      "name": "WriteStory",
+      "files": 15,
+      "desc": "\"Constructs fiction across seven simultaneous narrative layers (Meaning, Character Change, Plot, Mystery, World, Relationships, Prose) powered by Will Storr's Science of Storytelling, Pressfield's str",
+      "workflows": [
+        "Workflows/BuildBible.md",
+        "Workflows/Explore.md",
+        "Workflows/Interview.md",
+        "Workflows/Revise.md",
+        "Workflows/WriteChapter.md"
+      ],
+      "workflowCount": 5,
+      "tools": [],
+      "toolCount": 0,
+      "refs": 0
+    }
+  ],
+  "commandFiles": [
+    "context-search.md",
+    "cs.md",
+    "pu.md"
+  ],
+  "agentFiles": [
+    "Algorithm.md",
+    "Anvil.md",
+    "Architect.md",
+    "Arthur.md",
+    "Artist.md",
+    "BrowserAgent.md",
+    "Cato.md",
+    "ClaudeResearcher.md",
+    "CodexResearcher.md",
+    "Designer.md",
+    "Engineer.md",
+    "Forge.md",
+    "GeminiResearcher.md",
+    "GrokResearcher.md",
+    "PerplexityResearcher.md",
+    "QATester.md",
+    "Silas.md",
+    "UIReviewer.md"
+  ],
+  "hookFiles": [
+    "AgentInvocation.hook.ts",
+    "CheckpointPerISC.hook.ts",
+    "ConfigAudit.hook.ts",
+    "ContainmentGuard.hook.ts",
+    "ContentScanner.hook.ts",
+    "ContextReduction.hook.sh",
+    "DocIntegrity.hook.ts",
+    "ElicitationHandler.hook.ts",
+    "FileChanged.hook.ts",
+    "ISASync.hook.ts",
+    "InstructionsLoadedHandler.hook.ts",
+    "IntegrityCheck.hook.ts",
+    "KVSync.hook.ts",
+    "KittyEnvPersist.hook.ts",
+    "LastResponseCache.hook.ts",
+    "LoadContext.hook.ts",
+    "PreCompact.hook.ts",
+    "PromptGuard.hook.ts",
+    "PromptProcessing.hook.ts",
+    "QuestionAnswered.hook.ts",
+    "RelationshipMemory.hook.ts",
+    "RepeatDetection.hook.ts",
+    "ResponseTabReset.hook.ts",
+    "RestoreContext.hook.ts",
+    "SatisfactionCapture.hook.ts",
+    "SecurityPipeline.hook.ts",
+    "SessionCleanup.hook.ts",
+    "SetQuestionTab.hook.ts",
+    "SmartApprover.hook.ts",
+    "StopFailureHandler.hook.ts",
+    "TaskGovernance.hook.ts",
+    "TeammateIdle.hook.ts",
+    "TelosSummarySync.hook.ts",
+    "ToolActivityTracker.hook.ts",
+    "ToolFailureTracker.hook.ts",
+    "UpdateCounts.hook.ts",
+    "VoiceCompletion.hook.ts",
+    "WorkCompletionLearning.hook.ts",
+    "handlers/DocCrossRefIntegrity.ts",
+    "handlers/RebuildArchSummary.ts",
+    "handlers/SystemIntegrity.ts",
+    "handlers/TabState.ts",
+    "handlers/UpdateCounts.ts",
+    "handlers/VoiceNotification.ts",
+    "lib/change-detection.ts",
+    "lib/containment-zones.ts",
+    "lib/hook-io.ts",
+    "lib/identity.ts",
+    "lib/isa-template.ts",
+    "lib/isa-utils.ts",
+    "lib/learning-readback.ts",
+    "lib/learning-utils.ts",
+    "lib/log-rotation.ts",
+    "lib/notifications.ts",
+    "lib/observability-transport.ts",
+    "lib/output-validators.ts",
+    "lib/paths.ts",
+    "lib/tab-constants.ts",
+    "lib/tab-setter.ts",
+    "lib/time.ts",
+    "security/inspectors/EgressInspector.ts",
+    "security/inspectors/InjectionInspector.ts",
+    "security/inspectors/PatternInspector.ts",
+    "security/inspectors/PromptInspector.ts",
+    "security/inspectors/RulesInspector.ts",
+    "security/logger.ts",
+    "security/pipeline.ts",
+    "security/types.ts"
+  ],
+  "algFiles": [
+    "LATEST",
+    "capabilities.md",
+    "changelog.md",
+    "eval-guide.md",
+    "ideate-loop.md",
+    "mode-detection.md",
+    "optimize-loop.md",
+    "parameter-schema.md",
+    "target-types.md",
+    "v5.7.0.md",
+    "v6.0.0.md",
+    "v6.1.0.md",
+    "v6.2.0.md",
+    "v6.3.0.md"
+  ],
+  "toolFiles": [
+    "ActivityParser.ts",
+    "AddBg.ts",
+    "AgentWatchdog.ts",
+    "AlgorithmPhaseReport.ts",
+    "AnvilProgress.ts",
+    "ApproveCurrentStateEntries.ts",
+    "ArchitectureSummaryGenerator.ts",
+    "Arthur.ts",
+    "Banner.ts",
+    "BannerMatrix.ts",
+    "BannerNeofetch.ts",
+    "BannerPrototypes.ts",
+    "BannerRetro.ts",
+    "BannerTokyo.ts",
+    "BillingPathAssertion.ts",
+    "Checkpoint.ts",
+    "ComputeGap.ts",
+    "CostTracker.ts",
+    "CrossVendorAudit.ts",
+    "DAGrowth.ts",
+    "DAIdentityGenerator.ts",
+    "DAInterview.ts",
+    "DASchedule.ts",
+    "DocCheck.ts",
+    "ExtractTranscript.ts",
+    "FailureCapture.ts",
+    "FeatureRegistry.ts",
+    "ForgeProgress.ts",
+    "GenerateTelosSummary.ts",
+    "GetCounts.ts",
+    "GetTranscript.ts",
+    "HarvestExecutor.ts",
+    "HealthSnapshot.ts",
+    "Inference.ts",
+    "IntegrityMaintenance.ts",
+    "InterviewIdealState.ts",
+    "InterviewScan.ts",
+    "KnowledgeGraph.ts",
+    "KnowledgeHarvester.ts",
+    "LearningPatternSynthesis.ts",
+    "LoadSkillConfig.ts",
+    "MemoryRetriever.ts",
+    "MigrateApprove.ts",
+    "MigrateScan.ts",
+    "NeofetchBanner.ts",
+    "OpinionTracker.ts",
+    "PAILogo.ts",
+    "PipelineMonitor.ts",
+    "PipelineOrchestrator.ts",
+    "PreviewMarkdown.ts",
+    "ProposeCurrentStateEntry.ts",
+    "Recommend.ts",
+    "ReferenceCheck.ts",
+    "RelationshipReflect.ts",
+    "RemoveBg.ts",
+    "SecretScan.ts",
+    "SessionHarvester.ts",
+    "SessionProgress.ts",
+    "SplitAndTranscribe.ts",
+    "TlpArchive.ts",
+    "TranscriptParser.ts",
+    "WisdomCrossFrameSynthesizer.ts",
+    "WisdomDomainClassifier.ts",
+    "WisdomFrameUpdater.ts",
+    "YouTubeApi.ts",
+    "algorithm.ts",
+    "gmail.ts",
+    "pai.ts",
+    "pipeline-monitor-ui/eslint.config.js",
+    "pipeline-monitor-ui/src/lib/utils.ts",
+    "pipeline-monitor-ui/src/vite-env.d.ts",
+    "pipeline-monitor-ui/vite.config.ts"
+  ],
+  "docsFiles": [
+    "ARCHITECTURE_SUMMARY.md",
+    "Agents/AgentSystem.md",
+    "Algorithm/AlgorithmSystem.md",
+    "Arbol/ArbolSystem.md",
+    "Config/ConfigSystem.md",
+    "Delegation/DelegationSystem.md",
+    "Fabric/FabricSystem.md",
+    "Feed/FeedSystem.md",
+    "Hooks/HookSystem.md",
+    "Isa/IsaSystem.md",
+    "IsaFormat.md",
+    "LifeOs/LifeOsSchema.md",
+    "LifeOs/LifeOsThesis.md",
+    "Memory/MemorySystem.md",
+    "Notifications/NotificationSystem.md",
+    "Observability/ObservabilitySystem.md",
+    "PAISystemArchitecture.md",
+    "PAISystemPhilosophy.md",
+    "Pulse/DaSubsystem.md",
+    "Pulse/PulseSystem.md",
+    "Pulse/TerminalTabs.md",
+    "Security/Architecture.md",
+    "Security/CommandInjection.md",
+    "Security/Hooks.md",
+    "Security/PromptInjection.md",
+    "Security/QuickRef.md",
+    "Security/README.md",
+    "Security/SecuritySystem.md",
+    "Security/ThreatModel.md",
+    "Skills/SkillSystem.md",
+    "Tools/Cli.md",
+    "Tools/CliFirstArchitecture.md",
+    "Tools/Containment.md",
+    "Tools/Tools.md"
+  ],
+  "userFiles": [
+    ".template-mode",
+    "ABOUTME.md",
+    "ACTIONS/README.md",
+    "AI_WRITING_PATTERNS.md",
+    "ALGOPREFS.md",
+    "ARCHITECTURE.md",
+    "ARTHUR/README.md",
+    "BASICINFO.md",
+    "BUSINESS/AOS.md",
+    "BUSINESS/README.md",
+    "BUSINESS/SAMPLE_COMPANY/README.md",
+    "CONTACTS.md",
+    "CORECONTENT.md",
+    "Config/PAI_CONFIG.yaml",
+    "Config/README.md",
+    "DA/README.md",
+    "DA/_example/README.md",
+    "DA/_example/identity.md",
+    "DA/_example/identity.yaml",
+    "DA/_presets.yaml",
+    "DA_IDENTITY.md",
+    "DEFINITIONS.md",
+    "Daemon/README.md",
+    "FEED.md",
+    "FLOWS/README.md",
+    "OPINIONS.md",
+    "OUR_STORY.md",
+    "PIPELINES/README.md",
+    "PRINCIPAL_IDENTITY.md",
+    "PRONUNCIATIONS.md",
+    "README.md",
+    "RESUME.md",
+    "RHETORICALSTYLE.md",
+    "SECURITY/PATTERNS.yaml",
+    "SECURITY/README.md",
+    "SHARED/README.md",
+    "SHARED/Spinner/README.md",
+    "SKILLCUSTOMIZATIONS/README.md",
+    "TECHSTACKPREFERENCES.md",
+    "TELOS/BELIEFS.md",
+    "TELOS/BOOKS.md",
+    "TELOS/CHALLENGES.md",
+    "TELOS/CURRENT_STATE/README.md",
+    "TELOS/GOALS.md",
+    "TELOS/IDEAL_STATE/README.md",
+    "TELOS/MISSION.md",
+    "TELOS/NARRATIVES.md",
+    "TELOS/PRINCIPAL_TELOS.md",
+    "TELOS/PROBLEMS.md",
+    "TELOS/README.md",
+    "TELOS/STRATEGIES.md",
+    "TELOS/WISDOM.md",
+    "TERMINAL/README.md",
+    "WORK/MY_ORG/README.md",
+    "WORK/README.md",
+    "WORK/SAMPLE_CONSULTING/README.md",
+    "WORK/SAMPLE_CUSTOMER/README.md",
+    "WORK/expenses.md",
+    "WRITINGSTYLE.md"
+  ],
+  "settingsSummary": {
+    "hooks": {
+      "PreToolUse": 8,
+      "PostToolUse": 7,
+      "PreCompact": 1,
+      "SessionEnd": 1,
+      "UserPromptSubmit": 4,
+      "SubagentStop": 0,
+      "SessionStart": 1,
+      "Stop": 1
+    },
+    "statusLine": {
+      "type": "command",
+      "command": "$HOME/.claude/PAI/statusline-command.sh",
+      "refreshInterval": 2
+    },
+    "permissions": [
+      "allow",
+      "deny",
+      "ask",
+      "defaultMode"
+    ]
+  },
+  "functionIndex": [
+    {
+      "file": "hooks/CheckpointPerISC.hook.ts",
+      "symbols": [
+        "commitInRepo",
+        "emitContinueAndExit",
+        "expandPath",
+        "gitRun",
+        "hasChanges",
+        "isGitRepo",
+        "loadAllowlist",
+        "loadState",
+        "main",
+        "sanitizeMessage",
+        "saveState"
+      ]
+    },
+    {
+      "file": "hooks/ToolActivityTracker.hook.ts",
+      "symbols": [
+        "captureGroundTruth",
+        "gitSnapshot",
+        "main",
+        "readStdin",
+        "tools",
+        "truncate"
+      ]
+    },
+    {
+      "file": "hooks/PromptGuard.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/DocIntegrity.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/ContentScanner.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/RestoreContext.hook.ts",
+      "symbols": [
+        "extractSections",
+        "loadSettings",
+        "main",
+        "safeRead"
+      ]
+    },
+    {
+      "file": "hooks/SecurityPipeline.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/RelationshipMemory.hook.ts",
+      "symbols": [
+        "analyzeForRelationship",
+        "ensureRelationshipDir",
+        "formatNotes",
+        "initDailyFile",
+        "main",
+        "readStdinWithTimeout",
+        "readTranscriptEntries"
+      ]
+    },
+    {
+      "file": "hooks/QuestionAnswered.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/ConfigAudit.hook.ts",
+      "symbols": [
+        "diffSettings",
+        "main",
+        "readStdin"
+      ]
+    },
+    {
+      "file": "hooks/security/pipeline.ts",
+      "symbols": [
+        "InspectorPipeline"
+      ]
+    },
+    {
+      "file": "hooks/security/types.ts",
+      "symbols": [
+        "alert",
+        "deny",
+        "requireApproval"
+      ]
+    },
+    {
+      "file": "hooks/security/logger.ts",
+      "symbols": [
+        "logSecurityEvent",
+        "slugify",
+        "timestamp"
+      ]
+    },
+    {
+      "file": "hooks/security/inspectors/PatternInspector.ts",
+      "symbols": [
+        "PatternInspector",
+        "createPatternInspector",
+        "expandTilde",
+        "extractCommand",
+        "extractFilePath",
+        "getFileAction",
+        "inspectBash",
+        "inspectPath",
+        "loadPatterns",
+        "matchesBashPattern",
+        "matchesPathPattern",
+        "stripEnvVarPrefix"
+      ]
+    },
+    {
+      "file": "hooks/security/inspectors/RulesInspector.ts",
+      "symbols": [
+        "RulesInspector",
+        "cacheKey",
+        "createRulesInspector",
+        "extractToolInput"
+      ]
+    },
+    {
+      "file": "hooks/security/inspectors/InjectionInspector.ts",
+      "symbols": [
+        "InjectionInspector",
+        "createInjectionInspector"
+      ]
+    },
+    {
+      "file": "hooks/security/inspectors/PromptInspector.ts",
+      "symbols": [
+        "PromptInspector",
+        "createPromptInspector"
+      ]
+    },
+    {
+      "file": "hooks/security/inspectors/EgressInspector.ts",
+      "symbols": [
+        "EgressInspector",
+        "createEgressInspector"
+      ]
+    },
+    {
+      "file": "hooks/StopFailureHandler.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/VoiceCompletion.hook.ts",
+      "symbols": [
+        "extractFallbackSummary",
+        "isMainSession",
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/TeammateIdle.hook.ts",
+      "symbols": [
+        "main",
+        "readStdin"
+      ]
+    },
+    {
+      "file": "hooks/InstructionsLoadedHandler.hook.ts",
+      "symbols": [
+        "appendIntegrityLog",
+        "hashFile",
+        "loadStoredHashes",
+        "main",
+        "saveHashes"
+      ]
+    },
+    {
+      "file": "hooks/ISASync.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/ContainmentGuard.hook.ts",
+      "symbols": [
+        "extractScanTargets",
+        "findMatch",
+        "isFileContained",
+        "isUnderClaudeRoot",
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/LoadContext.hook.ts",
+      "symbols": [
+        "checkActiveProgress",
+        "getProjectProgress",
+        "getRecentWorkSessions",
+        "isDynamicEnabled",
+        "loadRelationshipContext",
+        "loadSettings",
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/SatisfactionCapture.hook.ts",
+      "symbols": [
+        "buildSatisfactionPrompt",
+        "captureLowRatingLearning",
+        "getLastResponse",
+        "getRecentContext",
+        "main",
+        "parseExplicitRating",
+        "readStdinWithTimeout",
+        "writeRating"
+      ]
+    },
+    {
+      "file": "hooks/PreCompact.hook.ts",
+      "symbols": [
+        "getActiveISA",
+        "getCurrentWork",
+        "getRecentStateFiles",
+        "main",
+        "readJSON",
+        "readText"
+      ]
+    },
+    {
+      "file": "hooks/ResponseTabReset.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/UpdateCounts.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/ElicitationHandler.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/SmartApprover.hook.ts",
+      "symbols": [
+        "bashTargetsTrustedPath",
+        "classifyReadWrite",
+        "isTrustedPath",
+        "loadCache",
+        "main",
+        "saveCache"
+      ]
+    },
+    {
+      "file": "hooks/PromptProcessing.hook.ts",
+      "symbols": [
+        "acquireLock",
+        "appendPromptProcessingTelemetry",
+        "buildContextPrompt",
+        "disambiguateLabel",
+        "emitAdditionalContext",
+        "extractFallbackName",
+        "extractQuestionSubject",
+        "findSessionJsonl",
+        "getCustomTitle",
+        "getRecentContext",
+        "isExplicitRating",
+        "isNativeMode",
+        "isValidSessionName",
+        "main",
+        "quickTitle",
+        "readSessionNames",
+        "readStdinWithTimeout",
+        "releaseLock",
+        "sanitizePromptForNaming",
+        "sessionNameToTabTitle",
+        "storeName",
+        "stripPastedLetter",
+        "syncNameToJsonl",
+        "titleCase",
+        "toGerund",
+        "words",
+        "writeSessionNames"
+      ]
+    },
+    {
+      "file": "hooks/SessionCleanup.hook.ts",
+      "symbols": [
+        "clearSessionWork",
+        "findStateFile",
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/SetQuestionTab.hook.ts",
+      "symbols": [
+        "extractSummary",
+        "main",
+        "readStdin"
+      ]
+    },
+    {
+      "file": "hooks/lib/change-detection.ts",
+      "symbols": [
+        "capitalize",
+        "categorizeChange",
+        "createFileChange",
+        "determineSignificance",
+        "generateDescriptiveTitle",
+        "getCooldownEndTime",
+        "hashChanges",
+        "inferChangeType",
+        "isDuplicateRun",
+        "isInCooldown",
+        "isPhilosophicalPath",
+        "isSignificantChange",
+        "isStructuralPath",
+        "normalizeToRelativePath",
+        "parseToolUseBlocks",
+        "readIntegrityState",
+        "shouldDocumentChanges"
+      ]
+    },
+    {
+      "file": "hooks/lib/identity.ts",
+      "symbols": [
+        "clearCache",
+        "getAlgorithmVoice",
+        "getDAName",
+        "getDefaultIdentity",
+        "getDefaultPrincipal",
+        "getIdentity",
+        "getObservabilityConfig",
+        "getPrincipal",
+        "getPrincipalName",
+        "getSettings",
+        "getStartupCatchphrase",
+        "getVoiceId",
+        "getVoicePersonality",
+        "getVoiceProsody",
+        "loadSettings"
+      ]
+    },
+    {
+      "file": "hooks/lib/notifications.ts",
+      "symbols": [
+        "getSessionDurationMinutes",
+        "loadNtfyConfig",
+        "recordSessionStart",
+        "sendPush"
+      ]
+    },
+    {
+      "file": "hooks/lib/hook-io.ts",
+      "symbols": [
+        "parseTranscriptFromInput",
+        "readHookInput"
+      ]
+    },
+    {
+      "file": "hooks/lib/output-validators.ts",
+      "symbols": [
+        "gerundToPastTense",
+        "getCompletionFallback",
+        "getQuestionFallback",
+        "getVoiceFallback",
+        "getWorkingFallback",
+        "isValidCompletionTitle",
+        "isValidQuestionTitle",
+        "isValidTitleBase",
+        "isValidVoiceCompletion",
+        "isValidWorkingTitle",
+        "trimToValidTitle"
+      ]
+    },
+    {
+      "file": "hooks/lib/observability-transport.ts",
+      "symbols": [
+        "cleanStaleSessions",
+        "collectEvents",
+        "getCFAccountId",
+        "getCFNamespaceId",
+        "getCFToken",
+        "pushEventsToTargets",
+        "pushStateToTargets",
+        "pushToCFKV",
+        "pushToHTTPTarget",
+        "readEnvOrPaiEnv"
+      ]
+    },
+    {
+      "file": "hooks/lib/learning-utils.ts",
+      "symbols": [
+        "getLearningCategory",
+        "isLearningCapture"
+      ]
+    },
+    {
+      "file": "hooks/lib/learning-readback.ts",
+      "symbols": [
+        "getRecentLearnings",
+        "loadFailurePatterns",
+        "loadLearningDigest",
+        "loadSignalTrends",
+        "loadSynthesisPatterns",
+        "loadWisdomFrames"
+      ]
+    },
+    {
+      "file": "hooks/lib/containment-zones.ts",
+      "symbols": [
+        "componentMatch",
+        "isContained",
+        "isPatternAllowlisted",
+        "matchesPattern",
+        "relativeToClaudeRoot"
+      ]
+    },
+    {
+      "file": "hooks/lib/isa-template.ts",
+      "symbols": [
+        "curateTitle",
+        "generateISAFilename",
+        "generateISAId",
+        "generateISATemplate",
+        "generatePRDFilename",
+        "generatePRDId",
+        "generatePRDTemplate"
+      ]
+    },
+    {
+      "file": "hooks/lib/log-rotation.ts",
+      "symbols": [
+        "getYearMonth",
+        "rotateDirectory",
+        "rotateFile",
+        "rotateLogsIfNeeded"
+      ]
+    },
+    {
+      "file": "hooks/lib/tab-setter.ts",
+      "symbols": [
+        "cleanupKittySession",
+        "cleanupStaleStateFiles",
+        "getKittyEnv",
+        "getSessionOneWord",
+        "isCmux",
+        "kittenBin",
+        "persistKittySession",
+        "phaseToCmuxLogLevel",
+        "readTabState",
+        "setCmuxState",
+        "setPhaseTab",
+        "setTabState",
+        "stateToCmuxLogLevel",
+        "stripPrefix"
+      ]
+    },
+    {
+      "file": "hooks/lib/isa-utils.ts",
+      "symbols": [
+        "ARTIFACT_FILENAME",
+        "CANONICAL_CRITERIA_HEADING",
+        "CRITERIA_HEADING_RE",
+        "LEGACY_ARTIFACT_FILENAME",
+        "WORK_DIR",
+        "WORK_JSON",
+        "addRatingPulse",
+        "appendPhase",
+        "bumpLastToolActivity",
+        "countCriteria",
+        "diagnoseCriteria",
+        "extractCriteriaSection",
+        "extractIntentSnippet",
+        "findArtifactPath",
+        "findLatestISA",
+        "findLatestPRD",
+        "getSessionAgents",
+        "parseCapabilities",
+        "parseCriteriaList",
+        "parseFrontmatter",
+        "readRegistry",
+        "syncToWorkJson",
+        "updateSessionNameInWorkJson",
+        "upsertNativeSession",
+        "upsertSession",
+        "writeFrontmatterField",
+        "writeRegistry"
+      ]
+    },
+    {
+      "file": "hooks/lib/tab-constants.ts",
+      "symbols": [
+        "ACTIVE_TAB_BG",
+        "ACTIVE_TAB_FG",
+        "INACTIVE_TAB_FG",
+        "TAB_COLORS"
+      ]
+    },
+    {
+      "file": "hooks/lib/paths.ts",
+      "symbols": [
+        "expandPath",
+        "getClaudeDir",
+        "getEnvPath",
+        "getHooksDir",
+        "getMemoryDir",
+        "getPaiDir",
+        "getSettingsPath",
+        "getSkillsDir",
+        "paiPath"
+      ]
+    },
+    {
+      "file": "hooks/lib/time.ts",
+      "symbols": [
+        "getFilenameTimestamp",
+        "getISOTimestamp",
+        "getPSTComponents",
+        "getPSTDate",
+        "getPSTTimestamp",
+        "getTimezone",
+        "getTimezoneDisplay",
+        "getYearMonth"
+      ]
+    },
+    {
+      "file": "hooks/RepeatDetection.hook.ts",
+      "symbols": [
+        "jaccardSimilarity",
+        "main",
+        "saveCurrentPrompt",
+        "tokenize",
+        "trigrams"
+      ]
+    },
+    {
+      "file": "hooks/WorkCompletionLearning.hook.ts",
+      "symbols": [
+        "findStateFile",
+        "getMonthDir",
+        "main",
+        "parseYaml",
+        "writeLearning"
+      ]
+    },
+    {
+      "file": "hooks/IntegrityCheck.hook.ts",
+      "symbols": [
+        "main",
+        "readStdin"
+      ]
+    },
+    {
+      "file": "hooks/AgentInvocation.hook.ts",
+      "symbols": [
+        "correlationKey",
+        "main",
+        "readStarts",
+        "readStdin",
+        "writeStarts"
+      ]
+    },
+    {
+      "file": "hooks/LastResponseCache.hook.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "hooks/handlers/VoiceNotification.ts",
+      "symbols": [
+        "getActiveWorkDir",
+        "handleVoice",
+        "logVoiceEvent",
+        "sendNotification"
+      ]
+    },
+    {
+      "file": "hooks/handlers/RebuildArchSummary.ts",
+      "symbols": [
+        "handleRebuildArchSummary",
+        "rebuild"
+      ]
+    },
+    {
+      "file": "hooks/handlers/SystemIntegrity.ts",
+      "symbols": [
+        "handleSystemIntegrity",
+        "spawnIntegrityMaintenance",
+        "updateIntegrityState"
+      ]
+    },
+    {
+      "file": "hooks/handlers/DocCrossRefIntegrity.ts",
+      "symbols": [
+        "applyInferenceEdits",
+        "buildInferenceContext",
+        "checkHandlerFileRefs",
+        "checkHookCounts",
+        "checkHookFileRefs",
+        "checkLibFileRefs",
+        "checkSystemDocRefs",
+        "getHandlerFilesOnDisk",
+        "getHookFilesOnDisk",
+        "getLibFilesOnDisk",
+        "getModifiedFiles",
+        "getSystemDocsOnDisk",
+        "handleDocCrossRefIntegrity",
+        "isHookModified",
+        "isSystemDocModified",
+        "isSystemFileModified",
+        "listFiles",
+        "notifyVoice",
+        "runInferenceAnalysis",
+        "updateHookCount",
+        "updateLastUpdatedTimestamp"
+      ]
+    },
+    {
+      "file": "hooks/handlers/UpdateCounts.ts",
+      "symbols": [
+        "countFilesRecursive",
+        "countHooks",
+        "countRatingsLines",
+        "countSkills",
+        "countSubdirs",
+        "countWorkflowFiles",
+        "getCounts",
+        "handleUpdateCounts",
+        "refreshUsageCache"
+      ]
+    },
+    {
+      "file": "hooks/handlers/TabState.ts",
+      "symbols": [
+        "extractFromResponseContent",
+        "extractTabTitle",
+        "handleTabState",
+        "toGerund"
+      ]
+    },
+    {
+      "file": "hooks/ToolFailureTracker.hook.ts",
+      "symbols": [
+        "main",
+        "readStdin"
+      ]
+    },
+    {
+      "file": "skills/Telos/ReportTemplate/Lib/utils.ts",
+      "symbols": [
+        "cn"
+      ]
+    },
+    {
+      "file": "skills/Telos/Tools/UpdateTelos.ts",
+      "symbols": [
+        "getPacificDateForLog",
+        "getPacificTimestamp",
+        "main"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/App/api/chat/route.ts",
+      "symbols": [
+        "POST"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/App/api/file/get/route.ts",
+      "symbols": [
+        "GET",
+        "dynamic"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/App/api/file/save/route.ts",
+      "symbols": [
+        "POST"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/App/api/files/count/route.ts",
+      "symbols": [
+        "GET",
+        "dynamic"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/App/api/upload/route.ts",
+      "symbols": [
+        "POST"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/Lib/data.ts",
+      "symbols": [
+        "budgetSummary",
+        "metrics",
+        "progressMetrics",
+        "projects",
+        "teams",
+        "vulnerabilities",
+        "vulnerabilitySummary"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/Lib/utils.ts",
+      "symbols": [
+        "cn"
+      ]
+    },
+    {
+      "file": "skills/Telos/DashboardTemplate/Lib/telos-data.ts",
+      "symbols": [
+        "getAllTelosData",
+        "getTelosContext",
+        "getTelosFileCount",
+        "getTelosFileList"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/TrialRunner.ts",
+      "symbols": [
+        "TrialRunner",
+        "calculatePassAtKForK",
+        "formatEvalResults"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/PAIAgentAdapter.ts",
+      "symbols": [
+        "PAIAgentAdapter"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/ScenarioRunner.ts",
+      "symbols": [
+        "computePassRates",
+        "loadScenarioModule",
+        "main",
+        "parseArgs",
+        "printHelp",
+        "requireAnthropicKey"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/ScenarioToTranscript.ts",
+      "symbols": [
+        "buildTrial",
+        "extractText",
+        "normalizeRole",
+        "scenarioResultToGraderResult",
+        "scenarioResultToTranscript"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/TranscriptCapture.ts",
+      "symbols": [
+        "TranscriptCapture",
+        "createTranscript",
+        "parseClaudeCodeTranscript"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/FailureToTask.ts",
+      "symbols": [
+        "convertAllFailures",
+        "convertFailureToTask",
+        "ensureDirs",
+        "formatFailure",
+        "inferDomain",
+        "inferGraders",
+        "loadFailures",
+        "loadUnconvertedFailures",
+        "logFailure",
+        "markConverted",
+        "saveTask"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/SuiteManager.ts",
+      "symbols": [
+        "addTaskToSuite",
+        "checkSaturation",
+        "createSuite",
+        "ensureDirs",
+        "formatSuiteSummary",
+        "graduateSuite",
+        "listSuites",
+        "loadSuite"
+      ]
+    },
+    {
+      "file": "skills/Evals/Tools/AlgorithmBridge.ts",
+      "symbols": [
+        "findTaskFile",
+        "formatForISC",
+        "runEvalForAlgorithm",
+        "saveRunResults",
+        "updateISCWithResult"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/ModelBased/PairwiseComparison.ts",
+      "symbols": [
+        "PairwiseComparisonGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/ModelBased/LLMRubric.ts",
+      "symbols": [
+        "LLMRubricGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/ModelBased/NaturalLanguageAssert.ts",
+      "symbols": [
+        "NaturalLanguageAssertGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/Base.ts",
+      "symbols": [
+        "BaseGrader",
+        "createGrader",
+        "listGraders",
+        "registerGrader",
+        "runGraders"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/CodeBased/RegexMatch.ts",
+      "symbols": [
+        "RegexMatchGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/CodeBased/ToolCallVerification.ts",
+      "symbols": [
+        "ToolCallVerificationGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/CodeBased/StaticAnalysis.ts",
+      "symbols": [
+        "StaticAnalysisGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/CodeBased/BinaryTests.ts",
+      "symbols": [
+        "BinaryTestsGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/CodeBased/StringMatch.ts",
+      "symbols": [
+        "StringMatchGrader"
+      ]
+    },
+    {
+      "file": "skills/Evals/Graders/CodeBased/StateCheck.ts",
+      "symbols": [
+        "StateCheckGrader"
+      ]
+    },
+    {
+      "file": "skills/PAIUpgrade/Tools/Anthropic.ts",
+      "symbols": [
+        "assessRelevance",
+        "countSkills",
+        "fetchBlog",
+        "fetchChangelog",
+        "fetchDocs",
+        "fetchGitHubRepo",
+        "generateNarrative",
+        "generateRecommendation",
+        "getLastRunInfo",
+        "hash",
+        "loadSources",
+        "loadState",
+        "logRun",
+        "main",
+        "saveState"
+      ]
+    },
+    {
+      "file": "skills/Prompting/Tools/RenderTemplate.ts",
+      "symbols": [
+        "loadData",
+        "loadTemplate",
+        "main",
+        "registerPartials",
+        "renderTemplate",
+        "resolveTemplatePath"
+      ]
+    },
+    {
+      "file": "skills/Prompting/Tools/ValidateTemplate.ts",
+      "symbols": [
+        "checkMissingVariables",
+        "checkUnbalancedBlocks",
+        "extractHelpers",
+        "extractPartials",
+        "extractVariables",
+        "hasPath",
+        "main",
+        "resolveTemplatePath",
+        "validateTemplate"
+      ]
+    },
+    {
+      "file": "skills/Prompting/Templates/Tools/RenderTemplate.ts",
+      "symbols": [
+        "loadData",
+        "loadTemplate",
+        "main",
+        "registerPartials",
+        "renderTemplate",
+        "resolveTemplatePath"
+      ]
+    },
+    {
+      "file": "skills/Prompting/Templates/Tools/ValidateTemplate.ts",
+      "symbols": [
+        "checkMissingVariables",
+        "checkUnbalancedBlocks",
+        "extractHelpers",
+        "extractPartials",
+        "extractVariables",
+        "hasPath",
+        "main",
+        "resolveTemplatePath",
+        "validateTemplate"
+      ]
+    },
+    {
+      "file": "skills/USMetrics/Tools/GenerateAnalysis.ts",
+      "symbols": [
+        "calculateTrend",
+        "fetchEIAGasPrice",
+        "fetchFredSeries",
+        "formatValue",
+        "generateMarkdown",
+        "main"
+      ]
+    },
+    {
+      "file": "skills/USMetrics/Tools/FetchFredSeries.ts",
+      "symbols": [
+        "calculateTrendStats",
+        "fetchFredSeries",
+        "main"
+      ]
+    },
+    {
+      "file": "skills/USMetrics/Tools/UpdateSubstrateMetrics.ts",
+      "symbols": [
+        "fetchAllMetrics",
+        "fetchEIAGasPrice",
+        "fetchFredSeries",
+        "fetchTreasuryDebt",
+        "formatValue",
+        "generateCurrentCSV",
+        "generateHistoricalCSV",
+        "main",
+        "updateMarkdownFile"
+      ]
+    },
+    {
+      "file": "skills/Art/Tools/GenerateMidjourneyImage.ts",
+      "symbols": [
+        "CLIError",
+        "handleError",
+        "loadEnv",
+        "main",
+        "parseArgs",
+        "showHelp"
+      ]
+    },
+    {
+      "file": "skills/Art/Tools/GeneratePrompt.ts",
+      "symbols": [
+        "analyzeContent",
+        "buildMotifsDescription",
+        "buildVisualMetaphor",
+        "generatePrompt",
+        "main",
+        "parseArgs",
+        "readEssayContent",
+        "selectCharacter",
+        "selectColors",
+        "selectComposition",
+        "selectMotifs"
+      ]
+    },
+    {
+      "file": "skills/Art/Tools/FillFrame.ts",
+      "symbols": [
+        "detectBgColor",
+        "getBbox",
+        "getDimensions",
+        "main",
+        "marginPercents",
+        "parseArgs"
+      ]
+    },
+    {
+      "file": "skills/Art/Tools/Generate.ts",
+      "symbols": [
+        "CLIError",
+        "addBackgroundColor",
+        "detectImageFormat",
+        "detectMimeType",
+        "enhancePromptForTransparency",
+        "generateWithFlux",
+        "generateWithGPTImage",
+        "generateWithGPTImage2",
+        "generateWithNanoBanana",
+        "generateWithNanoBananaPro",
+        "handleError",
+        "loadEnv",
+        "main",
+        "parseArgs",
+        "removeBackground",
+        "saveImage",
+        "showHelp"
+      ]
+    },
+    {
+      "file": "skills/Art/Tools/ComposeThumbnail.ts",
+      "symbols": [
+        "CLIError",
+        "composeThumbnail",
+        "cropToFaceOnly",
+        "main",
+        "parseArgs",
+        "printHelp",
+        "resolveColor",
+        "runCommand"
+      ]
+    },
+    {
+      "file": "skills/Art/Lib/discord-bot.ts",
+      "symbols": [
+        "DiscordBotClient"
+      ]
+    },
+    {
+      "file": "skills/Art/Lib/midjourney-client.ts",
+      "symbols": [
+        "MidjourneyClient",
+        "MidjourneyError"
+      ]
+    },
+    {
+      "file": "skills/AudioEditor/Tools/Analyze.ts",
+      "symbols": [
+        "buildWindow",
+        "formatTime"
+      ]
+    },
+    {
+      "file": "skills/AudioEditor/Tools/Polish.ts",
+      "symbols": [
+        "loadEnv"
+      ]
+    },
+    {
+      "file": "skills/AudioEditor/Tools/Pipeline.ts",
+      "symbols": [
+        "formatTime"
+      ]
+    },
+    {
+      "file": "skills/Agents/Tools/ComposeAgent.ts",
+      "symbols": [
+        "buildSavedAgentBody",
+        "composeAgent",
+        "deleteAgent",
+        "generateAgentColor",
+        "getProsody",
+        "inferTraitsFromTask",
+        "listSavedAgents",
+        "listTraits",
+        "loadAgent",
+        "loadTemplate",
+        "loadTraits",
+        "main",
+        "resolveVoice",
+        "saveAgent",
+        "slugify"
+      ]
+    },
+    {
+      "file": "skills/Agents/Tools/LoadAgentContext.ts",
+      "symbols": [
+        "AgentContextLoader"
+      ]
+    },
+    {
+      "file": "skills/Daemon/Tools/DaemonAggregator.ts",
+      "symbols": [
+        "aggregate",
+        "generalizeTheme",
+        "isExcluded",
+        "parseDaemonMd",
+        "readAbout",
+        "readBooks",
+        "readExistingDaemon",
+        "readFileIfExists",
+        "readGoals",
+        "readMissions",
+        "readMovies",
+        "readPreferences",
+        "readPublicProjects",
+        "readRecentIdeas",
+        "readWisdom",
+        "readWorkThemes",
+        "toDaemonMd"
+      ]
+    },
+    {
+      "file": "skills/Daemon/Tools/SecurityFilter.ts",
+      "symbols": [
+        "filterContent",
+        "filterDaemonData",
+        "filterValue",
+        "loadContactNames",
+        "loadSecurityOverrides"
+      ]
+    },
+    {
+      "file": "skills/Webdesign/Tools/DriveClaudeDesign.ts",
+      "symbols": [
+        "commandBundle",
+        "commandExport",
+        "commandOpen",
+        "commandPrompt",
+        "commandScreenshot",
+        "dumpMiss",
+        "getTree",
+        "labelOf",
+        "main",
+        "newestDownload",
+        "resolveInterceptorBin",
+        "run",
+        "walkTree"
+      ]
+    },
+    {
+      "file": "skills/Webdesign/Tools/VerifyDesign.ts",
+      "symbols": [
+        "a11yFromTree",
+        "add",
+        "main",
+        "parseArgs",
+        "resolveInterceptorBin",
+        "resolveUrl",
+        "run",
+        "textOf",
+        "walkTree"
+      ]
+    },
+    {
+      "file": "skills/Webdesign/Tools/ProcessHandoffBundle.ts",
+      "symbols": [
+        "emptyAssets",
+        "isUnder",
+        "main",
+        "parseBundle",
+        "parsePrompt",
+        "renderBrief",
+        "walk"
+      ]
+    },
+    {
+      "file": "skills/Apify/examples/instagram-scraper.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "skills/Apify/examples/comparison-test.ts",
+      "symbols": [
+        "demonstrateCodeFirstApproach",
+        "demonstrateFilteringComparison",
+        "demonstrateMCPApproach",
+        "estimateTokens",
+        "main"
+      ]
+    },
+    {
+      "file": "skills/Apify/examples/smoke-test.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/social-media/linkedin.ts",
+      "symbols": [
+        "scrapeLinkedInPosts",
+        "scrapeLinkedInProfile",
+        "searchLinkedInJobs"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/social-media/tiktok.ts",
+      "symbols": [
+        "scrapeTikTokComments",
+        "scrapeTikTokHashtag",
+        "scrapeTikTokProfile",
+        "transformVideo"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/social-media/instagram.ts",
+      "symbols": [
+        "scrapeInstagramComments",
+        "scrapeInstagramHashtag",
+        "scrapeInstagramPosts",
+        "scrapeInstagramProfile",
+        "transformPost"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/social-media/twitter.ts",
+      "symbols": [
+        "mapToTwitterTweet",
+        "scrapeTwitterProfile",
+        "scrapeTwitterTweets",
+        "searchTwitter"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/social-media/facebook.ts",
+      "symbols": [
+        "scrapeFacebookComments",
+        "scrapeFacebookGroups",
+        "scrapeFacebookPosts"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/social-media/youtube.ts",
+      "symbols": [
+        "scrapeYouTubeChannel",
+        "scrapeYouTubeComments",
+        "searchYouTube",
+        "transformVideo"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/ecommerce/amazon.ts",
+      "symbols": [
+        "scrapeAmazonProduct",
+        "scrapeAmazonReviews"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/web/web-scraper.ts",
+      "symbols": [
+        "pageFunction",
+        "scrapePage",
+        "scrapeWebsite"
+      ]
+    },
+    {
+      "file": "skills/Apify/actors/business/google-maps.ts",
+      "symbols": [
+        "scrapeGoogleMapsPlace",
+        "scrapeGoogleMapsReviews",
+        "searchGoogleMaps",
+        "transformPlace",
+        "transformReview"
+      ]
+    },
+    {
+      "file": "skills/Apify/skills/get-user-tweets.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "skills/Apify/index.ts",
+      "symbols": [
+        "Apify",
+        "ApifyDataset"
+      ]
+    },
+    {
+      "file": "skills/Remotion/Tools/Render.ts",
+      "symbols": [
+        "createProject",
+        "getAudioDuration",
+        "getVideoMetadata",
+        "listCompositions",
+        "render",
+        "renderStill",
+        "startStudio",
+        "upgrade"
+      ]
+    },
+    {
+      "file": "skills/Remotion/Tools/Theme.ts",
+      "symbols": [
+        "PAI_THEME",
+        "contentScreenStyle",
+        "fadeInterpolation",
+        "titleScreenStyle"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/DocCheck.ts",
+      "symbols": [
+        "extractPathRefs",
+        "extractSectionRoots",
+        "findDocs",
+        "getChangedFiles",
+        "getSectionRootAt"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/BannerTokyo.ts",
+      "symbols": [
+        "designA",
+        "designB",
+        "designC",
+        "designD",
+        "designE",
+        "designF"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/DAGrowth.ts",
+      "symbols": [
+        "cmdDiary",
+        "cmdGrowth",
+        "cmdOpinions",
+        "cmdSummary",
+        "daysAgoStr",
+        "main",
+        "parsePrimaryDA"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/BannerRetro.ts",
+      "symbols": [
+        "countHooks",
+        "countLearnings",
+        "countSkills",
+        "countUserFiles",
+        "countWorkItems",
+        "createBanner",
+        "createCompactRetroBanner",
+        "createPureASCIIBanner",
+        "createRetroBanner",
+        "generateProgressBar",
+        "getStats",
+        "getTerminalWidth",
+        "readDAIdentity"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/Banner.ts",
+      "symbols": [
+        "center",
+        "createBanner",
+        "createElectricBanner",
+        "createIceBanner",
+        "createNavyBanner",
+        "createNavyCompactBanner",
+        "createNavyMediumBanner",
+        "createNavyMinimalBanner",
+        "createNavyUltraCompactBanner",
+        "createTealBanner",
+        "getNavyColors",
+        "getSmallLogo",
+        "getStats",
+        "getTerminalWidth",
+        "padEnd",
+        "padStart",
+        "randomHex",
+        "sparkline",
+        "visibleLength"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ForgeProgress.ts",
+      "symbols": [
+        "asRecord",
+        "buildSummary",
+        "collapse",
+        "endStream",
+        "ensureSlugDir",
+        "eventType",
+        "extractText",
+        "formatFinalLine",
+        "homeDir",
+        "itemRecord",
+        "main",
+        "nonEmpty",
+        "parseArgs",
+        "parseJsonLine",
+        "positiveInt",
+        "preflightCodex",
+        "readFinalMessage",
+        "readPrompt",
+        "sendChildSignal",
+        "sendNotify",
+        "spawnCodex",
+        "startProgressPoller",
+        "stringField",
+        "truncate",
+        "validUrl",
+        "waitForChild",
+        "wireSignals",
+        "wireStdout",
+        "wireTimeout",
+        "writeLine"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/CrossVendorAudit.ts",
+      "symbols": [
+        "appendFinding",
+        "assembleBundle",
+        "estimateCost",
+        "extractJSON",
+        "extractTier",
+        "invokeCodex",
+        "main",
+        "parseArgs",
+        "readArtifacts",
+        "readISA",
+        "readToolActivityTail",
+        "rough"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/BillingPathAssertion.ts",
+      "symbols": [
+        "BillingPathMismatchError",
+        "assertBillingPath",
+        "of",
+        "parseStreamJson",
+        "printUsage",
+        "readStdinSync"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/BannerPrototypes.ts",
+      "symbols": [
+        "design1_glitch",
+        "design2_holo",
+        "design3_matrix",
+        "design4_scanlines",
+        "design5_blade",
+        "design6_ghost"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/DASchedule.ts",
+      "symbols": [
+        "addTask",
+        "appendTask",
+        "cancelTask",
+        "ensureDir",
+        "listTasks",
+        "parseArgs",
+        "readTasks",
+        "writeTasks"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/IntegrityMaintenance.ts",
+      "symbols": [
+        "buildContextSummary",
+        "capitalize",
+        "checkReferences",
+        "createUpdateEntry",
+        "determineSignificance",
+        "extractCommonPatterns",
+        "extractTextContent",
+        "generateDescriptiveTitle",
+        "generateExpectedImprovement",
+        "generateNarrativeWithAI",
+        "generatePurpose",
+        "generateVerboseNarrative",
+        "inferChangeType",
+        "main",
+        "readTranscriptContext",
+        "sendVoiceNotification",
+        "sleep"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ReferenceCheck.ts",
+      "symbols": [
+        "extractRefs",
+        "extractSectionRoots",
+        "fenceMap",
+        "getChangedFiles",
+        "getLatestAlgorithmVersion",
+        "getSectionRootAt",
+        "isArchivedAlgorithmVersion",
+        "isExcludedDir",
+        "isScannableFile",
+        "walk"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/RelationshipReflect.ts",
+      "symbols": [
+        "addMilestone",
+        "aggregateEvidence",
+        "checkMilestones",
+        "escapeRegex",
+        "getISODate",
+        "getPSTComponents",
+        "loadRecentNotes",
+        "loadRecentRatings",
+        "main",
+        "parseOpinions",
+        "parseRelationshipNotes",
+        "reflect",
+        "sendNotification",
+        "updateOpinionConfidence"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/Inference.ts",
+      "symbols": [
+        "advisor",
+        "inference",
+        "main",
+        "synthesizeAdvisorState"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/BannerNeofetch.ts",
+      "symbols": [
+        "center",
+        "colorLogo",
+        "colorPaiArt",
+        "countHooks",
+        "countLearnings",
+        "countSkills",
+        "countUserFiles",
+        "countWorkItems",
+        "createCompactBanner",
+        "createNeofetchBanner",
+        "getStats",
+        "getTerminalWidth",
+        "main",
+        "padEnd",
+        "progressBar",
+        "readDAIdentity",
+        "sparklineHistogram",
+        "visibleLength"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ExtractTranscript.ts",
+      "symbols": [
+        "calculateCost",
+        "getFileSizeMB",
+        "getFilesFromDirectory",
+        "isSupportedFile",
+        "main",
+        "parseArgs",
+        "saveTranscript",
+        "transcribeFile"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/TlpArchive.ts",
+      "symbols": [
+        "buildArchiveIndex",
+        "buildEntry",
+        "buildUrlList",
+        "decodeEntities",
+        "extractDivByMarker",
+        "fetchHtml",
+        "htmlToMd",
+        "main",
+        "or",
+        "parsePost",
+        "parsePostDate",
+        "processOne",
+        "runBulk",
+        "worker",
+        "yamlQuote"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/WisdomDomainClassifier.ts",
+      "symbols": [
+        "classifyDomains",
+        "listFrames",
+        "loadRelevantFrames"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/MemoryRetriever.ts",
+      "symbols": [
+        "compress",
+        "computeBM25",
+        "discoverNotes",
+        "extractExcerpt",
+        "formatResults",
+        "main",
+        "parseFrontmatter",
+        "printHelp",
+        "scoreNote",
+        "tokenize"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/AnvilProgress.ts",
+      "symbols": [
+        "asRecord",
+        "cancelWithTimeout",
+        "choiceDeltaContent",
+        "collapse",
+        "consumeSseEvent",
+        "drainSseBuffer",
+        "emptyErrorLine",
+        "endStream",
+        "ensureSlugDir",
+        "errorCode",
+        "errorMessage",
+        "formatFinalLine",
+        "homeDir",
+        "isAbortError",
+        "main",
+        "nextBoundary",
+        "nonEmpty",
+        "nonNegativeNumber",
+        "parseArgs",
+        "parseMoonshotApiKey",
+        "parseSsePayload",
+        "positiveInt",
+        "postMoonshot",
+        "readMoonshotApiKey",
+        "readPrompt",
+        "readResponseBodyText",
+        "readWithTimeout",
+        "runMoonshot",
+        "sendNotify",
+        "startProgressPoller",
+        "streamSse",
+        "tailCollapsed",
+        "truncate",
+        "unquote",
+        "validUrl",
+        "wireSignals",
+        "wireTimeout",
+        "writeFinal",
+        "writeLine"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/PAILogo.ts",
+      "symbols": [
+        "getLogo",
+        "printLogo"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/PipelineOrchestrator.ts",
+      "symbols": [
+        "interpolate",
+        "loadPipeline",
+        "main",
+        "reportStart",
+        "reportStep",
+        "reportUpdate",
+        "resolvePath",
+        "runAction",
+        "runDemo",
+        "runPipeline"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/GetCounts.ts",
+      "symbols": [
+        "countFilesRecursive",
+        "countHooks",
+        "countRatings",
+        "countSkills",
+        "countWorkflowFiles",
+        "getCounts"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/HarvestExecutor.ts",
+      "symbols": [
+        "countStatuses",
+        "detectBackfill",
+        "dispatchAction",
+        "escapeDoubleQuotes",
+        "executeItem",
+        "fetchHarvestItems",
+        "formatItemSummary",
+        "handleCreateKnowledgeIdea",
+        "handleCreateLearningQueue",
+        "handleOpenGithubIssue",
+        "handleTelosUpdate",
+        "isHarvestItem",
+        "isSidecarItemRecord",
+        "kebabCase",
+        "loadAuthToken",
+        "loadKnowledgeIndex",
+        "loadNoteRelated",
+        "loadSidecar",
+        "main",
+        "parseActions",
+        "parseCli",
+        "parseFrontmatter",
+        "saveSidecar",
+        "slugExists",
+        "tokenOverlapScore",
+        "tokenizeForOverlap"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/FeatureRegistry.ts",
+      "symbols": [
+        "addFeature",
+        "calculateSummary",
+        "generateId",
+        "getRegistryPath",
+        "initRegistry",
+        "listFeatures",
+        "loadRegistry",
+        "nextFeature",
+        "saveRegistry",
+        "updateFeature",
+        "verifyFeatures"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/KnowledgeHarvester.ts",
+      "symbols": [
+        "classifyDomain",
+        "cmdContradictions",
+        "cmdHarvest",
+        "cmdIndex",
+        "cmdStatus",
+        "expireStaleSeedlings",
+        "extractSection",
+        "extractTags",
+        "getArchiveStats",
+        "getSentimentForSession",
+        "isDuplicate",
+        "loadHarvestState",
+        "parseFrontmatter",
+        "regenerateMOC",
+        "regenerateMasterMOC",
+        "saveHarvestState",
+        "scanAutoMemory",
+        "scanHarvestQueue",
+        "scanReflections",
+        "scanResearch",
+        "scanWorkISAs",
+        "temporalWindowsOverlap",
+        "toKebabCase",
+        "walk",
+        "writeNote"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/HealthSnapshot.ts",
+      "symbols": [
+        "fmt",
+        "ingestOne",
+        "main",
+        "toMarkdown",
+        "todayLA"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/Recommend.ts",
+      "symbols": [
+        "daysSince",
+        "loadCandidates",
+        "parseEntries",
+        "parseRecencyDays",
+        "rank",
+        "readIf"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/gmail.ts",
+      "symbols": [
+        "accessToken",
+        "archiveBatch",
+        "b64url",
+        "buildRfc822",
+        "countQuery",
+        "fetchMin",
+        "gmail",
+        "listIds",
+        "parseSendArgs",
+        "readStdin",
+        "resolveThreadFromReplyId",
+        "sendMessage"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/LearningPatternSynthesis.ts",
+      "symbols": [
+        "analyzeRatings",
+        "detectPatterns",
+        "formatSynthesisReport",
+        "groupToPatternGroups",
+        "writeSynthesis"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/pipeline-monitor-ui/src/lib/utils.ts",
+      "symbols": [
+        "cn"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/SplitAndTranscribe.ts",
+      "symbols": [
+        "splitAndTranscribe",
+        "splitAudioFile",
+        "transcribeChunk"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/OpinionTracker.ts",
+      "symbols": [
+        "addEvidence",
+        "addOpinion",
+        "ensureRelationshipDir",
+        "generateNotification",
+        "getISODate",
+        "listOpinions",
+        "logRelationshipEvent",
+        "main",
+        "parseOpinions",
+        "showOpinion"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/InterviewScan.ts",
+      "symbols": [
+        "formatHuman",
+        "formatJson",
+        "formatNext",
+        "main",
+        "scoreFile"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/YouTubeApi.ts",
+      "symbols": [
+        "formatNum",
+        "getChannel",
+        "getRecentVideos",
+        "getVideoStats",
+        "loadEnv",
+        "searchVideos",
+        "showHelp"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ArchitectureSummaryGenerator.ts",
+      "symbols": [
+        "cmdCheck",
+        "cmdGenerate",
+        "compareSemver",
+        "detectAlgorithmVersion",
+        "detectMemoryVersion",
+        "detectPaiVersion",
+        "extractPrinciples",
+        "extractSections",
+        "extractSubsystems",
+        "extractTopology",
+        "generate",
+        "getMtime"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/MigrateApprove.ts",
+      "symbols": [
+        "cmdApprove",
+        "cmdApproveAll",
+        "cmdApproveTarget",
+        "cmdModify",
+        "cmdReject",
+        "cmdReset",
+        "cmdReview",
+        "cmdSummary",
+        "commitProposal",
+        "loadQueue",
+        "logCommit",
+        "resolveTargetPath",
+        "saveQueue"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/KnowledgeGraph.ts",
+      "symbols": [
+        "allEdgesForNode",
+        "buildGraph",
+        "cmdFind",
+        "cmdHubs",
+        "cmdRelated",
+        "cmdStats",
+        "cmdTraverse",
+        "connectionCount",
+        "edgeDescription",
+        "ensureAdj",
+        "extractRelated",
+        "extractWikilinks",
+        "parseFrontmatter",
+        "resolveSlug",
+        "showHelp",
+        "traverse"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/TranscriptParser.ts",
+      "symbols": [
+        "collectCurrentResponseText",
+        "contentToText",
+        "detectResponseState",
+        "extractCompletionPlain",
+        "extractStructuredSections",
+        "extractVoiceCompletion",
+        "getLastAssistantMessage",
+        "parseLastAssistantMessage",
+        "parseTranscript"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ApproveCurrentStateEntries.ts",
+      "symbols": [
+        "appendToTarget",
+        "approve",
+        "approveAll",
+        "formatPayload",
+        "loadQueue",
+        "reject",
+        "reviewQueue",
+        "saveQueue"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/DAInterview.ts",
+      "symbols": [
+        "ask",
+        "askChoice",
+        "askNumber",
+        "askRequired",
+        "escYaml",
+        "generateIdentityMd",
+        "generateIdentityYaml",
+        "loadExistingIdentity",
+        "main",
+        "parseArgs",
+        "parsePresets",
+        "print",
+        "printBanner",
+        "println",
+        "readRegistry",
+        "runPhase1",
+        "runPhase1WithDefaults",
+        "runPhase2",
+        "runPhase3",
+        "writeRegistry"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/WisdomCrossFrameSynthesizer.ts",
+      "symbols": [
+        "assessHealth",
+        "computeSimilarity",
+        "findCrossPrinciples",
+        "generateHealthReport",
+        "generatePrinciplesReport",
+        "parseFrame"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/AgentWatchdog.ts",
+      "symbols": [
+        "check",
+        "getActiveAgents",
+        "getLastActivityEpoch"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/Arthur.ts",
+      "symbols": [
+        "ArthurDeniedError",
+        "audit",
+        "checkRate",
+        "checkTimeWindow",
+        "evaluate",
+        "fetchFromGCP",
+        "get",
+        "getPolicy",
+        "loadPolicies",
+        "requestConfirmation",
+        "securityLogPath"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/MigrateScan.ts",
+      "symbols": [
+        "chunkContent",
+        "classify",
+        "main",
+        "readSource",
+        "walk"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/AddBg.ts",
+      "symbols": [
+        "addBackground",
+        "main",
+        "showHelp",
+        "validateHexColor"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/SessionProgress.ts",
+      "symbols": [
+        "addBlocker",
+        "addDecision",
+        "addWork",
+        "completeProgress",
+        "createProgress",
+        "getProgressPath",
+        "listActive",
+        "loadProgress",
+        "resumeProgress",
+        "saveProgress",
+        "setHandoff",
+        "setNextSteps"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/SecretScan.ts",
+      "symbols": [
+        "displayFinding",
+        "formatFindings",
+        "main",
+        "parseTruffleHogOutput",
+        "runTruffleHog"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/AlgorithmPhaseReport.ts",
+      "symbols": [
+        "getArg",
+        "readState",
+        "writeState"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/DAIdentityGenerator.ts",
+      "symbols": [
+        "generateMarkdown",
+        "traitBar"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/PipelineMonitor.ts",
+      "symbols": [
+        "broadcast",
+        "connect",
+        "getColumnForExec",
+        "getCurrentStepIndex",
+        "handleEvent",
+        "render"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/RemoveBg.ts",
+      "symbols": [
+        "main",
+        "removeBackground",
+        "resolveRembgBin",
+        "runRembg",
+        "showHelp"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/LoadSkillConfig.ts",
+      "symbols": [
+        "getCustomizationPath",
+        "hasCustomizations",
+        "listCustomizedSkills",
+        "loadExtendManifest",
+        "loadSkillConfig"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/pai.ts",
+      "symbols": [
+        "cmdHelp",
+        "cmdLaunch",
+        "cmdMcpList",
+        "cmdProfiles",
+        "cmdPrompt",
+        "cmdUpdate",
+        "cmdVersion",
+        "cmdWallpaper",
+        "compareVersions",
+        "displayBanner",
+        "error",
+        "findWallpaper",
+        "getCurrentProfile",
+        "getCurrentVersion",
+        "getIndividualMcps",
+        "getLatestVersion",
+        "getMcpProfiles",
+        "getWallpaperName",
+        "getWallpapers",
+        "log",
+        "main",
+        "mergeMcpConfigs",
+        "notifyVoice",
+        "setMcpCustom",
+        "setMcpProfile",
+        "setWallpaper"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/FailureCapture.ts",
+      "symbols": [
+        "captureFailure",
+        "contentToText",
+        "generateDescription",
+        "getPSTComponents",
+        "migrateExistingFailures",
+        "parseTranscript"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/GenerateTelosSummary.ts",
+      "symbols": [
+        "generate",
+        "parseChallenges",
+        "parseGoals",
+        "parseItems",
+        "parseMissions",
+        "parseModels",
+        "parseNarratives",
+        "parseProblems",
+        "parseStrategies",
+        "parseTraumas",
+        "parseWrong",
+        "readTelosFile",
+        "truncate"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/WisdomFrameUpdater.ts",
+      "symbols": [
+        "addAntiPattern",
+        "addContextualRule",
+        "addPrediction",
+        "appendEvolution",
+        "getDateStr",
+        "getFramePath",
+        "incrementObservationCount",
+        "parseObservationCount",
+        "updateCrystallizedDate",
+        "updateFrame"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/SessionHarvester.ts",
+      "symbols": [
+        "confidenceIcon",
+        "contentOverlap",
+        "extractTextContent",
+        "formatLearningFile",
+        "generateLearningFilename",
+        "getMonthDir",
+        "getSessionFiles",
+        "harvestLearnings",
+        "matchesPatterns",
+        "mineMemories",
+        "writeLearning",
+        "writeToQueue"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/Checkpoint.ts",
+      "symbols": [
+        "cmdList",
+        "cmdRollback",
+        "cmdShow",
+        "expandPath",
+        "findCommit",
+        "gitRun",
+        "loadAllowlist",
+        "loadIscDescriptions",
+        "loadState",
+        "slugPaths",
+        "truncate",
+        "usage"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/CostTracker.ts",
+      "symbols": [
+        "classifyCallSite",
+        "fetchApiSpend",
+        "fileHasGuard",
+        "formatStatus",
+        "main",
+        "readBaseline",
+        "readSubscriptionUsage",
+        "scanCallSites",
+        "takeSnapshot",
+        "voiceAlert",
+        "writeBaseline"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/NeofetchBanner.ts",
+      "symbols": [
+        "center",
+        "colorLogo",
+        "countHooks",
+        "countLearnings",
+        "countSkills",
+        "countUserFiles",
+        "countWorkItems",
+        "createCompactBanner",
+        "createNeofetchBanner",
+        "generateBinary",
+        "generatePaiArt",
+        "generateSentimentHistogram",
+        "getDisplayMode",
+        "getStats",
+        "getTerminalWidth",
+        "main",
+        "padLeft",
+        "padRight",
+        "randomHex",
+        "readDAIdentity",
+        "stripAnsi",
+        "visibleLength"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/BannerMatrix.ts",
+      "symbols": [
+        "countHooks",
+        "countLearnings",
+        "countSkills",
+        "countUserFiles",
+        "countWorkItems",
+        "createBanner",
+        "createMicroBanner",
+        "createMiniBanner",
+        "createNanoBanner",
+        "createNormalBanner",
+        "generateRainColumn",
+        "getDisplayMode",
+        "getStats",
+        "getTerminalWidth",
+        "glitchText",
+        "rainOverlay",
+        "randomBinary",
+        "randomHex",
+        "randomKatakana",
+        "randomMatrixChar",
+        "readDAIdentity"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/algorithm.ts",
+      "symbols": [
+        "appendISAChangelog",
+        "buildIdeatePrompt",
+        "buildInteractivePrompt",
+        "buildIterationPrompt",
+        "buildProgressBar",
+        "buildWorkerPrompt",
+        "countCriteria",
+        "createLoopState",
+        "createNewISA",
+        "detectPlateau",
+        "ensureAlgorithmsDir",
+        "extractISATitle",
+        "finalizeLoopState",
+        "findAllISAs",
+        "getDomain",
+        "parseArgs",
+        "partitionCriteria",
+        "pauseLoop",
+        "printHelp",
+        "printISAStatus",
+        "readAlgorithmState",
+        "readISA",
+        "readSessionNames",
+        "removeSessionName",
+        "resolveISAPath",
+        "resolveParameters",
+        "resumeLoop",
+        "runIdeate",
+        "runInteractive",
+        "runLoop",
+        "runParallelIteration",
+        "showStatus",
+        "stopLoop",
+        "syncCriteriaToState",
+        "updateFrontmatter",
+        "updateLoopStateForIteration",
+        "voiceNotify",
+        "writeAlgorithmState",
+        "writeSessionName"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/InterviewIdealState.ts",
+      "symbols": [
+        "countTbd",
+        "loadState",
+        "markDone",
+        "saveState",
+        "showDimension",
+        "showNext",
+        "showStatus"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ActivityParser.ts",
+      "symbols": [
+        "categorizeFile",
+        "determineChangeType",
+        "determineSignificance",
+        "emptyActivity",
+        "extractSkillName",
+        "formatChangeType",
+        "generateExpectedImprovement",
+        "generatePurpose",
+        "generateTitle",
+        "generateUpdateFile",
+        "getRelativePath",
+        "getSignificanceBadge",
+        "getTodaySessionFiles",
+        "parseEvents",
+        "shouldSkip",
+        "toKebabCase",
+        "writeUpdateFile"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ComputeGap.ts",
+      "symbols": [
+        "computeDimension",
+        "computeFreedom",
+        "computeHealth",
+        "computeMoney",
+        "formatHuman",
+        "logEntry",
+        "main",
+        "readIf"
+      ]
+    },
+    {
+      "file": "PAI/TOOLS/ProposeCurrentStateEntry.ts",
+      "symbols": [
+        "enqueue",
+        "parseArgs"
+      ]
+    },
+    {
+      "file": "PAI/bin/llcli/llcli.ts",
+      "symbols": [
+        "fetchDate",
+        "fetchLifelogs",
+        "fetchSearch",
+        "fetchToday",
+        "loadConfig",
+        "main",
+        "showHelp",
+        "showVersion"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/pulse-old.ts",
+      "symbols": [
+        "handleAgentGuard",
+        "handleSkillGuard",
+        "main",
+        "msUntilNextDue"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/pulse-unified.ts",
+      "symbols": [
+        "buildHealthResponse",
+        "loadModules",
+        "loadPulseConfig",
+        "main",
+        "msUntilNextDue",
+        "supervise"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/life-morning-brief.ts",
+      "symbols": [
+        "getNextMove",
+        "getRandomSpark",
+        "getTopGoals",
+        "readFile"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/github.ts",
+      "symbols": [
+        "checkRepo",
+        "loadSeen",
+        "main",
+        "saveSeen"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/github-work.ts",
+      "symbols": [
+        "claimIssue",
+        "completeIssue",
+        "executeWork",
+        "findReadyIssues",
+        "getInstallationToken",
+        "loadWorkerConfig",
+        "main"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/poller-meta-monitor.ts",
+      "symbols": [
+        "loadPulseSchedules",
+        "loadPulseState",
+        "main",
+        "parseCronToMs"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/calendar.ts",
+      "symbols": [
+        "getAccessToken",
+        "loadEnv",
+        "main"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/notification-governor.ts",
+      "symbols": [
+        "cmdClearSource",
+        "cmdNotify",
+        "cmdReportFalseAlert",
+        "cmdStatus",
+        "daysSince",
+        "dispatch",
+        "fingerprint",
+        "hoursSince",
+        "inQuietHours",
+        "loadState",
+        "logDecision",
+        "main",
+        "pruneOld",
+        "saveState",
+        "shouldDispatch"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/airgradient-poll.ts",
+      "symbols": [
+        "fetchMonitors",
+        "loadTokenFromDotenv",
+        "main"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/health.ts",
+      "symbols": [
+        "checkSite",
+        "main"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/checks/example-check.ts",
+      "symbols": [
+        "run"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/setup.ts",
+      "symbols": [
+        "generateConfigs",
+        "heading",
+        "healthCheck",
+        "installService",
+        "main",
+        "ok",
+        "prompt",
+        "readIdentity",
+        "setupGitHubApp",
+        "setupLocalHTTPS",
+        "setupTelegram",
+        "warn"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/observability.ts",
+      "symbols": [
+        "asLifeGoals",
+        "asLifeSections",
+        "buildSpendInsights",
+        "cadenceToMonthly",
+        "capitalizeFirst",
+        "clampFuture",
+        "cleanInlineMarkdown",
+        "clusters",
+        "computeFreshness",
+        "cutReason",
+        "errorMessage",
+        "existsSafe",
+        "firstParagraph",
+        "getDashboardDir",
+        "handleAgentsApi",
+        "handleAlgorithmApi",
+        "handleEventsRecentApi",
+        "handleGetKnowledgeNote",
+        "handleKnowledgeApi",
+        "handleLadderApi",
+        "handleLifeAir",
+        "handleLifeBusiness",
+        "handleLifeCardApi",
+        "handleLifeFinances",
+        "handleLifeGoals",
+        "handleLifeHealth",
+        "handleLifeHome",
+        "handleLifeWork",
+        "handleNoveltyApi",
+        "handleObservabilityRequest",
+        "handleOnboardingState",
+        "handlePutKnowledgeNote",
+        "handleSecurityApi",
+        "handleSecurityHooksDetail",
+        "handleSecurityPatternsMutation",
+        "handleSecurityRulesMutation",
+        "handleTelosFileGet",
+        "handleTelosFilePut",
+        "handleTelosOverview",
+        "handleToolFailuresApi",
+        "handleUserIndexApi",
+        "handleVoiceEventsApi",
+        "isRecord",
+        "observabilityHealth",
+        "parseBoldFields",
+        "parseBullets",
+        "parseContentDate",
+        "parseCurrencyCell",
+        "parseCurrencyTable",
+        "parseEffectiveTaxRate",
+        "parseFilenameDate",
+        "parseFrontmatter",
+        "parseGoals",
+        "parseHeadingText",
+        "parseKnowledgeNotePath",
+        "parseNestedHeadings",
+        "parseNumberedList",
+        "parseSections",
+        "parseSourceHeadings",
+        "readDirMdFiles",
+        "readJsonlTail",
+        "readMd",
+        "readStatementSpendJsonl",
+        "readVendorCostsJsonl",
+        "serveStaticFile",
+        "startObservability",
+        "toInsightLine",
+        "validateTelosFileName"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/app/telos/_v7/data.ts",
+      "symbols": [
+        "TELOS",
+        "primitives"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/app/telos/_v7/use-telos-data.ts",
+      "symbols": [
+        "useTelosData"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/components/activity/ChartRenderer.ts",
+      "symbols": [
+        "ChartRenderer",
+        "createChartRenderer"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useNoveltyDashboard.ts",
+      "symbols": [
+        "useNoveltyDashboard"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useAdvancedMetrics.ts",
+      "symbols": [
+        "useAdvancedMetrics"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useChartData.ts",
+      "symbols": [
+        "useChartData"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useHeatLevel.ts",
+      "symbols": [
+        "getHeatIndex",
+        "hexToRgb",
+        "interpolateColor",
+        "rgbToHex",
+        "useHeatLevel"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useNoveltyState.ts",
+      "symbols": [
+        "useNoveltyState"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/usePAIEvents.ts",
+      "symbols": [
+        "usePAIEvents"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useAlgorithmState.ts",
+      "symbols": [
+        "inferMode",
+        "normalizeState",
+        "useAlgorithmState"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/hooks/useAgentEvents.ts",
+      "symbols": [
+        "useAgentEvents"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/lib/utils.ts",
+      "symbols": [
+        "cleanTitle",
+        "cn",
+        "formatNumber",
+        "getCategoryColor",
+        "getCountryFlag",
+        "getCountryName",
+        "getSourceIcon",
+        "timeAgo",
+        "truncate"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/lib/wiki-links.ts",
+      "symbols": [
+        "WIKI_GRAPH_URL",
+        "wikiPageUrl"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Observability/src/lib/local-api.ts",
+      "symbols": [
+        "getLocalOnlyWsUrl",
+        "getResolvedWsUrl",
+        "localApiCall",
+        "localOnlyApiCall"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/lib/sanitize.ts",
+      "symbols": [
+        "analyzeForInjection",
+        "sanitize",
+        "wrapUntrusted"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/lib/imessage-send.ts",
+      "symbols": [
+        "escapeForAppleScript",
+        "sendMessage",
+        "splitMessage"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/lib/messages-db.ts",
+      "symbols": [
+        "getLatestRowId",
+        "getNewMessages",
+        "verifyAccess"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/lib/conversation.ts",
+      "symbols": [
+        "ConversationStore"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/lib.ts",
+      "symbols": [
+        "dispatch",
+        "dispatchSingle",
+        "isDue",
+        "isSentinel",
+        "loadConfig",
+        "log",
+        "matchesCron",
+        "parseField",
+        "readState",
+        "resolveEnvVars",
+        "spawnClaude",
+        "spawnScript",
+        "writeState"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Performance/module.ts",
+      "symbols": [
+        "handleAnthropicCostApi",
+        "handleCostApi",
+        "handleFailuresApi",
+        "handlePerformanceRequest",
+        "handleSummaryApi",
+        "performanceHealth",
+        "startPerformance"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/Performance/cost-aggregator.ts",
+      "symbols": [
+        "getPricing",
+        "loadExistingSessionIds",
+        "loadState",
+        "main",
+        "processSessionFile",
+        "saveState"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/wiki.ts",
+      "symbols": [
+        "buildExcerpt",
+        "buildFullIndex",
+        "buildTree",
+        "countWords",
+        "extractTitle",
+        "extractWikilinks",
+        "getRecentChanges",
+        "getStats",
+        "getWorkerType",
+        "handleArbolDetail",
+        "handleArbolList",
+        "handleBacklinks",
+        "handleBookmark",
+        "handleDoc",
+        "handleGraph",
+        "handleHookDetail",
+        "handleHooksList",
+        "handleIndex",
+        "handleKnowledgeNote",
+        "handleSearch",
+        "handleSkillDetail",
+        "handleSkillUpdate",
+        "handleSkillsList",
+        "handleWikiRequest",
+        "indexBookmarks",
+        "indexFile",
+        "indexKnowledgeArchive",
+        "indexSystemDoc",
+        "indexSystemDocs",
+        "insertIntoTree",
+        "isMarkdownFile",
+        "jsonResponse",
+        "normalizeWikilink",
+        "notFound",
+        "parseCsv",
+        "parseCsvRow",
+        "parseFrontmatter",
+        "pathParts",
+        "readPageContent",
+        "rebuildBacklinks",
+        "rebuildSearchIndex",
+        "resolveAlgorithmDir",
+        "scheduleBookmarkReindex",
+        "scheduleReindex",
+        "sortedGroupNames",
+        "sortedPages",
+        "startWatchers",
+        "startWiki",
+        "stopWatchers",
+        "stopWiki",
+        "stringArrayFromFrontmatter",
+        "stripFrontmatter",
+        "stripMarkdownExtension",
+        "systemDocMetadata",
+        "treeLeaf",
+        "walkMarkdown",
+        "wikiHealth"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/syslog.ts",
+      "symbols": [
+        "handleRequest",
+        "health",
+        "start",
+        "stop"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/imessage.ts",
+      "symbols": [
+        "appendChatLog",
+        "imessageHealth",
+        "log",
+        "poll",
+        "processMessage",
+        "saveCursor",
+        "startIMessage",
+        "stopIMessage"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/telegram.ts",
+      "symbols": [
+        "appendChatLog",
+        "log",
+        "startTelegram",
+        "stopTelegram",
+        "telegramHealth"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/example-module.ts",
+      "symbols": [
+        "handleRequest",
+        "health",
+        "start",
+        "stop"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/hooks.ts",
+      "symbols": [
+        "handleAgentGuard",
+        "handleHooksRequest",
+        "handleHooksRequestAsync",
+        "handleSkillGuard",
+        "hooksHealth",
+        "startHooks"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/modules/user-index.ts",
+      "symbols": [
+        "buildIndex",
+        "cli",
+        "computeCompleteness",
+        "computeStaleness",
+        "extractPreview",
+        "extractTitle",
+        "handleRequest",
+        "health",
+        "inferFallback",
+        "parseCadence",
+        "parseCollection",
+        "parseFile",
+        "parseFrontmatter",
+        "reindexDebounced",
+        "start",
+        "stop",
+        "walk",
+        "walkUserDir",
+        "writeIndex"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/VoiceServer/voice.ts",
+      "symbols": [
+        "applyPronunciations",
+        "checkRateLimit",
+        "errorStatus",
+        "escapeForAppleScript",
+        "escapeRegex",
+        "extractEmotionalMarker",
+        "generateSpeech",
+        "handleVoiceRequest",
+        "jsonResponse",
+        "loadPronunciations",
+        "loadVoiceConfigFromSettings",
+        "playAudio",
+        "sanitizeForSpeech",
+        "sendNotification",
+        "showDesktopNotification",
+        "startVoice",
+        "validateInput",
+        "voiceHealth"
+      ]
+    },
+    {
+      "file": "PAI/PULSE/pulse.ts",
+      "symbols": [
+        "buildHealthResponse",
+        "loadModules",
+        "loadPulseConfig",
+        "main",
+        "msUntilNextDue",
+        "supervise"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/main.ts",
+      "symbols": [
+        "main"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/web/routes.ts",
+      "symbols": [
+        "addClient",
+        "broadcast",
+        "createWsEmitter",
+        "getState",
+        "handleWsMessage",
+        "removeClient",
+        "requestChoice",
+        "requestInput",
+        "startInstallation"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/web/server.ts",
+      "symbols": [
+        "resetInactivity"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/cli/prompts.ts",
+      "symbols": [
+        "isAutomated",
+        "promptChoice",
+        "promptChoiceWithPreview",
+        "promptConfirm",
+        "promptSecret",
+        "promptText"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/cli/display.ts",
+      "symbols": [
+        "c",
+        "padVisible",
+        "print",
+        "printBanner",
+        "printDetection",
+        "printError",
+        "printInfo",
+        "printQuestion",
+        "printSectionHeader",
+        "printStep",
+        "printSuccess",
+        "printSummary",
+        "printValidation",
+        "printWarning",
+        "progressBar",
+        "visibleLength"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/cli/index.ts",
+      "symbols": [
+        "createEventHandler",
+        "getChoice",
+        "getChoiceWithPreview",
+        "getInput",
+        "previewVoiceViaPulse",
+        "runCLI"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/generate-welcome.ts",
+      "symbols": [
+        "generateWelcome",
+        "getVoiceId"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/state.ts",
+      "symbols": [
+        "clearState",
+        "completeStep",
+        "createFreshState",
+        "hasSavedState",
+        "loadState",
+        "maskKey",
+        "recordError",
+        "saveState",
+        "skipStep"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/detect.ts",
+      "symbols": [
+        "countContacts",
+        "countGoals",
+        "countProjectRows",
+        "detectDaName",
+        "detectExisting",
+        "detectExistingUserContent",
+        "detectOS",
+        "detectPrincipal",
+        "detectShell",
+        "detectSystem",
+        "detectTool",
+        "detectVoice",
+        "fileExists",
+        "scanApiKeys",
+        "tryExec",
+        "validateElevenLabsKey"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/validate.ts",
+      "symbols": [
+        "checkPulseHealth",
+        "checkSecurityHookSmoke",
+        "generateSummary",
+        "runValidation"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/config-gen.ts",
+      "symbols": [
+        "generateSettingsJson"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/types.ts",
+      "symbols": [
+        "ALGORITHM_VERSION",
+        "INSTALLER_VERSION",
+        "PAI_VERSION"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/actions.ts",
+      "symbols": [
+        "collectTopLevelExtraMarkdown",
+        "computeBackupPath",
+        "copyBundleTree",
+        "copyMigrationEntry",
+        "copyMissing",
+        "copyOverwriteTemplates",
+        "deduplicateBunShellEntries",
+        "detectLocalBundle",
+        "emitSectionHeader",
+        "findExistingEnvKey",
+        "findExistingVoiceConfig",
+        "findKeyInBackupDirs",
+        "installFromLocalBundle",
+        "installPulse",
+        "installPulseMenuBar",
+        "inventoryExistingConfig",
+        "isPlaceholderValue",
+        "isPulseRunning",
+        "migrateUserContentFromBackup",
+        "migrateUserContext",
+        "moveExistingClaudeToBackup",
+        "pathLooksLikeExistingClaudeRoot",
+        "readKeyFromFile",
+        "reloadPulse",
+        "restartPulse",
+        "runApiKeys",
+        "runConfiguration",
+        "runIdentity",
+        "runPrerequisites",
+        "runRepository",
+        "runSystemDetect",
+        "runTelegramSetup",
+        "runVoiceSetup",
+        "shouldOverwriteTemplateDestination",
+        "skipStep",
+        "summariseExistingUserContent",
+        "tryExec",
+        "validateTelegramBotToken",
+        "writeEnvKey"
+      ]
+    },
+    {
+      "file": "PAI/PAI-Install/engine/steps.ts",
+      "symbols": [
+        "getNextStep",
+        "getProgress",
+        "getStep",
+        "getStepStatuses"
+      ]
+    }
+  ]
+}
