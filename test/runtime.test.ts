@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import {
   createAlgorithmStateMachine,
   createCheckRunner,
+  createAdapterRegistry,
+  createFeedbackLoopRuntime,
   createIsaRecord,
   classifyEffort,
   createManifestIndex,
@@ -601,5 +603,87 @@ describe("ISA criteria and evidence", () => {
       })
     ).toThrow("Unknown criterion");
     expect(() => isa.complete("missing")).toThrow("Unknown criterion");
+  });
+});
+
+describe("feedback loops and adapters", () => {
+  test("executes matching feedback loops without loading unrelated loops", async () => {
+    const calls: string[] = [];
+    const runtime = createFeedbackLoopRuntime(
+      [
+        {
+          id: "tool-failure-learning",
+          event: "tool_failed",
+          resourceUri: "pai://loop/tool-failure-learning"
+        },
+        {
+          id: "session-learning",
+          event: "session_end",
+          resourceUri: "pai://loop/session-learning"
+        }
+      ],
+      {
+        "pai://loop/tool-failure-learning": async (payload) => {
+          calls.push(`tool:${String(payload["tool"])}`);
+          return { loopId: "tool-failure-learning", handled: true };
+        },
+        "pai://loop/session-learning": async () => {
+          calls.push("session");
+          return { loopId: "session-learning", handled: true };
+        }
+      }
+    );
+
+    await expect(
+      runtime.emit("tool_failed", { tool: "Inference" })
+    ).resolves.toEqual([
+      { loopId: "tool-failure-learning", handled: true }
+    ]);
+    expect(calls).toEqual(["tool:Inference"]);
+  });
+
+  test("fails closed when a declared feedback loop has no handler", async () => {
+    const runtime = createFeedbackLoopRuntime(
+      [
+        {
+          id: "missing",
+          event: "tool_failed",
+          resourceUri: "pai://loop/missing"
+        }
+      ],
+      {}
+    );
+
+    await expect(runtime.emit("tool_failed", {})).rejects.toThrow(
+      "No executable feedback loop registered"
+    );
+    await expect(runtime.emit("unmatched", {})).resolves.toEqual([]);
+  });
+
+  test("runs tool and hook adapters by URI with payloads", async () => {
+    const registry = createAdapterRegistry({
+      "pai://tool/Inference": async (payload) => ({
+        adapterUri: "pai://tool/Inference",
+        output: `model:${String(payload["model"])}`
+      }),
+      "pai://hook/SessionEnd": async () => ({
+        adapterUri: "pai://hook/SessionEnd",
+        output: "learned"
+      })
+    });
+
+    await expect(
+      registry.run("pai://tool/Inference", { model: "fast" })
+    ).resolves.toEqual({
+      adapterUri: "pai://tool/Inference",
+      output: "model:fast"
+    });
+    await expect(registry.run("pai://hook/SessionEnd", {})).resolves.toEqual({
+      adapterUri: "pai://hook/SessionEnd",
+      output: "learned"
+    });
+    await expect(registry.run("pai://tool/Missing", {})).rejects.toThrow(
+      "No executable adapter registered"
+    );
   });
 });

@@ -168,6 +168,30 @@ export interface IsaRecord {
   criteria(): IsaCriterion[];
 }
 
+export type RuntimePayload = Record<string, unknown>;
+
+export interface FeedbackLoopResult {
+  loopId: string;
+  handled: boolean;
+}
+
+export type FeedbackLoopHandler = (payload: RuntimePayload) => Promise<FeedbackLoopResult>;
+
+export interface FeedbackLoopRuntime {
+  emit(event: string, payload: RuntimePayload): Promise<FeedbackLoopResult[]>;
+}
+
+export interface AdapterResult {
+  adapterUri: string;
+  output: string;
+}
+
+export type AdapterHandler = (payload: RuntimePayload) => Promise<AdapterResult>;
+
+export interface AdapterRegistry {
+  run(uri: string, payload: RuntimePayload): Promise<AdapterResult>;
+}
+
 type GeneratedManifest = {
   id?: unknown;
   version?: unknown;
@@ -448,6 +472,38 @@ export function createIsaRecord(options: { scope: IsaScope; id: string }): IsaRe
     },
     criteria() {
       return [...criteriaById.values()].map(copyCriterion);
+    }
+  };
+}
+
+export function createFeedbackLoopRuntime(
+  loops: FeedbackLoopMeta[],
+  handlers: Record<string, FeedbackLoopHandler>
+): FeedbackLoopRuntime {
+  return {
+    async emit(event, payload) {
+      const matchingLoops = loops.filter((loop) => loop.event === event);
+      const results = [];
+      for (const loop of matchingLoops) {
+        const handler = handlers[loop.resourceUri];
+        if (handler === undefined) {
+          throw new Error(`No executable feedback loop registered for ${loop.resourceUri}`);
+        }
+        results.push(await handler(payload));
+      }
+      return results;
+    }
+  };
+}
+
+export function createAdapterRegistry(handlers: Record<string, AdapterHandler>): AdapterRegistry {
+  return {
+    async run(uri, payload) {
+      const handler = handlers[uri];
+      if (handler === undefined) {
+        throw new Error(`No executable adapter registered for ${uri}`);
+      }
+      return handler(payload);
     }
   };
 }
