@@ -102,6 +102,48 @@ export interface EffortClassification {
   reason: string;
 }
 
+export type CheckContext = Record<string, unknown>;
+
+export interface CheckResult {
+  uri: string;
+  passed: boolean;
+  evidence: string;
+}
+
+export type CheckHandler = (context: CheckContext) => Promise<Omit<CheckResult, "uri">>;
+
+export interface CheckRunner {
+  run(uri: string, context: CheckContext): Promise<CheckResult>;
+}
+
+export type AlgorithmPhase =
+  | "OBSERVE"
+  | "THINK"
+  | "PLAN"
+  | "BUILD"
+  | "EXECUTE"
+  | "VERIFY"
+  | "LEARN";
+
+export interface ContextLease {
+  uri: string;
+  phase: AlgorithmPhase;
+  active: boolean;
+}
+
+export interface PhaseTransition {
+  from: AlgorithmPhase;
+  to: AlgorithmPhase;
+  lease: ContextLease;
+  checks: CheckResult[];
+}
+
+export interface AlgorithmStateMachine {
+  current(): AlgorithmPhase;
+  leases(): ContextLease[];
+  transition(to: AlgorithmPhase, context: CheckContext): Promise<PhaseTransition>;
+}
+
 type GeneratedManifest = {
   id?: unknown;
   version?: unknown;
@@ -292,6 +334,62 @@ export function classifyEffort(prompt: string): EffortClassification {
     mode: "ALGORITHM",
     effort: "E3",
     reason: "multi-step implementation or investigation"
+  };
+}
+
+export function createCheckRunner(handlers: Record<string, CheckHandler>): CheckRunner {
+  return {
+    async run(uri, context) {
+      const handler = handlers[uri];
+      if (handler === undefined) {
+        throw new Error(`No executable check registered for ${uri}`);
+      }
+      const result = await handler(context);
+      return { uri, ...result };
+    }
+  };
+}
+
+export function createAlgorithmStateMachine(options: {
+  initialPhase: AlgorithmPhase;
+  checkRunner: CheckRunner;
+  phaseChecks: Partial<Record<AlgorithmPhase, string[]>>;
+}): AlgorithmStateMachine {
+  let phase = options.initialPhase;
+  const activeLeases: ContextLease[] = [];
+
+  return {
+    current() {
+      return phase;
+    },
+    leases() {
+      return activeLeases.map((lease) => ({ ...lease }));
+    },
+    async transition(to, context) {
+      const requiredChecks = options.phaseChecks[to] ?? [];
+      const checks = [];
+      for (const checkUri of requiredChecks) {
+        const result = await options.checkRunner.run(checkUri, context);
+        checks.push(result);
+      }
+      const failed = checks.find((check) => !check.passed);
+      if (failed !== undefined) {
+        throw new Error(`Blocked phase transition to ${to}: ${failed.uri}`);
+      }
+
+      for (const lease of activeLeases) {
+        lease.active = false;
+      }
+      const lease = {
+        uri: `pai://algorithm/phase/${to}`,
+        phase: to,
+        active: true
+      };
+      activeLeases.push(lease);
+      const from = phase;
+      phase = to;
+      return { from, to, lease: { ...lease }, checks };
+    }
   };
 }
 

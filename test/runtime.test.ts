@@ -2,6 +2,8 @@ import { describe, expect, test } from "vitest";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import {
+  createAlgorithmStateMachine,
+  createCheckRunner,
   classifyEffort,
   createManifestIndex,
   createResourceResolver,
@@ -442,5 +444,89 @@ describe("effort classifier", () => {
       effort: "E3",
       reason: "multi-step implementation or investigation"
     });
+  });
+});
+
+describe("executable checks and algorithm phases", () => {
+  test("runs registered checks and fails closed for missing checks", async () => {
+    const runner = createCheckRunner({
+      "pai://check/inventory-counts": async (context) => ({
+        passed: context["inventoryOk"] === true,
+        evidence: "inventory count comparison"
+      })
+    });
+
+    await expect(
+      runner.run("pai://check/inventory-counts", { inventoryOk: true })
+    ).resolves.toEqual({
+      uri: "pai://check/inventory-counts",
+      passed: true,
+      evidence: "inventory count comparison"
+    });
+    await expect(
+      runner.run("pai://check/inventory-counts", { inventoryOk: false })
+    ).resolves.toMatchObject({
+      uri: "pai://check/inventory-counts",
+      passed: false
+    });
+    await expect(
+      runner.run("pai://check/not-registered", {})
+    ).rejects.toThrow("No executable check registered");
+  });
+
+  test("blocks phase transitions until required checks pass", async () => {
+    const runner = createCheckRunner({
+      "pai://check/intent-echo": async (context) => ({
+        passed: typeof context["intentEcho"] === "string",
+        evidence: "intent echo present"
+      })
+    });
+    const machine = createAlgorithmStateMachine({
+      initialPhase: "OBSERVE",
+      checkRunner: runner,
+      phaseChecks: {
+        THINK: ["pai://check/intent-echo"]
+      }
+    });
+
+    await expect(machine.transition("THINK", {})).rejects.toThrow(
+      "Blocked phase transition"
+    );
+    await expect(
+      machine.transition("THINK", { intentEcho: "Build the runtime." })
+    ).resolves.toMatchObject({
+      from: "OBSERVE",
+      to: "THINK",
+      lease: {
+        uri: "pai://algorithm/phase/THINK",
+        phase: "THINK",
+        active: true
+      }
+    });
+    expect(machine.current()).toBe("THINK");
+  });
+
+  test("expires previous doctrine leases on phase transition", async () => {
+    const machine = createAlgorithmStateMachine({
+      initialPhase: "OBSERVE",
+      checkRunner: createCheckRunner({}),
+      phaseChecks: {}
+    });
+
+    await machine.transition("THINK", {});
+    await machine.transition("PLAN", {});
+
+    expect(machine.leases()).toEqual([
+      {
+        uri: "pai://algorithm/phase/THINK",
+        phase: "THINK",
+        active: false
+      },
+      {
+        uri: "pai://algorithm/phase/PLAN",
+        phase: "PLAN",
+        active: true
+      }
+    ]);
   });
 });
