@@ -192,6 +192,33 @@ export interface AdapterRegistry {
   run(uri: string, payload: RuntimePayload): Promise<AdapterResult>;
 }
 
+export interface ControlCenterItem {
+  name: string;
+  uri: string;
+}
+
+export interface ControlCenterCheckItem {
+  id: string;
+  uri: string;
+}
+
+export interface ControlCenterLoopItem {
+  event: string;
+  id: string;
+  uri: string;
+}
+
+export interface ControlCenterSnapshot {
+  agents: ControlCenterItem[];
+  checks: ControlCenterCheckItem[];
+  commands: ControlCenterItem[];
+  feedbackLoops: ControlCenterLoopItem[];
+  hooks: ControlCenterItem[];
+  skills: ControlCenterItem[];
+  tools: ControlCenterItem[];
+  workflows: ControlCenterItem[];
+}
+
 type GeneratedManifest = {
   id?: unknown;
   version?: unknown;
@@ -508,6 +535,26 @@ export function createAdapterRegistry(handlers: Record<string, AdapterHandler>):
   };
 }
 
+export function createControlCenterSnapshot(manifest: PackManifest): ControlCenterSnapshot {
+  return {
+    agents: itemsFor(manifest.resources, "agent"),
+    checks: manifest.checks.map((check) => ({ id: check.id, uri: check.resourceUri })),
+    commands: itemsFor(manifest.resources, "command"),
+    feedbackLoops: manifest.feedbackLoops.map((loop) => ({
+      event: loop.event,
+      id: loop.id,
+      uri: loop.resourceUri
+    })),
+    hooks: itemsFor(manifest.resources, "hook"),
+    skills: itemsFor(manifest.resources, "skill"),
+    tools: [
+      ...itemsFor(manifest.resources, "tool"),
+      ...itemsFor(manifest.resources, "skill-tool")
+    ],
+    workflows: itemsFor(manifest.resources, "workflow")
+  };
+}
+
 function normalizePack(pack: GeneratedPack): PaiResourceMeta[] {
   const packName = asString(pack.name, "Unknown");
   const skillUri = asString(pack.uri, `pai://skill/${packName}`);
@@ -595,6 +642,12 @@ function basename(path: string): string {
   const parts = path.split("/");
   const file = parts[parts.length - 1];
   return file.replace(/\.[^.]+$/, "");
+}
+
+function itemsFor(resources: PaiResourceMeta[], kind: ResourceKind): ControlCenterItem[] {
+  return resources
+    .filter((resource) => resource.kind === kind)
+    .map((resource) => ({ name: resource.name, uri: resource.uri }));
 }
 
 function copyCriterion(criterion: IsaCriterion): IsaCriterion {

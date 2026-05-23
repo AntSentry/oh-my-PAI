@@ -5,6 +5,7 @@ import {
   createAlgorithmStateMachine,
   createCheckRunner,
   createAdapterRegistry,
+  createControlCenterSnapshot,
   createFeedbackLoopRuntime,
   createIsaRecord,
   classifyEffort,
@@ -685,5 +686,49 @@ describe("feedback loops and adapters", () => {
     await expect(registry.run("pai://tool/Missing", {})).rejects.toThrow(
       "No executable adapter registered"
     );
+  });
+});
+
+describe("control center snapshots", () => {
+  test("summarizes runtime surfaces from metadata only", () => {
+    const snapshot = createControlCenterSnapshot(manifest);
+
+    expect(snapshot).toEqual({
+      agents: [{ name: "Forge", uri: "pai://agent/Forge" }],
+      checks: [{ id: "inventory-counts", uri: "pai://check/inventory-counts" }],
+      commands: [{ name: "/Council", uri: "pai://command/Council" }],
+      feedbackLoops: [
+        {
+          event: "tool_failed",
+          id: "tool-failure-learning",
+          uri: "pai://loop/tool-failure-learning"
+        }
+      ],
+      hooks: [{ name: "SessionEnd", uri: "pai://hook/SessionEnd" }],
+      skills: [
+        { name: "Council", uri: "pai://skill/Council" },
+        { name: "Research", uri: "pai://skill/Research" }
+      ],
+      tools: [
+        { name: "Inference", uri: "pai://tool/Inference" },
+        { name: "Moderate", uri: "pai://skill/Council/tool/Moderate" }
+      ],
+      workflows: [
+        { name: "Debate", uri: "pai://skill/Council/workflow/Debate" },
+        { name: "Search", uri: "pai://skill/Research/workflow/Search" }
+      ]
+    });
+    expect(JSON.stringify(snapshot)).not.toContain("sourcePath");
+    expect(JSON.stringify(snapshot)).not.toContain("integrity");
+  });
+
+  test("summarizes all checked-in manifest agents without body loading", () => {
+    const loaded = loadManifest(manifestJson);
+    const snapshot = createControlCenterSnapshot(loaded);
+
+    expect(snapshot.agents).toHaveLength(18);
+    expect(snapshot.skills).toHaveLength(45);
+    expect(snapshot.workflows).toHaveLength(171);
+    expect(snapshot.tools).toHaveLength(110);
   });
 });
