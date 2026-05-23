@@ -144,6 +144,30 @@ export interface AlgorithmStateMachine {
   transition(to: AlgorithmPhase, context: CheckContext): Promise<PhaseTransition>;
 }
 
+export type IsaScope = "project" | "task";
+
+export interface VerificationEvidence {
+  command: string;
+  output: string;
+  passed: boolean;
+}
+
+export interface IsaCriterion {
+  id: string;
+  text: string;
+  checkUri: string;
+  status: "complete" | "open";
+  evidence?: VerificationEvidence;
+}
+
+export interface IsaRecord {
+  home: string;
+  addCriterion(criterion: Omit<IsaCriterion, "status">): void;
+  attachEvidence(id: string, evidence: VerificationEvidence): void;
+  complete(id: string): IsaCriterion;
+  criteria(): IsaCriterion[];
+}
+
 type GeneratedManifest = {
   id?: unknown;
   version?: unknown;
@@ -393,6 +417,41 @@ export function createAlgorithmStateMachine(options: {
   };
 }
 
+export function createIsaRecord(options: { scope: IsaScope; id: string }): IsaRecord {
+  const criteriaById = new Map<string, IsaCriterion>();
+
+  return {
+    home: `pai://isa/${options.scope}/${options.id}`,
+    addCriterion(criterion) {
+      if (criteriaById.has(criterion.id)) {
+        throw new Error(`Duplicate criterion: ${criterion.id}`);
+      }
+      criteriaById.set(criterion.id, { ...criterion, status: "open" });
+    },
+    attachEvidence(id, evidence) {
+      const criterion = criteriaById.get(id);
+      if (criterion === undefined) {
+        throw new Error(`Unknown criterion: ${id}`);
+      }
+      criterion.evidence = evidence;
+    },
+    complete(id) {
+      const criterion = criteriaById.get(id);
+      if (criterion === undefined) {
+        throw new Error(`Unknown criterion: ${id}`);
+      }
+      if (criterion.evidence === undefined) {
+        throw new Error(`Verification evidence required for ${id}`);
+      }
+      criterion.status = "complete";
+      return copyCriterion(criterion);
+    },
+    criteria() {
+      return [...criteriaById.values()].map(copyCriterion);
+    }
+  };
+}
+
 function normalizePack(pack: GeneratedPack): PaiResourceMeta[] {
   const packName = asString(pack.name, "Unknown");
   const skillUri = asString(pack.uri, `pai://skill/${packName}`);
@@ -480,4 +539,11 @@ function basename(path: string): string {
   const parts = path.split("/");
   const file = parts[parts.length - 1];
   return file.replace(/\.[^.]+$/, "");
+}
+
+function copyCriterion(criterion: IsaCriterion): IsaCriterion {
+  return {
+    ...criterion,
+    evidence: criterion.evidence === undefined ? undefined : { ...criterion.evidence }
+  };
 }

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import {
   createAlgorithmStateMachine,
   createCheckRunner,
+  createIsaRecord,
   classifyEffort,
   createManifestIndex,
   createResourceResolver,
@@ -528,5 +529,77 @@ describe("executable checks and algorithm phases", () => {
         active: true
       }
     ]);
+  });
+});
+
+describe("ISA criteria and evidence", () => {
+  test("selects project or task ISA home from scope", () => {
+    expect(createIsaRecord({ scope: "project", id: "oh-my-PAI" }).home).toBe(
+      "pai://isa/project/oh-my-PAI"
+    );
+    expect(createIsaRecord({ scope: "task", id: "phase-6" }).home).toBe(
+      "pai://isa/task/phase-6"
+    );
+  });
+
+  test("maps criteria to checks and requires evidence before completion", () => {
+    const isa = createIsaRecord({ scope: "task", id: "runtime" });
+
+    isa.addCriterion({
+      id: "C1",
+      text: "Runtime validates inventory counts",
+      checkUri: "pai://check/inventory-counts"
+    });
+    expect(isa.criteria()).toEqual([
+      {
+        id: "C1",
+        text: "Runtime validates inventory counts",
+        checkUri: "pai://check/inventory-counts",
+        status: "open"
+      }
+    ]);
+    expect(() => isa.complete("C1")).toThrow("Verification evidence required");
+
+    isa.attachEvidence("C1", {
+      command: "npm test",
+      output: "13 tests passed",
+      passed: true
+    });
+    expect(isa.complete("C1")).toEqual({
+      id: "C1",
+      text: "Runtime validates inventory counts",
+      checkUri: "pai://check/inventory-counts",
+      status: "complete",
+      evidence: {
+        command: "npm test",
+        output: "13 tests passed",
+        passed: true
+      }
+    });
+  });
+
+  test("rejects duplicate criteria and unknown evidence targets", () => {
+    const isa = createIsaRecord({ scope: "task", id: "runtime" });
+
+    isa.addCriterion({
+      id: "C1",
+      text: "One binary probe",
+      checkUri: "pai://check/isc-granularity"
+    });
+    expect(() =>
+      isa.addCriterion({
+        id: "C1",
+        text: "Duplicate",
+        checkUri: "pai://check/isc-granularity"
+      })
+    ).toThrow("Duplicate criterion");
+    expect(() =>
+      isa.attachEvidence("missing", {
+        command: "npm test",
+        output: "not run",
+        passed: false
+      })
+    ).toThrow("Unknown criterion");
+    expect(() => isa.complete("missing")).toThrow("Unknown criterion");
   });
 });
