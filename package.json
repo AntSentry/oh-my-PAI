@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "tsc",
+    "parity:report": "npm run build && node dist/scripts/build-parity-report.js",
     "test": "vitest run --coverage",
     "test:watch": "vitest"
   },
